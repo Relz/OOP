@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -57,6 +58,32 @@ int main(int argc, char* argv[])
     {
         cout << "Replace string isn't set" << "\n";
         return 1;
+    }
+
+    string line;
+    size_t pos = -1;
+    unsigned int minPos = 0;
+    bool isLineInProcessing = true;
+
+    while (getline(inputFile, line))
+    {
+        minPos = 0;
+        isLineInProcessing = true;
+
+        while (isLineInProcessing)
+        {
+            pos = line.find(argv[3], minPos);
+            if (pos != string::npos)
+            {
+                line.replace(pos, searchStringLen, argv[4]);
+                minPos = pos + replaceStringLen;
+            }
+            else
+            {
+                isLineInProcessing = false;
+            }
+        }
+        outputFile << line << "\n";
     }
 
     return 0;
