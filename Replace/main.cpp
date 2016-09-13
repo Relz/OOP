@@ -46,6 +46,18 @@ int main(int argc, char* argv[])
         cout << "Failed to open " << argv[2] << " for writing" << "\n";
         return 1;
     }
+    unsigned int searchStringLen = strlen(argv[3]);
+    unsigned int replaceStringLen = strlen(argv[4]);
+    if (searchStringLen == 0)
+    {
+        cout << "Search string isn't set" << "\n";
+        return 1;
+    }
+    if (replaceStringLen == 0)
+    {
+        cout << "Replace string isn't set" << "\n";
+        return 1;
+    }
 
     return 0;
 }
