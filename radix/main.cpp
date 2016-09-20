@@ -254,6 +254,35 @@ string IntToStr(int number)
     return result;
 }
 
+//Функция переводит строку из системы счисления, задаваемой параметром radix, в десятичную
+int ConvertToDec(const string &str, unsigned int radix)
+{
+    int result = 0;
+    for (unsigned int i = 0; i < str.length(); ++i)
+    {
+        result += CharToInt(str[i]) * pow(radix, str.length() - i - 1);
+    }
+    return result;
+}
+
+//Функция переводит число в строке из десятичной системы счисления в указанную параметром radix
+string ConvertFromTo(const string &numStr, unsigned int srcRadix, unsigned int dstRadix)
+{
+    string result;
+    int decNum = ConvertToDec(numStr, srcRadix);
+    if (decNum == 0)
+    {
+        result = "0";
+    }
+    while (decNum != 0)
+    {
+        result += DigitToChar(decNum % dstRadix);
+        decNum /= dstRadix;
+    }
+    ReverseString(result);
+    return result;
+}
+
 int main(int argc, char* argv[])
 {
     if (!IsValidArgumentsCount(argc))
@@ -308,4 +337,5 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    cout << valueStr << "(" << srcRadix << ")" << " => " << ConvertFromTo(valueStr, srcRadix, dstRadix) << "(" << dstRadix << ")" << "\n";
 }
