@@ -15,9 +15,9 @@ bool IsValidArgumentsCount(int argc)
 }
 
 //Проверка системы счисления на диапазон от 2 до 36
-bool IsValidNotation(int notation)
+bool IsValidRadix(unsigned int radix)
 {
-    return (notation >= MIN_NOTATION && notation <= MAX_NOTATION);
+    return (radix >= MIN_NOTATION && radix <= MAX_NOTATION);
 }
 
 //Проверка введенного числа на допустимые символы для указанной системы счисления
@@ -147,25 +147,132 @@ int StrToInt(const string &str)
     return result;
 }
 
+//Функция переводит цифру в символ
+char DigitToChar(char ch)
+{
+    switch (ch)
+    {
+        case 0:
+            return '0';
+        case 1:
+            return '1';
+        case 2:
+            return '2';
+        case 3:
+            return '3';
+        case 4:
+            return '4';
+        case 5:
+            return '5';
+        case 6:
+            return '6';
+        case 7:
+            return '7';
+        case 8:
+            return '8';
+        case 9:
+            return '9';
+        case 10:
+            return 'A';
+        case 11:
+            return 'B';
+        case 12:
+            return 'C';
+        case 13:
+            return 'D';
+        case 14:
+            return 'E';
+        case 15:
+            return 'F';
+        case 16:
+            return 'G';
+        case 17:
+            return 'H';
+        case 18:
+            return 'I';
+        case 19:
+            return 'J';
+        case 20:
+            return 'K';
+        case 21:
+            return 'L';
+        case 22:
+            return 'M';
+        case 23:
+            return 'N';
+        case 24:
+            return 'O';
+        case 25:
+            return 'P';
+        case 26:
+            return 'Q';
+        case 27:
+            return 'R';
+        case 28:
+            return 'S';
+        case 29:
+            return 'T';
+        case 30:
+            return 'U';
+        case 31:
+            return 'V';
+        case 32:
+            return 'W';
+        case 33:
+            return 'X';
+        case 34:
+            return 'Y';
+        case 35:
+            return 'Z';
+        default:
+            return '0';
+    }
+}
+
+//Ставит указанный массив задом-наперед
+void ReverseString(string &str)
+{
+    char tmpCh = '0';
+    for (unsigned int i = 0; i < (unsigned int)(str.length() / 2); ++i)
+    {
+        tmpCh = str[i];
+        str[i] = str[str.length() - i - 1];
+        str[str.length() - i - 1] = tmpCh;
+    }
+}
+
+//Перевод числа в строку
+string IntToStr(int number)
+{
+    string result;
+    while (number != 0)
+    {
+        result += DigitToChar(number % 10);
+        number /= 10;
+    }
+    ReverseString(result);
+    return result;
+}
+
 int main(int argc, char* argv[])
 {
     if (!IsValidArgumentsCount(argc))
     {
-        cout << "radix.exe <source notation> <destination notation> <value>" << "\n";
+        cout << "radix.exe <source radix> <destination radix> <value>" << "\n";
         return 1;
     }
 
-    string srcNotationStr = argv[1];
-    if (srcNotationStr == "")
+    string srcRadixStr = argv[1];
+    if (srcRadixStr == "")
     {
-        cout << "Error: source notation not specified" << "\n";
+        cout << "Error: source radix not specified" << "\n";
         return 1;
     }
 
-    string dstNotationStr = argv[2];
-    if (dstNotationStr == "")
+    string dstRadixStr = argv[2];
+    if (dstRadixStr == "")
     {
-        cout << "Error: destination notation not specified" << "\n";
+        cout << "Error: destination radix not specified" << "\n";
         return 1;
     }
 
@@ -176,30 +283,29 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    int srcNotation, dstNotation;
+    unsigned int srcRadix, dstRadix;
 
-    srcNotation = StrToInt(srcNotationStr);
-    dstNotation = StrToInt(dstNotationStr);
+    srcRadix = StrToInt(srcRadixStr);
+    dstRadix = StrToInt(dstRadixStr);
 
-    if (!IsValidValue(valueStr, srcNotation))
+    if (!IsValidValue(valueStr, srcRadix))
     {
         cout << "Error: value is invalid. Possible symbols: ";
-        PrintPossibleRadixSymbols(srcNotation);
+        PrintPossibleRadixSymbols(srcRadix);
         cout << "\n";
         return 1;
     }
 
-    if (!IsValidNotation(srcNotation))
+    if (!IsValidRadix(srcRadix))
     {
-        cout << "Error: invalid source notation. Supported values: " << MIN_NOTATION << ".." << MAX_NOTATION << "\n";
+        cout << "Error: invalid source radix. Supported values: " << MIN_NOTATION << ".." << MAX_NOTATION << "\n";
         return 1;
     }
 
-    if (!IsValidNotation(dstNotation))
+    if (!IsValidRadix(dstRadix))
     {
-        cout << "Error: invalid destination notation. Supported values: " << MIN_NOTATION << ".." << MAX_NOTATION << "\n";
+        cout << "Error: invalid destination radix. Supported values: " << MIN_NOTATION << ".." << MAX_NOTATION << "\n";
         return 1;
     }
-
 
 }
