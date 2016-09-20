@@ -13,6 +13,7 @@ bool IsValidArgumentsCount(int argc)
     return (argc == 4);
 }
 
+//ѕроверка системы счислени€ на диапазон от 2 до 36
 bool IsValidNotation(int notation)
 {
     return (notation >= MIN_NOTATION && notation <= MAX_NOTATION);
@@ -63,4 +64,6 @@ int main(int argc, char* argv[])
         cout << "Error: invalid destination notation. Supported values: " << MIN_NOTATION << ".." << MAX_NOTATION << "\n";
         return 1;
     }
+
+
 }
