@@ -6,7 +6,7 @@ using namespace std;
 #define MIN_NOTATION 2
 #define MAX_NOTATION 36
 
-const string & DIGITS = "0123456789ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+const string & DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 //ѕроверка достаточности параметров запуска программы
 bool IsValidArgumentsCount(int argc)
@@ -254,27 +254,60 @@ string IntToStr(int number)
     return result;
 }
 
+int Mul(int multiplier0, int multiplier1, bool &wasError)
+{
+    if (multiplier1 > INT_MAX / multiplier0)
+    {
+        wasError = true;
+        return 0;
+    }
+    return multiplier0 * multiplier1;
+
+}
+
+int Power(int num, unsigned int power, bool &wasError)
+{
+    int result = num;
+    int mulledNum = 0;
+    for (unsigned int i = 0; i < power; ++i)
+    {
+        mulledNum = Mul(result, num, wasError);
+        if (wasError)
+        {
+            break;
+        }
+        result = mulledNum;
+    }
+    return result;
+}
+
 //‘ункци€ переводит строку из системы счислени€, задаваемой параметром radix, в дес€тичную
-int ConvertToDec(const string &str, unsigned int radix)
+int ConvertToDec(const string &str, unsigned int radix, bool &wasError)
 {
     int result = 0;
+    int poweredNum = 0;
     for (unsigned int i = 0; i < str.length(); ++i)
     {
-        result += CharToInt(str[i]) * pow(radix, str.length() - i - 1);
+        poweredNum = Power(radix, str.length() - i - 1, wasError);
+        if (wasError)
+        {
+            break;
+        }
+        result += CharToInt(str[i]) * poweredNum;
     }
     return result;
 }
 
 //‘ункци€ переводит число в строке из дес€тичной системы счислени€ в указанную параметром radix
-string ConvertFromTo(const string &numStr, unsigned int srcRadix, unsigned int dstRadix)
+string ConvertFromTo(const string &numStr, unsigned int srcRadix, unsigned int dstRadix, bool &wasError)
 {
     string result;
-    int decNum = ConvertToDec(numStr, srcRadix);
-    if (decNum == 0)
+    int decNum = ConvertToDec(numStr, srcRadix, wasError);
+    if (decNum == 0 || wasError)
     {
         result = "0";
     }
-    while (decNum != 0)
+    while (decNum != 0 && !wasError)
     {
         result += DigitToChar(decNum % dstRadix);
         decNum /= dstRadix;
@@ -337,5 +370,16 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    cout << valueStr << "(" << srcRadix << ")" << " => " << ConvertFromTo(valueStr, srcRadix, dstRadix) << "(" << dstRadix << ")" << "\n";
+    bool wasError = false;
+    string convertedNumStr = ConvertFromTo(valueStr, srcRadix, dstRadix, wasError);
+    if (!wasError)
+    {
+        cout << valueStr << "(" << srcRadix << ")" << " => " << convertedNumStr << "(" << dstRadix << ")" << "\n";
+    }
+    else
+    {
+        cout << "Error: Overflow, maximum value = " << INT_MAX << "\n";
+        return 1;
+    }
+    return 0;
 }
