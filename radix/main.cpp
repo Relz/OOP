@@ -136,12 +136,18 @@ int CharToInt(char ch)
     }
 }
 
-//Фкнкция переводит строку в целочисленное число
-int StrToInt(const string &str)
+//Функция переводит строку в целочисленное число
+int StrToInt(const string &str, bool &wasError)
 {
     int result = 0;
+    int numX10 = 0;
     for (unsigned int i = 0; i < str.length(); ++i)
     {
+        if (result > INT_MAX / 10)
+        {
+            wasError = true;
+            return 0;
+        }
         result = result * 10 + CharToInt(str[i]);
     }
     return result;
@@ -254,6 +260,7 @@ string IntToStr(int number)
     return result;
 }
 
+//Функция для умножения двух целых чисел
 int Mul(int multiplier0, int multiplier1, bool &wasError)
 {
     if (multiplier1 > INT_MAX / multiplier0)
@@ -262,9 +269,9 @@ int Mul(int multiplier0, int multiplier1, bool &wasError)
         return 0;
     }
     return multiplier0 * multiplier1;
-
 }
 
+//Функция возведения целого числа в степень
 int Power(int num, unsigned int power, bool &wasError)
 {
     int result = num;
@@ -289,7 +296,7 @@ int ConvertToDec(const string &str, unsigned int radix, bool &wasError)
     for (unsigned int i = 0; i < str.length(); ++i)
     {
         poweredNum = Power(radix, str.length() - i - 1, wasError);
-        if (wasError)
+        if (wasError || poweredNum > INT_MAX / CharToInt(str[i]) || CharToInt(str[i]) * poweredNum > INT_MAX - result)
         {
             break;
         }
@@ -320,7 +327,7 @@ int main(int argc, char* argv[])
 {
     if (!IsValidArgumentsCount(argc))
     {
-        cout << "radix.exe <source radix> <destination radix> <value>" << "\n";
+        cout << "radix.exe <source notation> <destination notation> <value>" << "\n";
         return 1;
     }
 
@@ -346,15 +353,19 @@ int main(int argc, char* argv[])
     }
 
     unsigned int srcRadix, dstRadix;
+    bool wasError = false;
 
-    srcRadix = StrToInt(srcRadixStr);
-    dstRadix = StrToInt(dstRadixStr);
-
-    if (!IsValidValue(valueStr, srcRadix))
+    srcRadix = StrToInt(srcRadixStr, wasError);
+    if (wasError)
     {
-        cout << "Error: value is invalid. Possible symbols: ";
-        PrintPossibleRadixSymbols(srcRadix);
-        cout << "\n";
+        cout << "Error: overflow, maximum source notation: " << INT_MAX << "\n";
+        return 1;
+    }
+
+    dstRadix = StrToInt(dstRadixStr, wasError);
+    if (wasError)
+    {
+        cout << "Error: overflow, maximum destination notation: " << INT_MAX << "\n";
         return 1;
     }
 
@@ -370,7 +381,14 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    bool wasError = false;
+    if (!IsValidValue(valueStr, srcRadix))
+    {
+        cout << "Error: value is invalid. Possible symbols: ";
+        PrintPossibleRadixSymbols(srcRadix);
+        cout << "\n";
+        return 1;
+    }
+
     string convertedNumStr = ConvertFromTo(valueStr, srcRadix, dstRadix, wasError);
     if (!wasError)
     {
@@ -378,7 +396,7 @@ int main(int argc, char* argv[])
     }
     else
     {
-        cout << "Error: Overflow, maximum value = " << INT_MAX << "\n";
+        cout << "Error: overflow, maximum value = " << INT_MAX << "\n";
         return 1;
     }
     return 0;
