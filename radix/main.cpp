@@ -276,14 +276,21 @@ int Power(int num, unsigned int power, bool &wasError)
 {
     int result = num;
     int mulledNum = 0;
-    for (unsigned int i = 0; i < power; ++i)
+    if (power == 0)
     {
-        mulledNum = Mul(result, num, wasError);
-        if (wasError)
+        result = 1;
+    }
+    else
+    {
+        for (unsigned int i = 1; i < power; ++i)
         {
-            break;
+            mulledNum = Mul(result, num, wasError);
+            if (wasError)
+            {
+                break;
+            }
+            result = mulledNum;
         }
-        result = mulledNum;
     }
     return result;
 }
@@ -310,10 +317,6 @@ string ConvertFromTo(const string &numStr, unsigned int srcRadix, unsigned int d
 {
     string result;
     int decNum = ConvertToDec(numStr, srcRadix, wasError);
-    if (decNum == 0 || wasError)
-    {
-        result = "0";
-    }
     while (decNum != 0 && !wasError)
     {
         result += DigitToChar(decNum % dstRadix);
