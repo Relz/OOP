@@ -26,11 +26,21 @@ bool IsValidValue(const string &value, unsigned int radix)
     for (unsigned int i = 0; i < value.length(); ++i)
     {
         bool found = false;
-        for (unsigned int j = 0; j < radix; ++j)
+        if (i == 0)
         {
-            if (value[i] == DIGITS[j])
+            if (value[0] == '-')
             {
                 found = true;
+            }
+        }
+        if (!found)
+        {
+            for (unsigned int j = 0; j < radix; ++j)
+            {
+                if (value[i] == DIGITS[j])
+                {
+                    found = true;
+                }
             }
         }
         if (!found)
@@ -296,12 +306,24 @@ int Power(int num, unsigned int power, bool &wasError)
 }
 
 //Функция переводит строку из системы счисления, задаваемой параметром radix, в десятичную
-int ConvertToDec(const string &str, unsigned int radix, bool &wasError)
+int ConvertToDec(const string &str, unsigned int radix, bool &isNegative, bool &wasError)
 {
     int result = 0;
     int poweredNum = 0;
     for (unsigned int i = 0; i < str.length(); ++i)
     {
+        if (i == 0)
+        {
+            if (str[0] == '-')
+            {
+                isNegative = true;
+                i++;
+            }
+            else
+            {
+                isNegative = false;
+            }
+        }
         poweredNum = Power(radix, str.length() - i - 1, wasError);
         if (wasError || poweredNum > INT_MAX / CharToInt(str[i]) || CharToInt(str[i]) * poweredNum > INT_MAX - result)
         {
@@ -316,11 +338,16 @@ int ConvertToDec(const string &str, unsigned int radix, bool &wasError)
 string ConvertFromTo(const string &numStr, unsigned int srcRadix, unsigned int dstRadix, bool &wasError)
 {
     string result;
-    int decNum = ConvertToDec(numStr, srcRadix, wasError);
+    bool isNegative;
+    int decNum = ConvertToDec(numStr, srcRadix, isNegative, wasError);
     while (decNum != 0 && !wasError)
     {
         result += DigitToChar(decNum % dstRadix);
         decNum /= dstRadix;
+    }
+    if (isNegative)
+    {
+        result += '-';
     }
     ReverseString(result);
     return result;
