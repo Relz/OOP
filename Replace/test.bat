@@ -1,4 +1,4 @@
-set PROGRAM="Replace.exe"
+set PROGRAM="~%1"
 
 rem Проведем замену строки в пустом файле
 %PROGRAM% empty.txt %TEMP%\empty.txt "some string" "some another string"
