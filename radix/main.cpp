@@ -325,7 +325,7 @@ int ConvertToDec(const string &str, unsigned int radix, bool &isNegative, bool &
             }
         }
         poweredNum = Power(radix, str.length() - i - 1, wasError);
-        if (wasError || poweredNum > INT_MAX / CharToInt(str[i]) || CharToInt(str[i]) * poweredNum > INT_MAX - result)
+        if (wasError || CharToInt(str[i]) == 0 || poweredNum > INT_MAX / CharToInt(str[i]) || CharToInt(str[i]) * poweredNum > INT_MAX - result)
         {
             break;
         }
@@ -334,13 +334,32 @@ int ConvertToDec(const string &str, unsigned int radix, bool &isNegative, bool &
     return result;
 }
 
-//Функция переводит число в строке из десятичной системы счисления в указанную параметром radix
+//Функция переводит число в строке из указанной системы счисления srcRadix в указанную параметром dstRadix
 string ConvertFromTo(const string &numStr, unsigned int srcRadix, unsigned int dstRadix, bool &wasError)
 {
     string result;
     bool isNegative;
     int decNum = ConvertToDec(numStr, srcRadix, isNegative, wasError);
     while (decNum != 0 && !wasError)
+    {
+        result += DigitToChar(decNum % dstRadix);
+        decNum /= dstRadix;
+    }
+    if (isNegative)
+    {
+        result += '-';
+    }
+    ReverseString(result);
+    return result;
+}
+
+//Функция переводит число из десятичной системы счисления в указанную параметром dstRadix
+string ConvertFromDecTo(int decNum, unsigned int dstRadix)
+{
+    string result;
+    bool isNegative = decNum < 0;
+    decNum = abs(decNum);
+    while (decNum != 0)
     {
         result += DigitToChar(decNum % dstRadix);
         decNum /= dstRadix;
@@ -426,7 +445,7 @@ int main(int argc, char* argv[])
     }
     else
     {
-        cout << "Error: overflow, maximum value = " << INT_MAX << "\n";
+        cout << "Error: overflow, maximum value = " << ConvertFromDecTo(INT_MAX, srcRadix) << "\n";
         return 1;
     }
     return 0;

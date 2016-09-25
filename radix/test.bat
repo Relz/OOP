@@ -1,37 +1,31 @@
-set PROGRAM="~%1"
+set PROGRAM="%~1"
 
-rem Проведем замену строки в пустом файле
-%PROGRAM% empty.txt %TEMP%\empty.txt "some string" "some another string"
-if %ERRORLEVEL% NEQ 1 goto err
-
-rem Проведем замену строки в файле, имеющем одну строку
-%PROGRAM% one-line.txt %TEMP%\one-line.txt hardly hard
-if %ERRORLEVEL% EQU 1 goto err
-fc.exe %TEMP%\one-line.txt one-line.txt
+rem Проверка недостаточности параметров
+%PROGRAM%
 if %ERRORLEVEL% EQU 0 goto err
 
-rem Проведем замену строки в файле, имеющем несколько строк
-%PROGRAM% multiline.txt %TEMP%\multiline.txt factories flowers
-if %ERRORLEVEL% EQU 1 goto err
-fc.exe %TEMP%\multiline.txt multiline.txt
+rem Перевод числа 12 из 3679-ой системы счисления в 2-ую
+%PROGRAM% 3679 2 12
 if %ERRORLEVEL% EQU 0 goto err
 
-rem Проведем замену строки в файле, имеющем одну строку, при этом имеются несколько одинаковых слов
-%PROGRAM% one-line-multiword.txt %TEMP%\one-line-multiword.txt six five
-if %ERRORLEVEL% EQU 1 goto err
-fc.exe %TEMP%\one-line-multiword.txt one-line-multiword.txt
+rem Перевод числа 10102 из 2-ой системы счисления в 34-ую
+%PROGRAM% 2 34 10102
 if %ERRORLEVEL% EQU 0 goto err
 
-rem Проведем замену строки в файле, имеющем несколько строк, при этом имеются несколько одинаковых слов
-%PROGRAM% multiline-multiword.txt %TEMP%\multiline-multiword.txt that it
-if %ERRORLEVEL% EQU 1 goto err                               
-fc.exe %TEMP%\multiline-multiword.txt multiline-multiword.txt
-if %ERRORLEVEL% EQU 0 goto err
-
-rem mama test
-%PROGRAM% mama.txt %TEMP%/mama.txt ma mama
+rem Перевод числа -12 из 3-ой системы счисления в 2-ую
+%PROGRAM% 3 2 -12
 if %ERRORLEVEL% EQU 1 goto err
-fc.exe %TEMP%\mama.txt mama.txt
+
+rem Перевод числа -10010101011 из 2-ой системы счисления в 36-ую
+%PROGRAM% 2 36 -10010101011
+if %ERRORLEVEL% EQU 1 goto err
+
+rem Перевод числа OSIZ из 36-ой системы счисления в 8-ую
+%PROGRAM% 36 8 OSIZ
+if %ERRORLEVEL% EQU 1 goto err
+
+rem Перевод числа FHJDOSIZ из 36-ой системы счисления в 8-ую
+%PROGRAM% 36 8 FHJDOSIZ
 if %ERRORLEVEL% EQU 0 goto err
 
 
