@@ -81,6 +81,19 @@ void PrintMatrix(const matrix& matrix)
     }
 }
 
+//Получение определителя матрицы 3x3
+double GetMatrix3x3Determinant(const matrix& matrix, bool &wasError)
+{
+    if (matrix.size() != 3 || matrix.at(0).size() != 3)
+    {
+        wasError = true;
+        return 0;
+    }
+    return matrix[0][0] * matrix[1][1] * matrix[2][2] - matrix[0][0] * matrix[1][2] * matrix[2][1]
+         - matrix[0][1] * matrix[1][0] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0]
+         + matrix[0][2] * matrix[1][0] * matrix[2][1] - matrix[0][2] * matrix[1][1] * matrix[2][0];
+}
+
 int main(int argc, char* argv[])
 {
     if (!IsValidArgumentsCount(argc))
@@ -94,9 +107,22 @@ int main(int argc, char* argv[])
     {
         return 1;
     }
+    
+    bool wasError = false;
 
-    matrix matrix3x3 = ReadMatrixFromFile(inputFile, MATRIX_HEIGHT, MATRIX_WIDTH);
-    PrintMatrix(matrix3x3);
+    matrix matrix = ReadMatrixFromFile(inputFile, MATRIX_HEIGHT, MATRIX_WIDTH);
+
+    double matrixDeterminant = GetMatrix3x3Determinant(matrix, wasError);
+    if (wasError)
+    {
+        cout << "Matrix 3x3 expected" << "\n";
+        return 1;
+    }
+    if (matrixDeterminant == 0)
+    {
+        cout << "The inverted matrix does not exist" << "\n";
+        return 1;
+    }
 
     return 0;
 }
