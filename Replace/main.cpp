@@ -5,13 +5,13 @@
 using namespace std;
 
 //Проверка достаточности параметров запуска программы
-bool IsValidArgumentsCount(int argc)
+bool IsValidArgumentsCount(const int & argc)
 {
     return (argc == 5);
 }
 
 //Проверка существования файла
-bool IsFileExists(ifstream &file)
+bool IsFileExists(const ifstream &file)
 {
     return file.good();
 }
@@ -25,7 +25,7 @@ bool IsFileEmpty(ifstream &file)
 //Проверка:
 //  a)файла ввода на существование и наличие в нём символов;
 //  b)файла вывода на возможность записи.
-bool IsValidInputOutputFiles(char* argv[], ifstream &inputFile, ofstream &outputFile)
+bool IsValidInputOutputFiles(char* argv[], ifstream &inputFile, const ofstream &outputFile)
 {
 	if (!IsFileExists(inputFile))
 	{
@@ -48,31 +48,18 @@ bool IsValidInputOutputFiles(char* argv[], ifstream &inputFile, ofstream &output
 //Замена в файле ввода искомой строки и запись результата в файл вывода
 void Replace(ifstream &inputFile, ofstream &outputFile, string const& search, string const& replace)
 {
-	string line;
-	size_t pos = 0;
-	unsigned int minPos = 0;
-	bool isLineInProcessing = true;
-
-	while (getline(inputFile, line))
-	{
-		minPos = 0;
-		isLineInProcessing = true;
-
-		while (isLineInProcessing)
-		{
-			pos = line.find(search, minPos);
-			if (pos != string::npos)
-			{
-				line.replace(pos, search.size(), replace);
-				minPos = pos + replace.size();
-			}
-			else
-			{
-				isLineInProcessing = false;
-			}
-		}
-		outputFile << line << "\n";
-	}
+    string line;
+    size_t pos = 0;
+    while (getline(inputFile, line))
+    {
+        pos = 0;
+        while (pos = line.find(search, pos), pos != string::npos)
+        {
+            line.replace(pos, search.size(), replace);
+            pos += replace.size();
+        }
+        outputFile << line << "\n";
+    }
 }
 
 int main(int argc, char* argv[])
@@ -92,7 +79,7 @@ int main(int argc, char* argv[])
 
 	string search = argv[3];
 	string replace = argv[4];
-    if (search.size() == 0)
+    if (search.empty())
     {
         cout << "Search string isn't set" << "\n";
         return 1;

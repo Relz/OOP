@@ -44,17 +44,24 @@ bool IsValidInputFile(char* inputFileName, ifstream &inputFile)
     return true;
 }
 
-//Чтение матрицы из файла
-matrix ReadMatrixFromFile(ifstream & inputFile, unsigned int matrixHeight, unsigned int matrixWidth)
+//Создание матрицы, заполненной нулями
+matrix CreateMatrix(unsigned int rows, unsigned int columns)
 {
-    matrix result(matrixWidth);
+    matrix result(rows);
     for (unsigned int i = 0; i < result.size(); ++i)
     {
-        for (unsigned int j = 0; j < matrixHeight; ++j)
+        for (unsigned int j = 0; j < columns; ++j)
         {
             result.at(i).push_back(0);
         }
     }
+    return result;
+}
+
+//Чтение матрицы из файла
+matrix ReadMatrixFromFile(ifstream & inputFile, unsigned int matrixHeight, unsigned int matrixWidth)
+{
+    matrix result = CreateMatrix(matrixWidth, matrixHeight);
 
     double matrixElement = 0;
     for (unsigned int i = 0; i < result.size(); ++i)
@@ -81,17 +88,80 @@ void PrintMatrix(const matrix& matrix)
     }
 }
 
-//Получение определителя матрицы 3x3
-double GetMatrix3x3Determinant(const matrix& matrix, bool &wasError)
+//Получение определителя матрицы 2x2
+double GetMatrix2x2Determinant(const matrix& inputMatrix, bool &wasError)
 {
-    if (matrix.size() != 3 || matrix.at(0).size() != 3)
+    if (inputMatrix.size() != 2 || inputMatrix.at(0).size() != 2)
     {
         wasError = true;
         return 0;
     }
-    return matrix[0][0] * matrix[1][1] * matrix[2][2] - matrix[0][0] * matrix[1][2] * matrix[2][1]
-         - matrix[0][1] * matrix[1][0] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0]
-         + matrix[0][2] * matrix[1][0] * matrix[2][1] - matrix[0][2] * matrix[1][1] * matrix[2][0];
+    return inputMatrix[0][0] * inputMatrix[1][1] - inputMatrix[1][0] * inputMatrix[0][1]);
+}
+
+//Получение определителя матрицы 3x3
+double GetMatrix3x3Determinant(const matrix& inputMatrix, bool &wasError)
+{
+    if (inputMatrix.size() != 3 || inputMatrix.at(0).size() != 3)
+    {
+        wasError = true;
+        return 0;
+    }
+    return inputMatrix[0][0] * (inputMatrix[1][1] * inputMatrix[2][2] - inputMatrix[1][2] * inputMatrix[2][1])
+        - inputMatrix[0][1] * (inputMatrix[1][0] * inputMatrix[2][2] + inputMatrix[1][2] * inputMatrix[2][0])
+        + inputMatrix[0][2] * (inputMatrix[1][0] * inputMatrix[2][1] - inputMatrix[1][1] * inputMatrix[2][0]);
+}
+
+//Получение минора элемента матрицы
+matrix getMinor(const matrix &inputMatrix, const unsigned int &row, const unsigned int &column)
+{
+    matrix result = CreateMatrix(2, 2);
+    unsigned int currentMinorLine = 0;
+    unsigned int currentMinorColumn = 0;
+    bool minorFilled = false;
+
+    for (unsigned int i = 0; i < inputMatrix.size(); ++i)
+    {
+        for (unsigned int j = 0; j < inputMatrix.at(i).size(); ++j)
+        {
+            if (i != column && j != row)
+            {
+                if (currentMinorColumn > 1)
+                {
+                    currentMinorColumn = 0;
+                    if (currentMinorLine > 1)
+                    {
+                        minorFilled = true;
+                        break;
+                    }
+                    currentMinorLine++;
+                }
+                result.at(currentMinorColumn).at(currentMinorLine) = inputMatrix.at(j).at(i);
+                currentMinorColumn++;
+            }
+        }
+        if (minorFilled)
+        {
+            break;
+        }
+    }
+    return result;
+}
+
+//Получение матрицы миноров
+matrix getMinorMatrix(const matrix &inputMatrix)
+{
+    matrix result = inputMatrix;
+    for (unsigned int i = 0; i < inputMatrix.size(); ++i)
+    {
+        for (unsigned int j = 0; j < inputMatrix.at(i).size(); ++j)
+        {
+            matrix minor = getMinor(inputMatrix, j, i);
+            PrintMatrix(minor);
+            //inputMatrix.at(j).at(i) = 
+        }
+    }
+    return result;
 }
 
 int main(int argc, char* argv[])
@@ -123,6 +193,8 @@ int main(int argc, char* argv[])
         cout << "The inverted matrix does not exist" << "\n";
         return 1;
     }
+
+    getMinorMatrix(matrix);
 
     return 0;
 }

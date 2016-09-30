@@ -1,8 +1,16 @@
-set PROGRAM="~%1"
+set PROGRAM="%~1"
+
+rem Попытка запустить программу с использованием неожидаемого числа параметров
+%PROGRAM%
+if %ERRORLEVEL% EQU 0 goto err
+
+rem Проведем замену строки в несуществующем файле
+%PROGRAM% null.txt %TEMP%\null.txt "some string" "some another string"
+if %ERRORLEVEL% EQU 0 goto err
 
 rem Проведем замену строки в пустом файле
 %PROGRAM% empty.txt %TEMP%\empty.txt "some string" "some another string"
-if %ERRORLEVEL% NEQ 1 goto err
+if %ERRORLEVEL% EQU 0 goto err
 
 rem Проведем замену строки в файле, имеющем одну строку
 %PROGRAM% one-line.txt %TEMP%\one-line.txt hardly hard
