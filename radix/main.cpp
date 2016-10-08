@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const unsigned argCount = 4;
+const unsigned ARG_COUNT = 4;
 
 const unsigned MIN_NOTATION = 2;
 const unsigned MAX_NOTATION = 36;
@@ -13,7 +13,7 @@ const string & DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 //Проверка достаточности параметров запуска программы
 bool IsValidArgumentsCount(int argc)
 {
-    return (argc == argCount);
+    return (argc == ARG_COUNT);
 }
 
 //Проверка системы счисления на диапазон от 2 до 36
