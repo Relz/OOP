@@ -91,9 +91,35 @@ unsigned char StrToUnsignedChar(const string &str, bool &wasError)
     return result;
 }
 
+//Проверка ключа шифрование на диапазон от KEY_MIN до KEY_MAX
 bool IsValidKey(unsigned char key)
 {
     return key >= KEY_MIN && key <= KEY_MAX;
+}
+
+//Шифрование символа методом XOR
+unsigned char CryptCharXOR(char ch, int key)
+{
+    return ch ^ key;
+}
+
+//Шифрование символа реверсированием битов
+unsigned char CryptCharReverseBits(unsigned char ch)
+{
+    unsigned char result = ch;
+    result = (result & 0xF0) >> 4 | (result & 0x0F) << 4;
+    result = (result & 0xCC) >> 2 | (result & 0x33) << 2;
+    result = (result & 0xAA) >> 1 | (result & 0x55) << 1;
+    return result;
+}
+
+//Шифрование символа
+unsigned char CryptChar(unsigned char ch, int key)
+{
+    unsigned char result = ch;
+    result = CryptCharXOR(ch, key);
+    result = CryptCharReverseBits(ch);
+    return result;
 }
 
 int main(int argc, char* argv[])
@@ -135,7 +161,18 @@ int main(int argc, char* argv[])
         cout << "Error: invalid key. Supported values: " << KEY_MIN << ".." << KEY_MAX << "\n";
         return 1;
     }
-    cout << (int)key << "\n";
+
+    while (!inputFile.eof())
+    {
+        unsigned char ch = inputFile.get();
+        if (!inputFile.eof())
+        {
+            outputFile.put(CryptChar(ch, key));
+        }
+    }
+
+    inputFile.close();
+    outputFile.close();
 
     return 0;
 }
