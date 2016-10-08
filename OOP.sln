@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "radix", "radix\radix.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Invert", "Invert\Invert.vcxproj", "{384844F1-8744-4273-8B51-4D580F7ED605}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Crypt", "Crypt\Crypt.vcxproj", "{82E8C711-5CEA-4E54-A33D-FD74BBEEE544}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,10 @@ Global
 		{384844F1-8744-4273-8B51-4D580F7ED605}.Debug|Win32.Build.0 = Debug|Win32
 		{384844F1-8744-4273-8B51-4D580F7ED605}.Release|Win32.ActiveCfg = Release|Win32
 		{384844F1-8744-4273-8B51-4D580F7ED605}.Release|Win32.Build.0 = Release|Win32
+		{82E8C711-5CEA-4E54-A33D-FD74BBEEE544}.Debug|Win32.ActiveCfg = Debug|Win32
+		{82E8C711-5CEA-4E54-A33D-FD74BBEEE544}.Debug|Win32.Build.0 = Debug|Win32
+		{82E8C711-5CEA-4E54-A33D-FD74BBEEE544}.Release|Win32.ActiveCfg = Release|Win32
+		{82E8C711-5CEA-4E54-A33D-FD74BBEEE544}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
