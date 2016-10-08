@@ -25,7 +25,7 @@ rem Перевод числа OSIZ из 36-ой системы счисления в 8-ую
 if %ERRORLEVEL% EQU 1 goto err
 
 rem Перевод числа FHJDOSIZ из 36-ой системы счисления в 8-ую
-%PROGRAM% 36 8 FHJDOSIZ
+%PROGRAM% 36 10 ZZZZZZZZFHJDOSIZZZZZZ
 if %ERRORLEVEL% EQU 0 goto err
 
 

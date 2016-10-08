@@ -3,58 +3,52 @@
 
 using namespace std;
 
-#define MIN_NOTATION 2
-#define MAX_NOTATION 36
+const unsigned argCount = 4;
+
+const unsigned MIN_NOTATION = 2;
+const unsigned MAX_NOTATION = 36;
 
 const string & DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 //Проверка достаточности параметров запуска программы
 bool IsValidArgumentsCount(int argc)
 {
-    return (argc == 4);
+    return (argc == argCount);
 }
 
 //Проверка системы счисления на диапазон от 2 до 36
-bool IsValidRadix(unsigned int radix)
+bool IsValidRadix(unsigned radix)
 {
     return (radix >= MIN_NOTATION && radix <= MAX_NOTATION);
 }
 
 //Проверка введенного числа на допустимые символы для указанной системы счисления
-bool IsValidValue(const string &value, unsigned int radix)
+bool IsValidValue(const string &value, unsigned radix)
 {
-    for (unsigned int i = 0; i < value.length(); ++i)
+    bool found = false;
+    if (value.length() > 0 && value[0] == '-')
     {
-        bool found = false;
-        if (i == 0)
+        found = true;
+    }
+    for (unsigned i = 0; i < value.length(); ++i)
+    {
+        if (value[i] >= DIGITS[0] && value[i] <= DIGITS[radix - 1])
         {
-            if (value[0] == '-')
-            {
-                found = true;
-            }
-        }
-        if (!found)
-        {
-            for (unsigned int j = 0; j < radix; ++j)
-            {
-                if (value[i] == DIGITS[j])
-                {
-                    found = true;
-                }
-            }
+            found = true;
         }
         if (!found)
         {
             return false;
         }
+        found = false;
     }
     return true;
 }
 
 //Вывод в консоль допустимых символов через запятую для указанной системы счисления
-void PrintPossibleRadixSymbols(unsigned int radix)
+void PrintPossibleRadixSymbols(unsigned radix)
 {
-    for (unsigned int i = 0; i < radix; ++i)
+    for (unsigned i = 0; i < radix; ++i)
     {
         cout << DIGITS[i];
         if (i != radix - 1)
@@ -65,191 +59,56 @@ void PrintPossibleRadixSymbols(unsigned int radix)
 }
 
 //Функция переводит символ в цифру
-int CharToInt(char ch)
+int CharToDigit(char ch)
 {
-    switch (ch)
+    int digit = -1;
+    if (ch >= '0' && ch <= '9')
     {
-        case '0':
-            return 0;
-        case '1':
-            return 1;
-        case '2':
-            return 2;
-        case '3':
-            return 3;
-        case '4':
-            return 4;
-        case '5':
-            return 5;
-        case '6':
-            return 6;
-        case '7':
-            return 7;
-        case '8':
-            return 8;
-        case '9':
-            return 9;
-        case 'A':
-            return 10;
-        case 'B':
-            return 11;
-        case 'C':
-            return 12;
-        case 'D':
-            return 13;
-        case 'E':
-            return 14;
-        case 'F':
-            return 15;
-        case 'G':
-            return 16;
-        case 'H':
-            return 17;
-        case 'I':
-            return 18;
-        case 'J':
-            return 19;
-        case 'K':
-            return 20;
-        case 'L':
-            return 21;
-        case 'M':
-            return 22;
-        case 'N':
-            return 23;
-        case 'O':
-            return 24;
-        case 'P':
-            return 25;
-        case 'Q':
-            return 26;
-        case 'R':
-            return 27;
-        case 'S':
-            return 28;
-        case 'T':
-            return 29;
-        case 'U':
-            return 30;
-        case 'V':
-            return 31;
-        case 'W':
-            return 32;
-        case 'X':
-            return 33;
-        case 'Y':
-            return 34;
-        case 'Z':
-            return 35;
-        default:
-            return 0;
+        digit = ch - '0';
     }
+    else if (ch >= 'A' && ch <= 'Z')
+    {
+        digit = ch - 'A' + 10;
+    }
+    return digit;
 }
 
 //Функция переводит строку в целочисленное число
 int StrToInt(const string &str, bool &wasError)
 {
     int result = 0;
-    int numX10 = 0;
-    for (unsigned int i = 0; i < str.length(); ++i)
+    for (unsigned i = 0; i < str.length(); ++i)
     {
         if (result > INT_MAX / 10)
         {
             wasError = true;
             return 0;
         }
-        result = result * 10 + CharToInt(str[i]);
+        result = result * 10 + CharToDigit(str[i]);
     }
     return result;
 }
 
 //Функция переводит цифру в символ
-char DigitToChar(char ch)
+char DigitToChar(unsigned digit)
 {
-    switch (ch)
+    char ch = '0';
+    if (digit >= 0 && digit <= 9)
     {
-        case 0:
-            return '0';
-        case 1:
-            return '1';
-        case 2:
-            return '2';
-        case 3:
-            return '3';
-        case 4:
-            return '4';
-        case 5:
-            return '5';
-        case 6:
-            return '6';
-        case 7:
-            return '7';
-        case 8:
-            return '8';
-        case 9:
-            return '9';
-        case 10:
-            return 'A';
-        case 11:
-            return 'B';
-        case 12:
-            return 'C';
-        case 13:
-            return 'D';
-        case 14:
-            return 'E';
-        case 15:
-            return 'F';
-        case 16:
-            return 'G';
-        case 17:
-            return 'H';
-        case 18:
-            return 'I';
-        case 19:
-            return 'J';
-        case 20:
-            return 'K';
-        case 21:
-            return 'L';
-        case 22:
-            return 'M';
-        case 23:
-            return 'N';
-        case 24:
-            return 'O';
-        case 25:
-            return 'P';
-        case 26:
-            return 'Q';
-        case 27:
-            return 'R';
-        case 28:
-            return 'S';
-        case 29:
-            return 'T';
-        case 30:
-            return 'U';
-        case 31:
-            return 'V';
-        case 32:
-            return 'W';
-        case 33:
-            return 'X';
-        case 34:
-            return 'Y';
-        case 35:
-            return 'Z';
-        default:
-            return '0';
+        ch = digit + '0';
     }
+    else if (digit >= 10 && digit <= 35)
+    {
+        ch = digit + 'A' - 10;
+    }
+    return ch;
 }
 
 //Ставит указанный массив задом-наперед
 void ReverseString(string &str)
 {
     char tmpCh = '0';
-    for (unsigned int i = 0; i < (unsigned int)(str.length() / 2); ++i)
+    for (unsigned i = 0; i < (unsigned)(str.length() / 2); ++i)
     {
         tmpCh = str[i];
         str[i] = str[str.length() - i - 1];
@@ -270,47 +129,12 @@ string IntToStr(int number)
     return result;
 }
 
-//Функция для умножения двух целых чисел
-int Mul(int multiplier0, int multiplier1, bool &wasError)
-{
-    if (multiplier1 > INT_MAX / multiplier0)
-    {
-        wasError = true;
-        return 0;
-    }
-    return multiplier0 * multiplier1;
-}
-
-//Функция возведения целого числа в степень
-int Power(int num, unsigned int power, bool &wasError)
-{
-    int result = num;
-    int mulledNum = 0;
-    if (power == 0)
-    {
-        result = 1;
-    }
-    else
-    {
-        for (unsigned int i = 1; i < power; ++i)
-        {
-            mulledNum = Mul(result, num, wasError);
-            if (wasError)
-            {
-                break;
-            }
-            result = mulledNum;
-        }
-    }
-    return result;
-}
-
 //Функция переводит строку из системы счисления, задаваемой параметром radix, в десятичную
-int ConvertToDec(const string &str, unsigned int radix, bool &isNegative, bool &wasError)
+int ConvertToDec(const string &str, unsigned radix, bool &isNegative, bool &wasError)
 {
     int result = 0;
     int poweredNum = 0;
-    for (unsigned int i = 0; i < str.length(); ++i)
+    for (unsigned i = 0; i < str.length(); ++i)
     {
         if (i == 0)
         {
@@ -324,18 +148,21 @@ int ConvertToDec(const string &str, unsigned int radix, bool &isNegative, bool &
                 isNegative = false;
             }
         }
-        poweredNum = Power(radix, str.length() - i - 1, wasError);
-        if (wasError || CharToInt(str[i]) == 0 || poweredNum > INT_MAX / CharToInt(str[i]) || CharToInt(str[i]) * poweredNum > INT_MAX - result)
+        cout << str << "\n";
+        cout << radix << "in " << str.length() - i - 1 << "\n";;
+        poweredNum = (int)pow(radix, str.length() - i - 1);
+        if (poweredNum == HUGE_VAL || CharToDigit(str[i]) == -1 || (CharToDigit(str[i]) != 0 && poweredNum > INT_MAX / CharToDigit(str[i])) || CharToDigit(str[i]) * poweredNum > INT_MAX - result)
         {
+            wasError = true;
             break;
         }
-        result += CharToInt(str[i]) * poweredNum;
+        result += CharToDigit(str[i]) * poweredNum;
     }
     return result;
 }
 
 //Функция переводит число в строке из указанной системы счисления srcRadix в указанную параметром dstRadix
-string ConvertFromTo(const string &numStr, unsigned int srcRadix, unsigned int dstRadix, bool &wasError)
+string ConvertFromTo(const string &numStr, unsigned srcRadix, unsigned dstRadix, bool &wasError)
 {
     string result;
     bool isNegative;
@@ -353,30 +180,11 @@ string ConvertFromTo(const string &numStr, unsigned int srcRadix, unsigned int d
     return result;
 }
 
-//Функция переводит число из десятичной системы счисления в указанную параметром dstRadix
-string ConvertFromDecTo(int decNum, unsigned int dstRadix)
-{
-    string result;
-    bool isNegative = decNum < 0;
-    decNum = abs(decNum);
-    while (decNum != 0)
-    {
-        result += DigitToChar(decNum % dstRadix);
-        decNum /= dstRadix;
-    }
-    if (isNegative)
-    {
-        result += '-';
-    }
-    ReverseString(result);
-    return result;
-}
-
 int main(int argc, char* argv[])
 {
     if (!IsValidArgumentsCount(argc))
     {
-        cout << "radix.exe <source notation> <destination notation> <value>" << "\n";
+        cout << "Usage: radix.exe <source notation> <destination notation> <value>" << "\n";
         return 1;
     }
 
@@ -401,7 +209,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    unsigned int srcRadix, dstRadix;
+    unsigned srcRadix, dstRadix;
     bool wasError = false;
 
     srcRadix = StrToInt(srcRadixStr, wasError);
@@ -445,7 +253,12 @@ int main(int argc, char* argv[])
     }
     else
     {
-        cout << "Error: overflow, maximum value = " << ConvertFromDecTo(INT_MAX, srcRadix) << "\n";
+        string abc = ConvertFromTo(IntToStr(INT_MAX), srcRadix, 10, wasError);
+        if (wasError)
+        {
+            cout << "fuck";
+        }
+        cout << "Error: overflow, maximum value = " << abc << "\n";
         return 1;
     }
     return 0;
