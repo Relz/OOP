@@ -148,8 +148,6 @@ int ConvertToDec(const string &str, unsigned radix, bool &isNegative, bool &wasE
                 isNegative = false;
             }
         }
-        cout << str << "\n";
-        cout << radix << "in " << str.length() - i - 1 << "\n";;
         poweredNum = (int)pow(radix, str.length() - i - 1);
         if (poweredNum == HUGE_VAL || CharToDigit(str[i]) == -1 || (CharToDigit(str[i]) != 0 && poweredNum > INT_MAX / CharToDigit(str[i])) || CharToDigit(str[i]) * poweredNum > INT_MAX - result)
         {
@@ -228,13 +226,13 @@ int main(int argc, char* argv[])
 
     if (!IsValidRadix(srcRadix))
     {
-        cout << "Error: invalid source radix. Supported values: " << MIN_NOTATION << ".." << MAX_NOTATION << "\n";
+        cout << "Error: invalid source notation. Supported values: " << MIN_NOTATION << ".." << MAX_NOTATION << "\n";
         return 1;
     }
 
     if (!IsValidRadix(dstRadix))
     {
-        cout << "Error: invalid destination radix. Supported values: " << MIN_NOTATION << ".." << MAX_NOTATION << "\n";
+        cout << "Error: invalid destination notation. Supported values: " << MIN_NOTATION << ".." << MAX_NOTATION << "\n";
         return 1;
     }
 
@@ -253,12 +251,7 @@ int main(int argc, char* argv[])
     }
     else
     {
-        string abc = ConvertFromTo(IntToStr(INT_MAX), srcRadix, 10, wasError);
-        if (wasError)
-        {
-            cout << "fuck";
-        }
-        cout << "Error: overflow, maximum value = " << abc << "\n";
+        cout << "Error: overflow, maximum value(in the decimal notation) = " << INT_MAX << "\n";
         return 1;
     }
     return 0;
