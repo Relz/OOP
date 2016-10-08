@@ -1,19 +1,19 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
+#include <iomanip>
 
 using namespace std;
 
-#define MATRIX_HEIGHT 3
-#define MATRIX_WIDTH 3
+const unsigned ARG_COUNT = 2;
 
-typedef vector<vector<double>> matrix;
+const unsigned MATRIX_HEIGHT = 3;
+const unsigned MATRIX_WIDTH = 3;
 
 //Проверка достаточности параметров запуска программы
 bool IsValidArgumentsCount(int argc)
 {
-    return (argc == 2);
+    return (argc == ARG_COUNT);
 }
 
 //Проверка существования файла
@@ -44,124 +44,120 @@ bool IsValidInputFile(char* inputFileName, ifstream &inputFile)
     return true;
 }
 
-//Создание матрицы, заполненной нулями
-matrix CreateMatrix(unsigned int rows, unsigned int columns)
-{
-    matrix result(rows);
-    for (unsigned int i = 0; i < result.size(); ++i)
-    {
-        for (unsigned int j = 0; j < columns; ++j)
-        {
-            result.at(i).push_back(0);
-        }
-    }
-    return result;
-}
-
 //Чтение матрицы из файла
-matrix ReadMatrixFromFile(ifstream & inputFile, unsigned int matrixHeight, unsigned int matrixWidth)
+bool ReadMatrixFromFile(ifstream & inputFile, double matrix[MATRIX_HEIGHT][MATRIX_WIDTH])
 {
-    matrix result = CreateMatrix(matrixWidth, matrixHeight);
-
     double matrixElement = 0;
-    for (unsigned int i = 0; i < result.size(); ++i)
+    for (unsigned int i = 0; i < MATRIX_HEIGHT; ++i)
     {
-        for (unsigned int j = 0; j < result.at(i).size(); ++j)
+        for (unsigned int j = 0; j < MATRIX_WIDTH; ++j)
         {
-            inputFile >> matrixElement;
-            result.at(j).at(i) = matrixElement;
+            if (inputFile >> matrixElement)
+            {
+                matrix[j][i] = matrixElement;
+            }
+            else
+            {
+                cout << "Not enough elements in input file to fill matrix 3x3" << "\n";
+                return false;
+            }
         }
     }
-    return result;
+    return true;
 }
 
-//Вывод матрицы
-void PrintMatrix(const matrix& matrix)
+//Вывод матрицы MATRIX_WIDTH x MATRIX_HEIGHT
+void PrintMatrix(const double matrix[MATRIX_HEIGHT][MATRIX_WIDTH])
 {
-    for (unsigned int i = 0; i < matrix.size(); ++i)
+    for (unsigned int i = 0; i < MATRIX_HEIGHT; ++i)
     {
-        for (unsigned int j = 0; j < matrix.at(i).size(); ++j)
+        for (unsigned int j = 0; j < MATRIX_WIDTH; ++j)
         {
-            printf("%.3f  ", matrix.at(j).at(i));
+            cout << fixed << setprecision(3) << matrix[j][i] << ' ';
         }
-        printf("\n");
+        cout << "\n";
     }
 }
 
 //Получение определителя матрицы 2x2
-double GetMatrix2x2Determinant(const matrix& inputMatrix, bool &wasError)
+double GetMatrix2x2Determinant(const double matrix[2][2])
 {
-    if (inputMatrix.size() != 2 || inputMatrix.at(0).size() != 2)
-    {
-        wasError = true;
-        return 0;
-    }
-    return inputMatrix[0][0] * inputMatrix[1][1] - inputMatrix[1][0] * inputMatrix[0][1]);
+    return matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1];
 }
 
 //Получение определителя матрицы 3x3
-double GetMatrix3x3Determinant(const matrix& inputMatrix, bool &wasError)
+double GetMatrix3x3Determinant(const double matrix[MATRIX_HEIGHT][MATRIX_WIDTH])
 {
-    if (inputMatrix.size() != 3 || inputMatrix.at(0).size() != 3)
-    {
-        wasError = true;
-        return 0;
-    }
-    return inputMatrix[0][0] * (inputMatrix[1][1] * inputMatrix[2][2] - inputMatrix[1][2] * inputMatrix[2][1])
-        - inputMatrix[0][1] * (inputMatrix[1][0] * inputMatrix[2][2] + inputMatrix[1][2] * inputMatrix[2][0])
-        + inputMatrix[0][2] * (inputMatrix[1][0] * inputMatrix[2][1] - inputMatrix[1][1] * inputMatrix[2][0]);
+    return matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1])
+         - matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0])
+         + matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]);
 }
 
 //Получение минора элемента матрицы
-matrix getMinor(const matrix &inputMatrix, const unsigned int &row, const unsigned int &column)
+void GetMinor(const double inputMatrix[MATRIX_HEIGHT][MATRIX_WIDTH], double outputMatrix[MATRIX_HEIGHT][MATRIX_WIDTH], const unsigned int &line, const unsigned int &column)
 {
-    matrix result = CreateMatrix(2, 2);
     unsigned int currentMinorLine = 0;
     unsigned int currentMinorColumn = 0;
-    bool minorFilled = false;
+    double matrix2x2[2][2];
 
-    for (unsigned int i = 0; i < inputMatrix.size(); ++i)
+    for (unsigned int i = 0; i < MATRIX_HEIGHT; ++i)
     {
-        for (unsigned int j = 0; j < inputMatrix.at(i).size(); ++j)
+        for (unsigned int j = 0; j < MATRIX_WIDTH; ++j)
         {
-            if (i != column && j != row)
+            if (i != column && j != line)
             {
-                if (currentMinorColumn > 1)
-                {
-                    currentMinorColumn = 0;
-                    if (currentMinorLine > 1)
-                    {
-                        minorFilled = true;
-                        break;
-                    }
-                    currentMinorLine++;
-                }
-                result.at(currentMinorColumn).at(currentMinorLine) = inputMatrix.at(j).at(i);
+                matrix2x2[currentMinorColumn][currentMinorLine] = inputMatrix[j][i];
                 currentMinorColumn++;
             }
         }
-        if (minorFilled)
+        if (i != column)
         {
-            break;
+            currentMinorLine++;
+            currentMinorColumn = 0;
         }
     }
-    return result;
+    outputMatrix[line][column] = GetMatrix2x2Determinant(matrix2x2);
 }
 
-//Получение матрицы миноров
-matrix getMinorMatrix(const matrix &inputMatrix)
+//Получение матрицы алгебраических дополнений
+void GetAlgebraicAdditionsMatrix(const double inputMatrix[MATRIX_HEIGHT][MATRIX_WIDTH], double outputMatrix[MATRIX_HEIGHT][MATRIX_WIDTH])
 {
-    matrix result = inputMatrix;
-    for (unsigned int i = 0; i < inputMatrix.size(); ++i)
+    for (unsigned int i = 0; i < MATRIX_HEIGHT; ++i)
     {
-        for (unsigned int j = 0; j < inputMatrix.at(i).size(); ++j)
+        for (unsigned int j = 0; j < MATRIX_WIDTH; ++j)
         {
-            matrix minor = getMinor(inputMatrix, j, i);
-            PrintMatrix(minor);
-            //inputMatrix.at(j).at(i) = 
+            GetMinor(inputMatrix, outputMatrix, j, i);
+            outputMatrix[j][i] = outputMatrix[j][i] * pow(-1, j + i);
         }
     }
-    return result;
+}
+
+//Транспонирование матрицы
+void TransposeMatrix(const double inputMatrix[MATRIX_HEIGHT][MATRIX_WIDTH], double outputMatrix[MATRIX_HEIGHT][MATRIX_WIDTH])
+{
+    GetAlgebraicAdditionsMatrix(inputMatrix, outputMatrix);
+    for (unsigned int i = 0; i < MATRIX_HEIGHT; ++i)
+    {
+        for (unsigned int j = i; j < MATRIX_WIDTH; ++j)
+        {
+            double tmp = outputMatrix[i][j];
+            outputMatrix[i][j] = outputMatrix[j][i];
+            outputMatrix[j][i] = tmp;
+        }
+    }
+}
+
+//Получение обратной матрицы
+void InvertMatrix(const double inputMatrix[MATRIX_HEIGHT][MATRIX_WIDTH], double outputMatrix[MATRIX_HEIGHT][MATRIX_WIDTH], double matrixDeterminant)
+{
+    TransposeMatrix(inputMatrix, outputMatrix);
+    for (unsigned int i = 0; i < MATRIX_HEIGHT; ++i)
+    {
+        for (unsigned int j = 0; j < MATRIX_WIDTH; ++j)
+        {
+            outputMatrix[j][i] = outputMatrix[j][i] / matrixDeterminant;
+        }
+    }
 }
 
 int main(int argc, char* argv[])
@@ -177,24 +173,23 @@ int main(int argc, char* argv[])
     {
         return 1;
     }
-    
-    bool wasError = false;
 
-    matrix matrix = ReadMatrixFromFile(inputFile, MATRIX_HEIGHT, MATRIX_WIDTH);
-
-    double matrixDeterminant = GetMatrix3x3Determinant(matrix, wasError);
-    if (wasError)
+    double matrix[MATRIX_HEIGHT][MATRIX_WIDTH];
+    if (!ReadMatrixFromFile(inputFile, matrix))
     {
-        cout << "Matrix 3x3 expected" << "\n";
         return 1;
     }
+
+    double matrixDeterminant = GetMatrix3x3Determinant(matrix);
     if (matrixDeterminant == 0)
     {
         cout << "The inverted matrix does not exist" << "\n";
         return 1;
     }
 
-    getMinorMatrix(matrix);
+    double invertedMatrix[MATRIX_HEIGHT][MATRIX_WIDTH];
+    InvertMatrix(matrix, invertedMatrix, matrixDeterminant);
+    PrintMatrix(invertedMatrix);
 
     return 0;
 }
