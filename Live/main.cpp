@@ -13,6 +13,7 @@ const unsigned MAP_HEIGHT_MAX = 256;
 
 const char WALL = '*';
 const char LIFE = '#';
+const char LIFELESS = ' ';
 
 //Проверка достаточности параметров запуска программы
 bool IsValidArgumentsCount(int argc)
@@ -67,13 +68,22 @@ unsigned GetLineWidth(ifstream &inputFile)
 
 void PrintMap(vector<vector<unsigned char>> &liveMap, ostream &outStream)
 {
+    for (unsigned i = 0; i <= liveMap.at(0).size(); ++i)
+    {
+        outStream << WALL;
+    }
+    outStream << WALL << "\n" << WALL;
     for (unsigned i = 0; i < liveMap.size(); ++i)
     {
         for (unsigned j = 0; j < liveMap.at(0).size(); ++j)
         {
-            outStream << "[" << liveMap.at(i).at(j) << "] ";
+            outStream << liveMap.at(i).at(j);
         }
-        outStream << "\n";
+        outStream << WALL << "\n" << WALL;
+    }
+    for (unsigned i = 0; i <= liveMap.at(0).size(); ++i)
+    {
+        outStream << WALL;
     }
 }
 
@@ -98,6 +108,49 @@ void ProcessLine(vector<vector<unsigned char>> &liveMap, const string &lineStr, 
             liveMap.at(currentLine - 2).at(i - 1) = LIFE;
         }
     }
+}
+
+unsigned GetLifesCountAround(const vector<vector<unsigned char>> &liveMap, unsigned line, unsigned column)
+{
+    unsigned result = 0;
+    for (unsigned i = line - 1; i < line + 2; ++i)
+    {
+        for (unsigned j = column - 1; j < column + 2; ++j)
+        {
+            if ((i != line || j != column) && i >= 0 && i < liveMap.size() && j >= 0 && j < liveMap.at(0).size() && liveMap.at(i).at(j) == LIFE)
+            {
+                result++;
+            }
+        }
+    }
+    return result;
+}
+
+vector<vector<unsigned char>> NextGeneration(const vector<vector<unsigned char>> &liveMap)
+{
+    vector<vector<unsigned char>> result(liveMap);
+    for (unsigned i = 0; i < result.size(); ++i)
+    {
+        for (unsigned j = 0; j < result.at(0).size(); ++j)
+        {
+            if (liveMap.at(i).at(j) == LIFELESS)
+            {
+                if (GetLifesCountAround(liveMap, i, j) == 3)
+                {
+                    result.at(i).at(j) = LIFE;
+                }
+            }
+            else if (liveMap.at(i).at(j) == LIFE)
+            {
+                unsigned lifesCountAround = GetLifesCountAround(liveMap, i, j);
+                if (lifesCountAround < 2 || lifesCountAround > 3)
+                {
+                    result.at(i).at(j) = LIFELESS;
+                }
+            }
+        }
+    }
+    return result;
 }
 
 int main(int argc, char* argv[])
@@ -177,10 +230,11 @@ int main(int argc, char* argv[])
         }
         liveMap.resize(currentLine - 1);
         liveMap.at(currentLine - 2).resize(liveMapWidth);
-        fill(liveMap.at(currentLine - 2).begin(), liveMap.at(currentLine - 2).end(), ' ');
+        fill(liveMap.at(currentLine - 2).begin(), liveMap.at(currentLine - 2).end(), LIFELESS);
         ProcessLine(liveMap, lineStr, currentLine);
         currentLine++;
     }
+
 
     if (!bottomBorderFound && !wasError)
     {
@@ -188,15 +242,22 @@ int main(int argc, char* argv[])
         wasError = true;
     }
 
+    if (liveMap.size() == 0 && !wasError)
+    {
+        cout << "Error: live map height = 0" << "\n";
+        wasError = true;
+    }
+
     if (!wasError)
     {
+        vector<vector<unsigned char>> nextLiveMap = NextGeneration(liveMap);
         if (argc == ARG_COUNT_MAX)
         {
-            PrintMap(liveMap, outputFile);
+            PrintMap(nextLiveMap, outputFile);
         }
         else
         {
-            PrintMap(liveMap, cout);
+            PrintMap(nextLiveMap, cout);
         }
     }
 
@@ -206,5 +267,5 @@ int main(int argc, char* argv[])
         outputFile.close();
     }
 
-    return 0;
+    return (wasError) ? 1 : 0;
 }
