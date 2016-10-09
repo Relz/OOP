@@ -79,12 +79,13 @@ int StrToInt(const string &str, bool &wasError)
     int result = 0;
     for (unsigned i = 0; i < str.length(); ++i)
     {
-        if (result > INT_MAX / 10)
+        int digit = CharToDigit(str[i]);
+        if (result > (INT_MAX - digit) / 10)
         {
             wasError = true;
             return 0;
         }
-        result = result * 10 + CharToDigit(str[i]);
+        result = result * 10 + digit;
     }
     return result;
 }
