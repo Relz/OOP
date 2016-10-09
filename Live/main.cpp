@@ -65,15 +65,15 @@ unsigned GetLineWidth(ifstream &inputFile)
     return i;
 }
 
-void PrintMap(vector<vector<unsigned char>> &liveMap)
+void PrintMap(vector<vector<unsigned char>> &liveMap, ostream &outStream)
 {
     for (unsigned i = 0; i < liveMap.size(); ++i)
     {
         for (unsigned j = 0; j < liveMap.at(0).size(); ++j)
         {
-            cout << "[" << liveMap.at(i).at(j) << "] ";
+            outStream << "[" << liveMap.at(i).at(j) << "] ";
         }
-        cout << "\n";
+        outStream << "\n";
     }
 }
 
@@ -177,6 +177,7 @@ int main(int argc, char* argv[])
         }
         liveMap.resize(currentLine - 1);
         liveMap.at(currentLine - 2).resize(liveMapWidth);
+        fill(liveMap.at(currentLine - 2).begin(), liveMap.at(currentLine - 2).end(), ' ');
         ProcessLine(liveMap, lineStr, currentLine);
         currentLine++;
     }
@@ -187,13 +188,19 @@ int main(int argc, char* argv[])
         wasError = true;
     }
 
-    inputFile.close();
-
     if (!wasError)
     {
-        PrintMap(liveMap);
+        if (argc == ARG_COUNT_MAX)
+        {
+            PrintMap(liveMap, outputFile);
+        }
+        else
+        {
+            PrintMap(liveMap, cout);
+        }
     }
 
+    inputFile.close();
     if (argc == ARG_COUNT_MAX)
     {
         outputFile.close();
