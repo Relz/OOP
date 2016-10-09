@@ -131,6 +131,11 @@ int main(int argc, char* argv[])
         cout << "Error: live map width = 0" << "\n";
         return 1;
     }
+    if (lineWidth - 2 > MAP_WIDTH_MAX)
+    {
+        cout << "Error: maximum map width: " << MAP_WIDTH_MAX << "\n";
+        return 1;
+    }
     unsigned liveMapWidth = lineWidth - 2;
 
     vector<vector<unsigned char>> liveMap(0);
@@ -162,6 +167,12 @@ int main(int argc, char* argv[])
         if (IsBottomBorder(lineStr))
         {
             bottomBorderFound = true;
+            break;
+        }
+        if (currentLine - 1 > MAP_HEIGHT_MAX)
+        {
+            cout << "Error: maximum map height: " << MAP_HEIGHT_MAX << "\n";
+            wasError = true;
             break;
         }
         liveMap.resize(currentLine - 1);
