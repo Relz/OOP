@@ -156,3 +156,26 @@ $RECYCLE.BIN/
 .DS_Store
 
 *.sdf
+*.db
+*.opendb
+/Crypt/in_encoded.txt
+/Crypt/out.txt
+/Live/out.txt
+/Live/out9.txt
+/Live/out8.txt
+/Live/out7.txt
+/Live/out6.txt
+/Live/out5.txt
+/Live/out4.txt
+/Live/out3.txt
+/Live/out2.txt
+/Live/out18.txt
+/Live/out17.txt
+/Live/out16.txt
+/Live/out15.txt
+/Live/out14.txt
+/Live/out13.txt
+/Live/out12.txt
+/Live/out11.txt
+/Live/out10.txt
+/Live/out1.txt

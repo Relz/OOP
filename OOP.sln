@@ -13,6 +13,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Crypt", "Crypt\Crypt.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Live", "Live\Live.vcxproj", "{4C5A59B5-D79F-4070-ADB9-BC047EDDC113}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StlVector", "StlVector\StlVector.vcxproj", "{D9FC6089-8DE6-42D2-9117-4EC535C91D36}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StlVectorTest", "StlVectorTest\StlVectorTest.vcxproj", "{3D3BD023-085E-4E39-BC8F-C88D5FD21DD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -39,6 +43,14 @@ Global
 		{4C5A59B5-D79F-4070-ADB9-BC047EDDC113}.Debug|Win32.Build.0 = Debug|Win32
 		{4C5A59B5-D79F-4070-ADB9-BC047EDDC113}.Release|Win32.ActiveCfg = Release|Win32
 		{4C5A59B5-D79F-4070-ADB9-BC047EDDC113}.Release|Win32.Build.0 = Release|Win32
+		{D9FC6089-8DE6-42D2-9117-4EC535C91D36}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D9FC6089-8DE6-42D2-9117-4EC535C91D36}.Debug|Win32.Build.0 = Debug|Win32
+		{D9FC6089-8DE6-42D2-9117-4EC535C91D36}.Release|Win32.ActiveCfg = Release|Win32
+		{D9FC6089-8DE6-42D2-9117-4EC535C91D36}.Release|Win32.Build.0 = Release|Win32
+		{3D3BD023-085E-4E39-BC8F-C88D5FD21DD5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3D3BD023-085E-4E39-BC8F-C88D5FD21DD5}.Debug|Win32.Build.0 = Debug|Win32
+		{3D3BD023-085E-4E39-BC8F-C88D5FD21DD5}.Release|Win32.ActiveCfg = Release|Win32
+		{3D3BD023-085E-4E39-BC8F-C88D5FD21DD5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
