@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "vector.h"
+#include <boost/range/algorithm/transform.hpp>
 
-// Умножение каждого четного элемента вектора на число (по умолчанию на 2)
-void MulOddsElements(std::vector<double> &numbers, double multiplier)
+// Умножение каждого четного элемента вектора на 2
+void MulOddsEltsBy2(std::vector<double> &numbers)
 {
-	for (unsigned i = 0; i < numbers.size(); i += 2)
+	for (unsigned i = 1; i < numbers.size(); i += 2)
 	{
 		numbers[i % numbers.size()] *= 2;
 	}
 }
 
-// Вычитание каждого нечетного элемента вектора сумму положительных элементов
-void SubEvensElements(std::vector<double> &numbers)
+// Вычитание из каждого нечетного элемента вектора сумму положительных элементов
+void SubEvensElementsWithPositives(std::vector<double> &numbers)
 {
 	if (numbers.size() > 0)
 	{
@@ -29,6 +29,6 @@ void SubEvensElements(std::vector<double> &numbers)
 
 void ProcessVector(std::vector<double> & numbers)
 {
-	SubEvensElements(numbers);
-	MulOddsElements(numbers, 2);
+	SubEvensElementsWithPositives(numbers);
+	MulOddsEltsBy2(numbers);
 }

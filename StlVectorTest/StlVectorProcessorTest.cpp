@@ -1,11 +1,25 @@
 #include "stdafx.h"
 #include "..\StlVector\vector.h"
+#include <iostream>
+#include <math.h>
 
 using namespace std;
 
-bool VectorsAreEqual(vector<double> const& x, vector<double> const& y)
+bool vectorsAreEquals(vector<double> vector0, vector<double> vector1)
 {
-	return x == y;
+	if (vector0.size() == vector1.size())
+	{
+		for (unsigned i = 0; i < vector0.size(); ++i)
+		{
+			if (fabs(vector0[i] - vector1[i]) > 0.00001 * fabs(vector0[i]))
+			{
+				std::cout << vector0[i] << " != " << vector1[i] << "\n";
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
 }
 
 // Функция ProcessVector
@@ -18,45 +32,41 @@ BOOST_AUTO_TEST_CASE(makes_empty_vector_from_empty_vector)
 	ProcessVector(emptyVector);
 	BOOST_CHECK(emptyVector.empty());
 }
-/*
-// не изменяет содержимое вектора, который не содержит положительных чисел
-BOOST_AUTO_TEST_CASE(does_not_change_vector_containing_no_positive_numbers)
+
+// не изменяет содержимое вектора, который содержит только 0
+BOOST_AUTO_TEST_CASE(does_not_change_vector_containing_zero_numbers)
 {
-	vector<double> numbers = { -4, 0, -3 };
-	auto copy(numbers); // аналог vector<double> copy(numbers);
+	vector<double> numbers = { 0, 0, 0 };
+	vector<double> copy(numbers);
 	ProcessVector(numbers);
-	BOOST_CHECK(numbers == copy);
+	BOOST_CHECK(vectorsAreEquals(numbers, copy));
 }
 
-// при обработке вектора с одним положительным числом
-BOOST_AUTO_TEST_SUITE(when_processing_a_vector_with_one_positive_number)
-// должна добавить это число ко всем элементам вектора
-BOOST_AUTO_TEST_CASE(should_add_this_number_to_each_element)
+// не изменяет содержимое вектора, который содержит отрицательные числа на нечетных позициях и 0 на четных позициях
+BOOST_AUTO_TEST_CASE(does_not_change_vector_containing_negative_evens_numbers_and_zero_odds_numbers)
 {
-	vector<double> numbers = { -1, 3.5 };
+	vector<double> numbers = { -21.412, 0, -41.378 };
+	vector<double> copy(numbers);
 	ProcessVector(numbers);
-
-	BOOST_CHECK(VectorsAreEqual(numbers,
-	{ (-1 + 3.5), (3.5 + 3.5) }
-	));
-	// Аналогично следующей инструкции:
-	// BOOST_CHECK(numbers == vector<double>({ (-1 + 3.5), (3.5 + 3.5) }));
+	BOOST_CHECK(vectorsAreEquals(numbers, copy));
 }
-BOOST_AUTO_TEST_SUITE_END()
 
-// при обработке вектора с несколькими положительными элементами
-BOOST_AUTO_TEST_SUITE(when_processing_a_vector_with_several_positive_elements)
-// должен добавить их среднее арифметическое к каждому элементу
-BOOST_AUTO_TEST_CASE(should_add_their_average_to_each_element)
+// вектор содержит только положительные числа
+BOOST_AUTO_TEST_CASE(does_not_change_vector_containing_positive_numbers)
 {
-	vector<double> numbers = { -1, 1, 2, 3 };
+	vector<double> numbers = { 1, 24.112, 9842.124 };
+	vector<double> numbersRequired = { 1, 19782.7, 9842.12 };
 	ProcessVector(numbers);
-
-	const double average = (1.0 + 2.0 + 3.0) / 3;
-	BOOST_CHECK(VectorsAreEqual(numbers,
-	{ (-1 + average), (1 + average), (2 + average), (3 + average) }
-	));
+	BOOST_CHECK(vectorsAreEquals(numbers, numbersRequired));
 }
-BOOST_AUTO_TEST_SUITE_END()
-*/
+
+// вектор содержит любые числа
+BOOST_AUTO_TEST_CASE(does_not_change_vector_containing_any_numbers)
+{
+	vector<double> numbers = { -1, -53.21, 1, 24.112, -213.521, 9842.124 };
+	vector<double> numbersRequired = { -1, 19628.1, 1, 19782.7, -213.521, 39418.7 };
+	ProcessVector(numbers);
+	BOOST_CHECK(vectorsAreEquals(numbers, numbersRequired));
+}
+
 BOOST_AUTO_TEST_SUITE_END()
