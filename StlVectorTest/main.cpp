@@ -18,7 +18,6 @@ class SpecLogFormatter:
 
     virtual void test_unit_finish(std::ostream &/*os*/, boost::unit_test::test_unit const& /*tu*/, unsigned long /*elapsed*/) override
     {
-        // по окончании test unit-а уменьшаем отступ
         m_indent -= 2;
     }
 

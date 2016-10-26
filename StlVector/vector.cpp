@@ -20,9 +20,9 @@ void SubEvensElementsWithPositives(std::vector<double> &numbers)
 		{
 			positiveNumSum += (number > 0) ? number : 0;
 		}
-		for (unsigned i = 1; i < numbers.size(); i += 2)
+		for (unsigned i = 0; i < numbers.size(); i += 2)
 		{
-			numbers[i % numbers.size()] += positiveNumSum;
+			numbers[i] -= positiveNumSum;
 		}
 	}
 }
