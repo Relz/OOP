@@ -1,6 +1,4 @@
 #include "stdafx.h"
-#include <boost/range/algorithm/transform.hpp>
-#include <boost/phoenix.hpp>
 
 std::string HtmlDecode(const std::string &text)
 {

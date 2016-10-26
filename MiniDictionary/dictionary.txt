@@ -1,0 +1,7 @@
+яблоко:apple
+сыр:cheese
+рыба:fish
+облако:cloud
+учитель:teacher
+президент:president
+программист:programmer
