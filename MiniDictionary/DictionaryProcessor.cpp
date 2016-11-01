@@ -44,14 +44,27 @@ void AddWordToDictionary(const std::string &firstWord, const std::string &second
 bool TryToPrintWordFromDictionary(const std::string &word, std::map<std::string, std::string> &dictionary)
 {
 	bool result = false;
-	if (dictionary.find(word) != dictionary.end())
-	{
-		std::cout << dictionary.at(word);
-		result = true;
-	}
+	std::string lowerCasedWord;
+	lowerCasedWord.resize(word.length());
+	std::transform(word.begin(), word.end(), lowerCasedWord.begin(), ::tolower);
+
+	std::string lowerCasedFirstWord;
+	std::string lowerCasedSecondWord;
+
 	for (auto wordInDictionary : dictionary)
 	{
-		if (wordInDictionary.second == word)
+		lowerCasedFirstWord.resize(wordInDictionary.first.length());
+		lowerCasedSecondWord.resize(wordInDictionary.second.length());
+		std::transform(wordInDictionary.first.begin(), wordInDictionary.first.end(), lowerCasedFirstWord.begin(), ::tolower);
+		std::transform(wordInDictionary.second.begin(), wordInDictionary.second.end(), lowerCasedSecondWord.begin(), ::tolower);
+
+		if (lowerCasedFirstWord == lowerCasedWord)
+		{
+			std::cout << wordInDictionary.second;
+			result = true;
+			break;
+		}
+		if (lowerCasedSecondWord == lowerCasedWord)
 		{
 			std::cout << wordInDictionary.first << ", ";
 			result = true;
