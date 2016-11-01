@@ -24,7 +24,7 @@ bool IsFileEmpty(ifstream &file)
 }
 
 //ѕроверка файла ввода на существование и наличие в нЄм символов;
-bool IsValidInputFile(char* inputFileName, ifstream &inputFile)
+bool IsValidInputFile(const string &inputFileName, ifstream &inputFile)
 {
 	if (!IsFileExists(inputFile))
 	{
@@ -41,60 +41,67 @@ bool IsValidInputFile(char* inputFileName, ifstream &inputFile)
 
 int main(int argc, char * argv[])
 {
-	setlocale(LC_ALL, "rus");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 	if (!IsValidArgumentsCount(argc))
 	{
 		cout << "MiniDictionary.exe <dictionary file>" << "\n";
 		return 1;
 	}
 
-	ifstream dictionaryFile(argv[1]);
-	if (!IsValidInputFile(argv[1], dictionaryFile))
+	string dictionaryFileName = argv[1];
+	ifstream dictionaryFile(dictionaryFileName);
+	if (!IsValidInputFile(dictionaryFileName, dictionaryFile))
 	{
 		return 1;
 	}
 
 	map <string, string> dictionary;
 	ReadDictionaryFromFile(dictionaryFile, dictionary);
+	dictionaryFile.close();
+
+	size_t initialDictionarySize = dictionary.size();
 
 	string word;
-	while (cin >> word)
+	string answer;
+
+	while (getline(cin, word))
 	{
+		if (word.empty())
+		{
+			continue;
+		}
 		if (word == "...")
 		{
-			cout << "¬ словарь были внесены изменени€. ¬ведите Y или y дл€ сохранени€ перед выходом.\n";
-			string answer = "";
-			if (cin >> answer)
+			if (initialDictionarySize != dictionary.size())
 			{
-				if (answer == "y")
+				cout << "¬ словарь были внесены изменени€. ¬ведите Y или y дл€ сохранени€ перед выходом.\n";
+				if (getline(cin, answer))
 				{
-					cout << "»зменени€ сохранены. ƒо свидани€.\n";
+					if (answer == "y" || answer == "Y")
+					{
+						ofstream dictionaryFile(dictionaryFileName);
+						SaveDictionaryToFile(dictionaryFile, dictionary);
+						dictionaryFile.close();
+						cout << "»зменени€ сохранены. ƒо свидани€.\n";
+					}
 				}
 			}
 			break;
 		}
-		if (dictionary.find(word) != dictionary.end())
-		{
-			cout << dictionary.at(word) << "\n";
-		}
-		else
+		if (!TryToPrintWordFromDictionary(word, dictionary))
 		{
 			cout << "Ќеизвестное слово У" << word << "Ф. ¬ведите перевод или пустую строку дл€ отказа.\n";
-			string answer = "";
-			if (cin >> answer)
+			if (getline(cin, answer))
 			{
 				if (!answer.empty())
 				{
-					string secondWord;
-					if (cin >> secondWord)
-					{
-						dictionary.insert(pair<string, string>(word, secondWord));
-						cout << "—лово У" << word << "Ф сохранено в словаре как У" << secondWord << "Ф.\n";
-					}
+					AddWordToDictionary(word, answer, dictionary);
+					cout << "—лово У" << word << "Ф сохранено в словаре как У" << answer << "Ф.\n";
 				}
 				else
 				{
-					cout << "—лово У" << word << "Фпроигнорировано.\n";
+					cout << "—лово У" << word << "Ф проигнорировано.\n";
 				}
 			}
 		}

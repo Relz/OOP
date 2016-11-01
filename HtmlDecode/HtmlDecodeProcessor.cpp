@@ -21,7 +21,7 @@ std::string HtmlDecode(const std::string &text)
 		{ "amp" }
 	};
 
-	for (unsigned textIndex = 0; textIndex < text.length(); ++textIndex)
+	/*for (unsigned textIndex = 0; textIndex < text.length(); ++textIndex)
 	{
 		if (text[textIndex] == '&')
 		{
@@ -67,6 +67,6 @@ std::string HtmlDecode(const std::string &text)
 		{
 			result += text[textIndex];
 		}
-	}
+	}*/
 	return result;
 }

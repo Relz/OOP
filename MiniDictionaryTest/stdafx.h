@@ -8,3 +8,9 @@
 #define BOOST_TEST_INCLUDED
 #pragma warning (disable: 4702)
 #include <boost/test/unit_test.hpp>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
