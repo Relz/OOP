@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_SUITE(SaveDictionaryToFile_function)
 BOOST_AUTO_TEST_CASE(save_dictionary_to_file)
 {
 	ofstream dictionaryFileOut("dictionary.txt");
-	map<string, string> dictionary = { ("€блоко", "apple"), ("кот", "cat") };
+	map<string, string> dictionary = { make_pair("€блоко", "apple"), make_pair("кот", "cat") };
 	SaveDictionaryToFile(dictionaryFileOut, dictionary);
 	ifstream dictionaryFileIn("dictionary.txt");
 	ReadDictionaryFromFile(dictionaryFileIn, dictionary);
