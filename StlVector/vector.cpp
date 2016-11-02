@@ -4,14 +4,14 @@
 // Умножение каждого четного элемента вектора на 2
 void MulOddsEltsBy2(std::vector<double> &numbers)
 {
-	for (unsigned i = 1; i < numbers.size(); i += 2)
+	for (size_t i = 1; i < numbers.size(); i += 2)
 	{
-		numbers[i % numbers.size()] *= 2;
+		numbers[i] *= 2;
 	}
 }
 
 // Вычитание из каждого нечетного элемента вектора сумму положительных элементов
-void SubEvensElementsWithPositives(std::vector<double> &numbers)
+void SubEvensElementsWithSumOfPositives(std::vector<double> &numbers)
 {
 	if (numbers.size() > 0)
 	{
@@ -20,7 +20,7 @@ void SubEvensElementsWithPositives(std::vector<double> &numbers)
 		{
 			positiveNumSum += (number > 0) ? number : 0;
 		}
-		for (unsigned i = 0; i < numbers.size(); i += 2)
+		for (size_t i = 0; i < numbers.size(); i += 2)
 		{
 			numbers[i] -= positiveNumSum;
 		}
@@ -29,6 +29,6 @@ void SubEvensElementsWithPositives(std::vector<double> &numbers)
 
 void ProcessVector(std::vector<double> & numbers)
 {
-	SubEvensElementsWithPositives(numbers);
+	SubEvensElementsWithSumOfPositives(numbers);
 	MulOddsEltsBy2(numbers);
 }
