@@ -21,10 +21,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HtmlDecodeProcessorTest.cpp">
+    <ClCompile Include="HtmlDecodeTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\HtmlDecode\HtmlDecodeProcessor.cpp">
+    <ClCompile Include="..\HtmlDecode\HtmlDecode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

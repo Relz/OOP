@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "htmlDecodeProcessor.h"
+#include "htmlDecode.h"
 
 using namespace std;
 
