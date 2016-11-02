@@ -1,3 +1,5 @@
+home:дом
+house:дом
 кот:cat
 кошка:cat
 морковь:carrot

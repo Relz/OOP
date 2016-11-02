@@ -148,8 +148,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\MiniDictionary\DictionaryProcessor.cpp" />
-    <ClCompile Include="DictionaryProcessorTest.cpp" />
+    <ClCompile Include="..\MiniDictionary\Dictionary.cpp" />
+    <ClCompile Include="DictionaryTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>

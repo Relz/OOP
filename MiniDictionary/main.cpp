@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "DictionaryProcessor.h"
+#include "Dictionary.h"
 
 using namespace std;
 

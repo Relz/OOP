@@ -70,6 +70,9 @@ bool TryToPrintWordFromDictionary(const std::string &word, std::map<std::string,
 			result = true;
 		}
 	}
-	std::cout << "\n";
+	if (result)
+	{
+		std::cout << "\n";
+	}
 	return result;
 }

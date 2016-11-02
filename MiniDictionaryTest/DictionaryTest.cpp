@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\MiniDictionary\DictionaryProcessor.h"
+#include "..\MiniDictionary\Dictionary.h"
 
 // Функция ReadDictionaryFromFile
 BOOST_AUTO_TEST_SUITE(ReadDictionaryFromFile_function)
