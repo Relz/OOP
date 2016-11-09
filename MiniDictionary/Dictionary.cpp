@@ -1,19 +1,19 @@
 #include "stdafx.h"
 
 // Чтение слов из файла в словарь
-void ReadDictionaryFromFile(std::ifstream &dictionaryFile, std::map<std::string, std::string> &dictionary)
+void ReadDictionaryFromFile(std::wifstream &dictionaryFile, std::map<std::wstring, std::wstring> &dictionary)
 {
-	std::string line;
+	std::wstring line;
 	while (std::getline(dictionaryFile, line))
 	{
 		unsigned i = 0;
-		std::string firstWord = "";
-		for (i; i < line.length() && line[i] != ':'; ++i)
+		std::wstring firstWord;
+		for (i; i < line.length() && line[i] != L':'; ++i)
 		{
 			firstWord += line[i];
 		}
 
-		std::string secondWord = "";
+		std::wstring secondWord;
 		for (++i; i < line.length(); ++i)
 		{
 			secondWord += line[i];
@@ -21,13 +21,13 @@ void ReadDictionaryFromFile(std::ifstream &dictionaryFile, std::map<std::string,
 
 		if (!firstWord.empty() && !secondWord.empty())
 		{
-			dictionary.insert(std::pair<std::string, std::string>(firstWord, secondWord));
+			dictionary.insert(std::pair<std::wstring, std::wstring>(firstWord, secondWord));
 		}
 	}
 }
 
 // Сохранение словаря в файл
-void SaveDictionaryToFile(std::ofstream &dictionaryFile, const std::map<std::string, std::string> &dictionary)
+void SaveDictionaryToFile(std::wofstream &dictionaryFile, const std::map<std::wstring, std::wstring> &dictionary)
 {
 	for (auto word : dictionary)
 	{
@@ -36,20 +36,20 @@ void SaveDictionaryToFile(std::ofstream &dictionaryFile, const std::map<std::str
 }
 
 // Добавление слова в словарь
-void AddWordToDictionary(const std::string &firstWord, const std::string &secondWord, std::map<std::string, std::string> &dictionary)
+void AddWordToDictionary(const std::wstring &firstWord, const std::wstring &secondWord, std::map<std::wstring, std::wstring> &dictionary)
 {
-	dictionary.insert(std::pair<std::string, std::string>(firstWord, secondWord));
+	dictionary.insert(std::pair<std::wstring, std::wstring>(firstWord, secondWord));
 }
 
-bool TryToPrintWordFromDictionary(const std::string &word, std::map<std::string, std::string> &dictionary)
+bool TryToPrintWordFromDictionary(const std::wstring &word, std::map<std::wstring, std::wstring> &dictionary)
 {
 	bool result = false;
-	std::string lowerCasedWord;
+	std::wstring lowerCasedWord;
 	lowerCasedWord.resize(word.length());
 	std::transform(word.begin(), word.end(), lowerCasedWord.begin(), ::tolower);
 
-	std::string lowerCasedFirstWord;
-	std::string lowerCasedSecondWord;
+	std::wstring lowerCasedFirstWord;
+	std::wstring lowerCasedSecondWord;
 
 	for (auto wordInDictionary : dictionary)
 	{
@@ -58,15 +58,16 @@ bool TryToPrintWordFromDictionary(const std::string &word, std::map<std::string,
 		std::transform(wordInDictionary.first.begin(), wordInDictionary.first.end(), lowerCasedFirstWord.begin(), ::tolower);
 		std::transform(wordInDictionary.second.begin(), wordInDictionary.second.end(), lowerCasedSecondWord.begin(), ::tolower);
 
+		std::wcout << lowerCasedFirstWord << " " << lowerCasedWord << "\n";
 		if (lowerCasedFirstWord == lowerCasedWord)
 		{
-			std::cout << wordInDictionary.second;
+			std::wcout << wordInDictionary.second;
 			result = true;
 			break;
 		}
 		if (lowerCasedSecondWord == lowerCasedWord)
 		{
-			std::cout << wordInDictionary.first << ", ";
+			std::wcout << wordInDictionary.first << ", ";
 			result = true;
 		}
 	}

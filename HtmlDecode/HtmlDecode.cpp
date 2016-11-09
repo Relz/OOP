@@ -1,9 +1,8 @@
 #include "stdafx.h"
 
-std::string HtmlDecode(const std::string &text)
+namespace
 {
-	std::string result;
-	std::string htmlEntities[5][2] =
+	std::string HTML_ENTITIES[5][2] =
 	{
 		{ "&quot;", "\"" },
 		{ "&apos;", "’" },
@@ -11,6 +10,11 @@ std::string HtmlDecode(const std::string &text)
 		{ "&gt;", ">" },
 		{ "&amp;", "&" }
 	};
+}
+
+std::string HtmlDecode(const std::string &text)
+{
+	std::string result;
 
 	for (size_t textIndex = 0; textIndex < text.length(); ++textIndex)
 	{
@@ -20,10 +24,10 @@ std::string HtmlDecode(const std::string &text)
 		{
 			for (size_t i = 0; i < 5; ++i)
 			{
-				if (text.find(htmlEntities[i][0].c_str(), textIndex, htmlEntities[i][0].length()) == textIndex)
+				if (text.find(HTML_ENTITIES[i][0].c_str(), textIndex, HTML_ENTITIES[i][0].length()) == textIndex)
 				{
-					result += htmlEntities[i][1];
-					textIndex += htmlEntities[i][0].length() - 1;
+					result += HTML_ENTITIES[i][1];
+					textIndex += HTML_ENTITIES[i][0].length() - 1;
 					wasReplace = true;
 				}
 			}

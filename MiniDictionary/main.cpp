@@ -12,78 +12,84 @@ bool IsValidArgumentsCount(int argc)
 }
 
 //ѕроверка существовани€ файла
-bool IsFileExists(ifstream &file)
+bool IsFileExists(wifstream &file)
 {
 	return file.good();
 }
 
 //ѕроверка файла на пустоту
-bool IsFileEmpty(ifstream &file)
+bool IsFileEmpty(wifstream &file)
 {
-	return file.peek() == ifstream::traits_type::eof();
+	return file.peek() == wifstream::traits_type::eof();
 }
 
 //ѕроверка файла ввода на существование и наличие в нЄм символов;
-bool IsValidInputFile(const string &inputFileName, ifstream &inputFile)
+bool IsValidInputFile(const wstring &inputFileName, wifstream &inputFile)
 {
 	if (!IsFileExists(inputFile))
 	{
-		cout << "File \"" << inputFileName << "\" not exists" << "\n";
+		wcerr << "File \"" << inputFileName << "\" not exists" << "\n";
 		return false;
 	}
 	if (IsFileEmpty(inputFile))
 	{
-		cout << "File \"" << inputFileName << "\" is empty" << "\n";
+		wcerr << "File \"" << inputFileName << "\" is empty" << "\n";
 		return false;
 	}
 	return true;
 }
 
-int main(int argc, char * argv[])
+int wmain(int argc, wchar_t * argv[])
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
+	wstring str = L" от";
+	wcout << str << "\n";
+	std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+	wcout << str << "\n";
+	return 0;
+
 	if (!IsValidArgumentsCount(argc))
 	{
 		cout << "MiniDictionary.exe <dictionary file>" << "\n";
 		return 1;
 	}
 
-	string dictionaryFileName = argv[1];
-	ifstream dictionaryFile(dictionaryFileName);
+	wstring dictionaryFileName = argv[1];
+	wifstream dictionaryFile(dictionaryFileName);
 	if (!IsValidInputFile(dictionaryFileName, dictionaryFile))
 	{
 		return 1;
 	}
 
-	map <string, string> dictionary;
+	map <wstring, wstring> dictionary;
 	ReadDictionaryFromFile(dictionaryFile, dictionary);
 	dictionaryFile.close();
 
 	size_t initialDictionarySize = dictionary.size();
 
-	string word;
-	string answer;
+	wstring word;
+	wstring answer;
 
-	while (getline(cin, word))
+	while (getline(wcin, word))
 	{
 		if (word.empty())
 		{
 			continue;
 		}
-		if (word == "...")
+		if (word == L"...")
 		{
 			if (initialDictionarySize != dictionary.size())
 			{
-				cout << "¬ словарь были внесены изменени€. ¬ведите Y или y дл€ сохранени€ перед выходом.\n";
-				if (getline(cin, answer))
+				wcout << "¬ словарь были внесены изменени€. ¬ведите Y или y дл€ сохранени€ перед выходом.\n";
+				if (getline(wcin, answer))
 				{
-					if (answer == "y" || answer == "Y")
+					if (answer == L"y" || answer == L"Y")
 					{
-						ofstream dictionaryFile(dictionaryFileName);
+						wofstream dictionaryFile(dictionaryFileName);
 						SaveDictionaryToFile(dictionaryFile, dictionary);
 						dictionaryFile.close();
-						cout << "»зменени€ сохранены. ƒо свидани€.\n";
+						wcout << "»зменени€ сохранены. ƒо свидани€.\n";
 					}
 				}
 			}
@@ -91,17 +97,17 @@ int main(int argc, char * argv[])
 		}
 		if (!TryToPrintWordFromDictionary(word, dictionary))
 		{
-			cout << "Ќеизвестное слово У" << word << "Ф. ¬ведите перевод или пустую строку дл€ отказа.\n";
-			if (getline(cin, answer))
+			wcout << "Ќеизвестное слово У" << word << "Ф. ¬ведите перевод или пустую строку дл€ отказа.\n";
+			if (getline(wcin, answer))
 			{
 				if (!answer.empty())
 				{
 					AddWordToDictionary(word, answer, dictionary);
-					cout << "—лово У" << word << "Ф сохранено в словаре как У" << answer << "Ф.\n";
+					wcout << "—лово У" << word << "Ф сохранено в словаре как У" << answer << "Ф.\n";
 				}
 				else
 				{
-					cout << "—лово У" << word << "Ф проигнорировано.\n";
+					wcout << "—лово У" << word << "Ф проигнорировано.\n";
 				}
 			}
 		}
