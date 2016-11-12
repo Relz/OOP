@@ -2,4 +2,7 @@
 
 #include <vector>
 #include <algorithm>
-#include "vector.h"
+#include <functional>
+#include <iostream>
+#include <iterator>
+#include <numeric>
