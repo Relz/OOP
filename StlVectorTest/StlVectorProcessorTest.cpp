@@ -33,9 +33,7 @@ BOOST_AUTO_TEST_SUITE(ProcessVector_function)
     // Создает пустой вектор из пустого вектора
     BOOST_AUTO_TEST_CASE(makes_empty_vector_from_empty_vector)
     {
-        vector<double> emptyVector;
-        ProcessVector(emptyVector);
-        BOOST_CHECK(emptyVector.empty());
+        ProcessVectorEqual({}, {});
     }
 
     // Из элементов, стоящих на нечетных позициях, вычитается сумму всех неотрицательных элементов
