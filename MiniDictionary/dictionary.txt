@@ -1,3 +1,4 @@
+car:машина
 home:дом
 house:дом
 кот:cat

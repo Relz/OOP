@@ -3,6 +3,3 @@
 #include <vector>
 #include <set>
 #include <iterator>
-
-#include "constant.h"
-#include "primeNumbers.h"
