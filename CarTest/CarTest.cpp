@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "..\Car\Car.h"
-#include <iostream>
 
 struct CarFixture
 {

@@ -6,14 +6,17 @@
 class CCarController
 {
 public:
-    CCarController(CCar & car, std::istream & in, std::ostream & out);
+    CCarController() = default;
+    CCarController(CCar & car, std::istream &in, std::ostream &out);
     ~CCarController() = default;
     bool GetCommand(std::vector<std::string> & command);
-    void HandleCommand(std::vector<std::string> const& command);
+    bool HandleCommand(std::vector<std::string> const& command);
 private:
-    CCar & m_car;
-    std::istream & m_in;
-    std::ostream & m_out;
+    CCar &m_car;
+    std::istream &m_in;
+    std::ostream &m_out;
+    bool m_doExit = false;
+
     const std::map<std::string, size_t> REQUIRED_COMMAND_ARG_COUNT = 
     {
         { "help", 0 },
