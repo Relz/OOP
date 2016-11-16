@@ -28,12 +28,12 @@ bool IsValidInputFile(const wstring &inputFileName, wifstream &inputFile)
 {
     if (!IsFileExists(inputFile))
     {
-        wcerr << "File \"" << inputFileName << "\" not exists" << "\n";
+        wcerr << L"File \"" << inputFileName << L"\" not exists" << L"\n";
         return false;
     }
     if (IsFileEmpty(inputFile))
     {
-        wcerr << "File \"" << inputFileName << "\" is empty" << "\n";
+        wcerr << L"File \"" << inputFileName << L"\" is empty" << L"\n";
         return false;
     }
     return true;
@@ -47,7 +47,7 @@ int wmain(int argc, wchar_t * argv[])
 
     if (!IsValidArgumentsCount(argc))
     {
-        cout << "MiniDictionary.exe <dictionary file>" << "\n";
+        wcout << L"MiniDictionary.exe <dictionary file>" << L"\n";
         return 1;
     }
 
