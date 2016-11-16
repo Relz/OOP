@@ -6,11 +6,11 @@ std::string DirectionToString(Direction direction)
     switch (direction)
     {
     case Direction::NONE:
-        return "никуда";
+        return "стоит на месте";
     case Direction::FORWARD:
-        return "вперёд";
+        return "направлен вперёд";
     case Direction::BACKWARD:
-        return "назад";
+        return "направлен назад";
     default:
         return "";
     }
@@ -91,7 +91,7 @@ bool CCarController::HandleCommand(std::vector<std::string> const& commands)
     if (commands[0] == "info")
     {
         m_out << "Автомобиль " << (m_car.IsEngineTurnOn() ? "включён" : "выключен") << ", "
-            << "направлен " << DirectionToString(m_car.GetDirection()) << ", "
+            << DirectionToString(m_car.GetDirection()) << ", "
             << "со скоростью " << m_car.GetSpeed() << ", "
             << "на " << GearToString(m_car.GetGear()) << " передаче.\n";
     }

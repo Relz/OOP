@@ -34,11 +34,8 @@ public:
     bool SetSpeed(int speed);
 private:
     bool IsSpeedInGearRange(int speed, Gear gear);
-    void SetDirection(int speed);
-
     bool IsValidDirectionForGear(Gear gear);
     bool m_isEngineTurnOn = false;
     Gear m_gear = Gear::NEUTRAL;
     int m_speed = 0;
-    Direction m_direction = Direction::NONE;
 };
