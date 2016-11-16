@@ -79,13 +79,13 @@ bool CCarController::HandleCommand(std::vector<std::string> const& commands)
     }
     if (REQUIRED_COMMAND_ARG_COUNT.find(commands[0]) == REQUIRED_COMMAND_ARG_COUNT.end())
     {
-        m_out << "Unknown command: \"" << commands[0] << "\"\n";
+        m_out << "Неизвестная команда: \"" << commands[0] << "\"\n";
         return false;
     }
     if (REQUIRED_COMMAND_ARG_COUNT.at(commands[0]) != commands.size() - 1)
     {
-        m_out << "Command \"" << commands[0] << "\" requires " << REQUIRED_COMMAND_ARG_COUNT.at(commands[0]) << " arguments \n"
-            << "For more details, see \"help\"\n";
+        m_out << "Команда \"" << commands[0] << "\" требует " << REQUIRED_COMMAND_ARG_COUNT.at(commands[0]) << " аргумент(ов) \n"
+            << "Для подробностей, напишите \"help\"\n";
         return false;
     }
     if (commands[0] == "info")
