@@ -41,7 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lab_3", "Lab_3", "{EF0AB69D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lab_4", "Lab_4", "{27F6676D-43BF-4787-ACA4-5BF4AF0DC900}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shape", "Shape\Shape.vcxproj", "{DC4A7269-62E7-41AC-A5CA-66D57B39F572}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shape", "Lab_4\Shape\Shape.vcxproj", "{DC4A7269-62E7-41AC-A5CA-66D57B39F572}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
