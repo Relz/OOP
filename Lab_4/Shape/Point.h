@@ -4,7 +4,7 @@ class CPoint
 public:
     CPoint() = default;
     CPoint(double x, double y);
-    ~CPoint();
+    ~CPoint() = default;
     double x = 0.0; 
     double y = 0.0;
 };

@@ -148,13 +148,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Shape\LineSegment.cpp" />
     <ClCompile Include="..\Shape\Point.cpp" />
+    <ClCompile Include="LineSegmentTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PointTest.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="VerifyPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="VerifyPoint.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

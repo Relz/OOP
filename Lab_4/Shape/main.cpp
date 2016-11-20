@@ -1,5 +1,11 @@
 #include "stdafx.h"
 #include "Point.h"
+#include "Shape.h"
+#include "LineSegment.h"
+#include "SolidShape.h"
+#include "Triangle.h"
+#include "Rectangle.h"
+#include "Circle.h"
 
 using namespace std;
 

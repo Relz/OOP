@@ -7,8 +7,3 @@ CPoint::CPoint(double x, double y)
     , y(y)
 {
 }
-
-
-CPoint::~CPoint()
-{
-}
