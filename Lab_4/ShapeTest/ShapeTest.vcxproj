@@ -148,10 +148,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Shape\Circle.cpp" />
     <ClCompile Include="..\Shape\LineSegment.cpp" />
     <ClCompile Include="..\Shape\Point.cpp" />
     <ClCompile Include="..\Shape\Rectangle.cpp" />
     <ClCompile Include="..\Shape\Triangle.cpp" />
+    <ClCompile Include="CircleTest.cpp" />
     <ClCompile Include="LineSegmentTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PointTest.cpp" />
