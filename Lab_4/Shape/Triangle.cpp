@@ -49,11 +49,6 @@ double CTriangle::GetPerimeter() const
         GetSideLength(m_vertices[2], m_vertices[0]);
 }
 
-std::string CTriangle::ToString() const
-{
-    return "Triangle";
-}
-
 std::string CTriangle::GetOutlineColor() const
 {
     return m_outlineColor;
@@ -77,4 +72,19 @@ CPoint const& CTriangle::GetVertex2() const
 CPoint const& CTriangle::GetVertex3() const
 {
     return m_vertices[2];
+}
+
+std::string CTriangle::ToString() const
+{
+    return (std::string("Type: Triangle") + "\n"
+        + "Area: " + std::to_string(GetArea()) + "\n"
+        + "Perimeter: " + std::to_string(GetPerimeter()) + "\n"
+        + "Outline color: " + GetOutlineColor() + "\n"
+        + "Fill color: " + GetFillColor() + "\n"
+        + "Vertex 1: " + GetVertex1().ToString() + "\n"
+        + "Vertex 2: " + GetVertex2().ToString() + "\n"
+        + "Vertex 3: " + GetVertex3().ToString() + "\n"
+        + "Side length 1: " + std::to_string(GetSideLength(GetVertex1(), GetVertex2())) + "\n"
+        + "Side length 2: " + std::to_string(GetSideLength(GetVertex2(), GetVertex3())) + "\n"
+        + "Side length 3: " + std::to_string(GetSideLength(GetVertex3(), GetVertex1())) + "\n");
 }
