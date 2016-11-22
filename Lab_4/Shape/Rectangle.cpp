@@ -23,11 +23,6 @@ double CRectangle::GetPerimeter() const
     return (m_width + m_height) * 2;
 }
 
-std::string CRectangle::ToString() const
-{
-    return "Rectangle";
-}
-
 std::string CRectangle::GetOutlineColor() const
 {
     return m_outlineColor;
@@ -56,4 +51,17 @@ double CRectangle::GetWidth() const
 double CRectangle::GetHeight() const
 {
     return m_height;
+}
+
+std::string CRectangle::ToString() const
+{
+    return (std::string("Type: Rectangle") + "\n"
+        + "Area: " + std::to_string(GetArea()) + "\n"
+        + "Perimeter: " + std::to_string(GetPerimeter()) + "\n"
+        + "Outline color: " + GetOutlineColor() + "\n"
+        + "Fill color: " + GetFillColor() + "\n"
+        + "Left-Top point: " + GetLeftTop().ToString() + "\n"
+        + "Right-Bottom point: " + GetRightBottom().ToString() + "\n"
+        + "Width: " + std::to_string(GetWidth()) + "\n"
+        + "Height: " + std::to_string(GetHeight()) + "\n");
 }
