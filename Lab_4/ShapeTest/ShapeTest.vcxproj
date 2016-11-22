@@ -150,10 +150,12 @@
   <ItemGroup>
     <ClCompile Include="..\Shape\LineSegment.cpp" />
     <ClCompile Include="..\Shape\Point.cpp" />
+    <ClCompile Include="..\Shape\Triangle.cpp" />
     <ClCompile Include="LineSegmentTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PointTest.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TriangleTest.cpp" />
     <ClCompile Include="VerifyPoint.cpp" />
   </ItemGroup>
   <ItemGroup>

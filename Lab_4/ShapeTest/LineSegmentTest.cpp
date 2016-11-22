@@ -20,6 +20,10 @@ BOOST_FIXTURE_TEST_SUITE(LineSegment_class, LineSegmentFixture)
     {
         BOOST_CHECK_EQUAL(line.GetPerimeter(), 5);
     }
+    BOOST_AUTO_TEST_CASE(has_outline_color)
+    {
+        BOOST_CHECK_EQUAL(line.GetOutlineColor(), "#000000");
+    }
     BOOST_AUTO_TEST_CASE(can_get_start_point)
     {
         VerifyPoint(line.GetStartPoint(), 5, 10);

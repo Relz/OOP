@@ -6,10 +6,10 @@ class CTriangle :
     public ISolidShape
 {
 public:
-    CTriangle(CPoint const& firstVertex, CPoint const& secondVertex, CPoint const& thirdVertex, 
+    CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3, 
               std::string const& outlineColor, std::string const& fillColor);
     virtual ~CTriangle() = default;
-    double CTriangle::GetSideLength(CPoint const& firstVertex, CPoint const& secondVertex) const;
+    double CTriangle::GetSideLength(CPoint const& vertex1, CPoint const& vertex2) const;
     double GetArea() const override;
     double GetPerimeter() const override;
     std::string ToString() const override;
