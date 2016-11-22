@@ -24,11 +24,11 @@ BOOST_FIXTURE_TEST_SUITE(LineSegment_class, LineSegmentFixture)
     {
         BOOST_CHECK_EQUAL(line.GetOutlineColor(), "#000000");
     }
-    BOOST_AUTO_TEST_CASE(can_get_start_point)
+    BOOST_AUTO_TEST_CASE(has_start_point)
     {
         VerifyPoint(line.GetStartPoint(), 5, 10);
     }
-    BOOST_AUTO_TEST_CASE(can_get_end_point)
+    BOOST_AUTO_TEST_CASE(has_end_point)
     {
         VerifyPoint(line.GetEndPoint(), 9, 7);
     }
