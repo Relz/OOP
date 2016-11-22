@@ -20,11 +20,6 @@ double CCircle::GetPerimeter() const
     return 2 * M_PI * m_radius;
 }
 
-std::string CCircle::ToString() const
-{
-    return "CCircle";
-}
-
 std::string CCircle::GetOutlineColor() const
 {
     return m_outlineColor;
@@ -43,4 +38,15 @@ CPoint const& CCircle::GetCenter() const
 double CCircle::GetRadius() const
 {
     return m_radius;
+}
+
+std::string CCircle::ToString() const
+{
+    return (std::string("Type: Circle") + "\n"
+        + "Area: " + std::to_string(GetArea()) + "\n"
+        + "Circumference: " + std::to_string(GetPerimeter()) + "\n"
+        + "Outline color: " + GetOutlineColor() + "\n"
+        + "Fill color: " + GetFillColor() + "\n"
+        + "Center point: " + GetCenter().ToString() + "\n"
+        + "Radius: " + std::to_string(GetRadius()) + "\n");
 }
