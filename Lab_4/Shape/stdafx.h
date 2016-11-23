@@ -8,5 +8,6 @@
 #include <map>
 #include <functional>
 #include <boost/shared_ptr.hpp>
+#include <SFML/Graphics.hpp>
 #define _USE_MATH_DEFINES
 #include <math.h>

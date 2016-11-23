@@ -42,3 +42,9 @@ std::string CLineSegment::ToString() const
         + "Start point: " + GetStartPoint().ToString() + "\n"
         + "End point: " + GetEndPoint().ToString() + "\n");
 }
+
+void CLineSegment::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    //states.transform *= getTransform();
+    //target.draw(p_rect, states);
+}

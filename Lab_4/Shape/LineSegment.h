@@ -15,6 +15,7 @@ public:
     CPoint const& GetStartPoint() const;
     CPoint const& GetEndPoint() const;
 private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     std::string m_outlineColor;
     CPoint m_startPoint;
     CPoint m_endPoint;
