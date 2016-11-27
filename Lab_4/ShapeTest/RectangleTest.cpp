@@ -14,11 +14,11 @@ BOOST_FIXTURE_TEST_SUITE(Rectangle_class, RectangleFixture)
 
     BOOST_AUTO_TEST_CASE(has_area)
     {
-        BOOST_CHECK_CLOSE_FRACTION(rectangle.GetArea(), 5000, 0.0001);
+        BOOST_CHECK_CLOSE_FRACTION(rectangle.GetArea(), 50 * 100, 0.0001);
     }
     BOOST_AUTO_TEST_CASE(has_perimeter)
     {
-        BOOST_CHECK_CLOSE_FRACTION(rectangle.GetPerimeter(), 300, 0.0001);
+        BOOST_CHECK_CLOSE_FRACTION(rectangle.GetPerimeter(), (50 + 100) * 2, 0.0001);
     }
     BOOST_AUTO_TEST_CASE(has_outline_color)
     {
@@ -34,7 +34,7 @@ BOOST_FIXTURE_TEST_SUITE(Rectangle_class, RectangleFixture)
     }
     BOOST_AUTO_TEST_CASE(has_right_bottom)
     {
-        VerifyPoint(rectangle.GetRightBottom(), 51, 101);
+        VerifyPoint(rectangle.GetRightBottom(), 1 + 50, 1 + 100);
     }
     BOOST_AUTO_TEST_CASE(has_width)
     {

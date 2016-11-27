@@ -14,11 +14,11 @@ BOOST_FIXTURE_TEST_SUITE(Circle_class, CircleFixture)
 
     BOOST_AUTO_TEST_CASE(has_area)
     {
-        BOOST_CHECK_CLOSE_FRACTION(circle.GetArea(), 78.5398, 0.0001);
+        BOOST_CHECK_CLOSE_FRACTION(circle.GetArea(), M_PI * 5 * 5, 0.0001);
     }
     BOOST_AUTO_TEST_CASE(has_perimeter)
     {
-        BOOST_CHECK_CLOSE_FRACTION(circle.GetPerimeter(), 31.4159, 0.0001);
+        BOOST_CHECK_CLOSE_FRACTION(circle.GetPerimeter(), 2 * M_PI * 5, 0.0001);
     }
     BOOST_AUTO_TEST_CASE(has_outline_color)
     {

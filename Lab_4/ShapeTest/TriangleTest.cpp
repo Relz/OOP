@@ -2,6 +2,28 @@
 #include "VerifyPoint.h"
 #include "..\Shape\Triangle.h"
 
+double GetSideLength(CPoint const& vertex1, CPoint const& vertex2)
+{
+    return std::hypot(vertex2.x - vertex1.x, vertex2.y - vertex1.y);
+}
+
+double GetPerimeter(CTriangle &triangle)
+{
+    return GetSideLength(triangle.GetVertex1(), triangle.GetVertex2()) +
+        GetSideLength(triangle.GetVertex2(), triangle.GetVertex3()) +
+        GetSideLength(triangle.GetVertex3(), triangle.GetVertex1());
+}
+
+double GetArea(CTriangle &triangle)
+{
+    double semiperimeter = GetPerimeter(triangle) / 2;
+    return std::sqrt(semiperimeter *
+        (semiperimeter - GetSideLength(triangle.GetVertex1(), triangle.GetVertex2())) *
+        (semiperimeter - GetSideLength(triangle.GetVertex2(), triangle.GetVertex3())) *
+        (semiperimeter - GetSideLength(triangle.GetVertex3(), triangle.GetVertex1()))
+    );
+}
+
 struct TriangleFixture
 {
     CTriangle triangle;
@@ -28,13 +50,13 @@ BOOST_FIXTURE_TEST_SUITE(Triangle_class, TriangleFixture)
     {
         BOOST_CHECK_EQUAL(triangle.GetSideLength(triangle.GetVertex1(), triangle.GetVertex2()), 5);
     }
-    BOOST_AUTO_TEST_CASE(has_area)
-    {
-        BOOST_CHECK_CLOSE_FRACTION(triangle.GetArea(), 2.5, 0.0001);
-    }
     BOOST_AUTO_TEST_CASE(has_perimeter)
     {
-        BOOST_CHECK_CLOSE_FRACTION(triangle.GetPerimeter(), 10.3983, 0.0001);
+        BOOST_CHECK_CLOSE_FRACTION(triangle.GetPerimeter(), GetPerimeter(triangle), 0.0001);
+    }
+    BOOST_AUTO_TEST_CASE(has_area)
+    {
+        BOOST_CHECK_CLOSE_FRACTION(triangle.GetArea(), GetArea(triangle), 0.0001);
     }
     BOOST_AUTO_TEST_CASE(has_outline_color)
     {
