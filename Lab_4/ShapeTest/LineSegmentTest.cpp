@@ -6,7 +6,7 @@ struct LineSegmentFixture
 {
     CLineSegment line;
     LineSegmentFixture()
-        :line({ 5, 10 }, { 9, 7 }, "#000000")
+        :line({ 5, 10 }, { 9, 7 }, "000000")
     {}
 };
 
@@ -22,7 +22,7 @@ BOOST_FIXTURE_TEST_SUITE(LineSegment_class, LineSegmentFixture)
     }
     BOOST_AUTO_TEST_CASE(has_outline_color)
     {
-        BOOST_CHECK_EQUAL(line.GetOutlineColor(), "#000000");
+        BOOST_CHECK_EQUAL(line.GetOutlineColor(), "000000");
     }
     BOOST_AUTO_TEST_CASE(has_start_point)
     {
