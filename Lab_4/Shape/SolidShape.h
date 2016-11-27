@@ -7,7 +7,7 @@ public:
     CSolidShape(std::string outlineColor, std::string fillColor);
     ~CSolidShape() = default;
     std::string GetFillColor() const override final;
-private:
+protected:
     std::string m_fillColor;
 };
 

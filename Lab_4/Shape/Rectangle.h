@@ -20,3 +20,4 @@ private:
     double m_height;
 };
 
+bool operator >> (std::istream & in, std::shared_ptr<CRectangle> & rectangle);

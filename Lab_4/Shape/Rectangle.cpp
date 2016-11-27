@@ -53,3 +53,18 @@ std::string CRectangle::ToString() const
         + "Width: " + std::to_string(GetWidth()) + "\n"
         + "Height: " + std::to_string(GetHeight()) + "\n");
 }
+
+bool operator >> (std::istream & in, std::shared_ptr<CRectangle> & rectangle)
+{
+    CPoint leftTop;
+    double width;
+    double height;
+    std::string outlineColor;
+    std::string fillColor;
+    if (in >> leftTop && in >> width && in >> height && in >> outlineColor && in >> fillColor)
+    {
+        rectangle = std::make_shared<CRectangle>(leftTop, width, height, outlineColor, fillColor);
+        return true;
+    }
+    return false;
+}

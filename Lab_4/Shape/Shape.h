@@ -10,7 +10,7 @@ public:
     virtual double GetPerimeter() const = 0;
     virtual std::string ToString() const = 0;
     std::string GetOutlineColor() const override final;
-private:
+protected:
     std::string m_outlineColor;
 };
 

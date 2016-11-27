@@ -10,3 +10,4 @@ public:
     double y = 0.0;
 };
 
+bool operator >> (std::istream & in, CPoint & point);

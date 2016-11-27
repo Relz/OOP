@@ -17,3 +17,4 @@ private:
     double m_radius = 0;
 };
 
+bool operator >> (std::istream & in, std::shared_ptr<CCircle> & circle);

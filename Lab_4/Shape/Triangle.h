@@ -20,3 +20,4 @@ private:
     CPoint m_vertices[3] = {};
 };
 
+bool operator >> (std::istream & in, std::shared_ptr<CTriangle> & triangle);

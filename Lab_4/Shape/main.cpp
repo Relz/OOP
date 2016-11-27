@@ -21,64 +21,45 @@ bool IsValidArgumentsCount(int argc)
     return (argc == ARG_COUNT);
 }
 
-bool AddLine(istream & args, vector<shared_ptr<CShape>> &shapes)
+bool CreateLine(istream & args, shared_ptr<CShape> &shape)
 {
-    CPoint startPoint;
-    CPoint endPoint;
-    string outlineColor;
-    if (args >> startPoint.x && args >> startPoint.y && args >> endPoint.x && args >> endPoint.y && args >> outlineColor)
+    shared_ptr<CLineSegment> line;
+    if (args >> line)
     {
-        shapes.push_back(make_shared<CLineSegment>(startPoint, endPoint, outlineColor));
+        shape = line;
         return true;
     }
     return false;
 }
 
-bool AddTriangle(istream & args, vector<shared_ptr<CShape>> &shapes)
+bool CreateTriangle(istream & args, shared_ptr<CShape> &shape)
 {
-    CPoint vertex1;
-    CPoint vertex2;
-    CPoint vertex3;
-    string outlineColor;
-    string fillColor;
-    if (args >> vertex1.x && args >> vertex1.y 
-        && args >> vertex2.x && args >> vertex2.y 
-        && args >> vertex3.x && args >> vertex3.y
-        && args >> outlineColor && args >> fillColor)
+    shared_ptr<CTriangle> triangle;
+    if (args >> triangle)
     {
-        shapes.push_back(make_shared<CTriangle>(vertex1, vertex2, vertex3, outlineColor, fillColor));
+        shape = triangle;
         return true;
     }
     return false;
 }
 
-bool AddRectangle(istream & args, vector<shared_ptr<CShape>> &shapes)
+bool CreateRectangle(istream & args, shared_ptr<CShape> &shape)
 {
-    CPoint leftTop;
-    double width;
-    double height;
-    string outlineColor;
-    string fillColor;
-    if (args >> leftTop.x && args >> leftTop.y
-        && args >> width && args >> height
-        && args >> outlineColor && args >> fillColor)
+    shared_ptr<CRectangle> rectangle;
+    if (args >> rectangle)
     {
-        shapes.push_back(make_shared<CRectangle>(leftTop, width, height, outlineColor, fillColor));
+        shape = rectangle;
         return true;
     }
     return false;
 }
 
-bool AddCircle(istream & args, vector<shared_ptr<CShape>> &shapes)
+bool CreateCircle(istream & args, shared_ptr<CShape> &shape)
 {
-    CPoint center;
-    double radius;
-    string outlineColor;
-    string fillColor;
-    if (args >> center.x && args >> center.y
-        && args >> radius && args >> outlineColor && args >> fillColor)
+    shared_ptr<CCircle> circle;
+    if (args >> circle)
     {
-        shapes.push_back(make_shared<CCircle>(center, radius, outlineColor, fillColor));
+        shape = circle;
         return true;
     }
     return false;
@@ -86,6 +67,10 @@ bool AddCircle(istream & args, vector<shared_ptr<CShape>> &shapes)
 
 shared_ptr<CShape> GetMaxAreaShape(vector<shared_ptr<CShape>> const& shapes)
 {
+    if (shapes.empty())
+    {
+        return nullptr;
+    }
     return *min_element(shapes.begin(), shapes.end(), 
         [&](shared_ptr<CShape> const& shape1, shared_ptr<CShape> const& shape2)
         {
@@ -95,6 +80,10 @@ shared_ptr<CShape> GetMaxAreaShape(vector<shared_ptr<CShape>> const& shapes)
 
 shared_ptr<CShape> GetMinPerimeterShape(vector<shared_ptr<CShape>> const& shapes)
 {
+    if (shapes.empty())
+    {
+        return nullptr;
+    }
     return *min_element(shapes.begin(), shapes.end(), 
         [&](shared_ptr<CShape> const& shape1, shared_ptr<CShape> const& shape2)
         {
@@ -102,8 +91,13 @@ shared_ptr<CShape> GetMinPerimeterShape(vector<shared_ptr<CShape>> const& shapes
         });
 }
 
-void PrintShapes(vector<shared_ptr<CShape>> &shapes)
+void PrintShapes(vector<shared_ptr<CShape>> const& shapes)
 {
+    if (shapes.empty())
+    {
+        return;
+    }
+
     for (auto shape : shapes)
     {
         cout << shape->ToString() << "\n";
@@ -130,12 +124,12 @@ int main(int argc, char * argv[])
         return 1;
     }
 
-    map<string, function<bool(istream & args, vector<shared_ptr<CShape>> &shapes)>> actions
+    map<string, function<bool(istream & args, shared_ptr<CShape> &shape)>> actions = 
     {
-        {"Line", bind(&AddLine, _1, _2)},
-        {"Triangle", bind(&AddTriangle, _1, _2)},
-        {"Rectangle", bind(&AddRectangle, _1, _2)},
-        {"Circle", bind(&AddCircle, _1, _2)}
+        {"Line", bind(&CreateLine, _1, _2)},
+        {"Triangle", bind(&CreateTriangle, _1, _2)},
+        {"Rectangle", bind(&CreateRectangle, _1, _2)},
+        {"Circle", bind(&CreateCircle, _1, _2)}
     };
 
     size_t currentLine = 0;
@@ -151,17 +145,18 @@ int main(int argc, char * argv[])
         if (ss >> action)
         {
             auto it = actions.find(action);
-            if (it != actions.end())
-            {
-                if (!it->second(ss, shapes))
-                {
-                    cout << "Line #" << currentLine << ": Unable to parse line: " << line << "\n";
-                }
-            }
-            else
+            if (it == actions.end())
             {
                 cout << "Line #" << currentLine << ": Unknown shape: " << action << "\n";
+                continue;
             }
+            shared_ptr<CShape> shape;
+            if (!it->second(ss, shape))
+            {
+                cout << "Line #" << currentLine << ": Unable to parse line: " << line << "\n";
+                continue;
+            }
+            shapes.push_back(shape);
         }
     }
 

@@ -28,6 +28,21 @@ CPoint const& CLineSegment::GetEndPoint() const
     return m_endPoint;
 }
 
+void CLineSegment::SetStartPoint(CPoint const& startPoint)
+{
+    m_startPoint = startPoint;
+}
+
+void CLineSegment::SetEndPoint(CPoint const& endPoint)
+{
+    m_endPoint = endPoint;
+}
+
+void CLineSegment::SetOutlineColor(std::string const& outlineColor)
+{
+    m_outlineColor = outlineColor;
+}
+
 std::string CLineSegment::ToString() const
 {
     return (std::string("Type: Line") + "\n"
@@ -36,4 +51,17 @@ std::string CLineSegment::ToString() const
         + "Outline color: " + GetOutlineColor() + "\n"
         + "Start point: " + GetStartPoint().ToString() + "\n"
         + "End point: " + GetEndPoint().ToString() + "\n");
+}
+
+bool operator >> (std::istream & in, std::shared_ptr<CLineSegment> & line)
+{
+    CPoint startPoint;
+    CPoint endPoint;
+    std::string outlineColor;
+    if (in >> startPoint && in >> endPoint && in >> outlineColor)
+    {
+        line = std::make_shared<CLineSegment>(startPoint, endPoint, outlineColor);
+        return true;
+    }
+    return false;
 }

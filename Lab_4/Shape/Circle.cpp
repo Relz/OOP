@@ -38,3 +38,17 @@ std::string CCircle::ToString() const
         + "Center point: " + GetCenter().ToString() + "\n"
         + "Radius: " + std::to_string(GetRadius()) + "\n");
 }
+
+bool operator >> (std::istream & in, std::shared_ptr<CCircle> & circle)
+{
+    CPoint center;
+    double radius;
+    std::string outlineColor;
+    std::string fillColor;
+    if (in >> center && in >> radius && in >> outlineColor && in >> fillColor)
+    {
+        circle = std::make_shared<CCircle>(center, radius, outlineColor, fillColor);
+        return true;
+    }
+    return false;
+}

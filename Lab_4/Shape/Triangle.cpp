@@ -77,3 +77,18 @@ std::string CTriangle::ToString() const
         + "Side length 2: " + std::to_string(GetSideLength(GetVertex2(), GetVertex3())) + "\n"
         + "Side length 3: " + std::to_string(GetSideLength(GetVertex3(), GetVertex1())) + "\n");
 }
+
+bool operator >> (std::istream & in, std::shared_ptr<CTriangle> & triangle)
+{
+    CPoint vertex1;
+    CPoint vertex2;
+    CPoint vertex3;
+    std::string outlineColor;
+    std::string fillColor;
+    if (in >> vertex1 && in >> vertex2 && in >> vertex3 && in >> outlineColor && in >> fillColor)
+    {
+        triangle = std::make_shared<CTriangle>(vertex1, vertex2, vertex3, outlineColor, fillColor);
+        return true;
+    }
+    return false;
+}

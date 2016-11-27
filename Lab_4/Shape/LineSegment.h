@@ -13,9 +13,14 @@ public:
 
     CPoint const& GetStartPoint() const;
     CPoint const& GetEndPoint() const;
+
+    void SetStartPoint(CPoint const& startPoint);
+    void SetEndPoint(CPoint const& endPoint);
+    void SetOutlineColor(std::string const& outlineColor);
 private:
     std::string m_outlineColor;
     CPoint m_startPoint;
     CPoint m_endPoint;
 };
 
+bool operator >> (std::istream & in, std::shared_ptr<CLineSegment> & line);
