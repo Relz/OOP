@@ -15,8 +15,8 @@ bool AreValidTriangleVertices(CPoint const& vertex1, CPoint const& vertex2, CPoi
 
 CTriangle::CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3,
                      std::string const& outlineColor, std::string const& fillColor)
-    : m_outlineColor(outlineColor)
-    , m_fillColor(fillColor)
+    : CSolidShape(fillColor)
+    , m_outlineColor(outlineColor)
 {
     if (!AreValidTriangleVertices(vertex1, vertex2, vertex3))
     {
@@ -52,11 +52,6 @@ double CTriangle::GetPerimeter() const
 std::string CTriangle::GetOutlineColor() const
 {
     return m_outlineColor;
-}
-
-std::string CTriangle::GetFillColor() const
-{
-    return m_fillColor;
 }
 
 CPoint const& CTriangle::GetVertex1() const

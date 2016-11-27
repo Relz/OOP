@@ -158,6 +158,7 @@
     <ClCompile Include="..\Shape\LineSegment.cpp" />
     <ClCompile Include="..\Shape\Point.cpp" />
     <ClCompile Include="..\Shape\Rectangle.cpp" />
+    <ClCompile Include="..\Shape\SolidShape.cpp" />
     <ClCompile Include="..\Shape\Triangle.cpp" />
     <ClCompile Include="CircleTest.cpp" />
     <ClCompile Include="LineSegmentTest.cpp" />

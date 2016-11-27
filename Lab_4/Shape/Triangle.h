@@ -2,7 +2,7 @@
 #include "Point.h"
 #include "SolidShape.h"
 
-class CTriangle : public ISolidShape
+class CTriangle : public CSolidShape
 {
 public:
     CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3, 
@@ -13,7 +13,6 @@ public:
     double GetPerimeter() const override;
     std::string ToString() const override;
     std::string GetOutlineColor() const override;
-    std::string GetFillColor() const override;
 
     CPoint const& GetVertex1() const;
     CPoint const& GetVertex2() const;

@@ -6,7 +6,7 @@ struct RectangleFixture
 {
     CRectangle rectangle;
     RectangleFixture()
-        :rectangle({1, 1}, 50, 100, "#000000", "#0000FF")
+        :rectangle({1, 1}, 50, 100, "000000", "0000FF")
     {}
 };
 
@@ -22,11 +22,11 @@ BOOST_FIXTURE_TEST_SUITE(Rectangle_class, RectangleFixture)
     }
     BOOST_AUTO_TEST_CASE(has_outline_color)
     {
-        BOOST_CHECK_EQUAL(rectangle.GetOutlineColor(), "#000000");
+        BOOST_CHECK_EQUAL(rectangle.GetOutlineColor(), "000000");
     }
     BOOST_AUTO_TEST_CASE(has_fill_color)
     {
-        BOOST_CHECK_EQUAL(rectangle.GetFillColor(), "#0000FF");
+        BOOST_CHECK_EQUAL(rectangle.GetFillColor(), "0000FF");
     }
     BOOST_AUTO_TEST_CASE(has_left_top)
     {

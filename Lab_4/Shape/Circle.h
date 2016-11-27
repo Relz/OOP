@@ -2,7 +2,7 @@
 #include "Point.h"
 #include "SolidShape.h"
 
-class CCircle : public ISolidShape
+class CCircle : public CSolidShape
 {
 public:
     CCircle(CPoint const& center, double radius, std::string const& outlineColor, std::string const& fillColor);
@@ -11,7 +11,6 @@ public:
     double GetPerimeter() const;
     std::string ToString() const;
     std::string GetOutlineColor() const;
-    std::string GetFillColor() const;
     CPoint const& GetCenter() const;
     double GetRadius() const;
 private:
