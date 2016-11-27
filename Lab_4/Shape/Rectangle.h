@@ -10,7 +10,6 @@ public:
     double GetArea() const override;
     double GetPerimeter() const override;
     std::string ToString() const override;
-    std::string GetOutlineColor() const override;
     CPoint const& GetLeftTop() const;
     CPoint const GetRightBottom() const;
     double GetWidth() const;
@@ -19,7 +18,5 @@ private:
     CPoint m_leftTop;
     double m_width;
     double m_height;
-    std::string m_outlineColor;
-    std::string m_fillColor;
 };
 

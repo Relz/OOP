@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "Point.h"
 #include "IShape.h"
+#include "Shape.h"
 #include "LineSegment.h"
 #include "ISolidShape.h"
+#include "SolidShape.h"
 #include "Triangle.h"
 #include "Rectangle.h"
 #include "Circle.h"
@@ -46,7 +48,7 @@ bool IsValidInputFile(char* inputFileName, ifstream &inputFile)
     return true;
 }
 
-bool AddLine(istream & args, vector<shared_ptr<IShape>> &shapes)
+bool AddLine(istream & args, vector<shared_ptr<CShape>> &shapes)
 {
     CPoint startPoint;
     CPoint endPoint;
@@ -59,7 +61,7 @@ bool AddLine(istream & args, vector<shared_ptr<IShape>> &shapes)
     return false;
 }
 
-bool AddTriangle(istream & args, vector<shared_ptr<IShape>> &shapes)
+bool AddTriangle(istream & args, vector<shared_ptr<CShape>> &shapes)
 {
     CPoint vertex1;
     CPoint vertex2;
@@ -77,7 +79,7 @@ bool AddTriangle(istream & args, vector<shared_ptr<IShape>> &shapes)
     return false;
 }
 
-bool AddRectangle(istream & args, vector<shared_ptr<IShape>> &shapes)
+bool AddRectangle(istream & args, vector<shared_ptr<CShape>> &shapes)
 {
     CPoint leftTop;
     double width;
@@ -94,7 +96,7 @@ bool AddRectangle(istream & args, vector<shared_ptr<IShape>> &shapes)
     return false;
 }
 
-bool AddCircle(istream & args, vector<shared_ptr<IShape>> &shapes)
+bool AddCircle(istream & args, vector<shared_ptr<CShape>> &shapes)
 {
     CPoint center;
     double radius;
@@ -109,25 +111,25 @@ bool AddCircle(istream & args, vector<shared_ptr<IShape>> &shapes)
     return false;
 }
 
-shared_ptr<IShape> GetMaxAreaShape(vector<shared_ptr<IShape>> &shapes)
+shared_ptr<CShape> GetMaxAreaShape(vector<shared_ptr<CShape>> const& shapes)
 {
-    return *min_element(shapes.begin(), shapes.end(), [&]
-    (shared_ptr<IShape> const& shape1, shared_ptr<IShape> const& shape2)
-    {
-        return shape1->GetArea() > shape2->GetArea();
-    });
+    return *min_element(shapes.begin(), shapes.end(), 
+        [&](shared_ptr<CShape> const& shape1, shared_ptr<CShape> const& shape2)
+        {
+            return shape1->GetArea() > shape2->GetArea();
+        });
 }
 
-shared_ptr<IShape> GetMinPerimeterShape(vector<shared_ptr<IShape>> &shapes)
+shared_ptr<CShape> GetMinPerimeterShape(vector<shared_ptr<CShape>> const& shapes)
 {
-    return *min_element(shapes.begin(), shapes.end(), [&]
-    (shared_ptr<IShape> const& shape1, shared_ptr<IShape> const& shape2)
-    {
-        return shape1->GetPerimeter() < shape2->GetPerimeter();
-    });
+    return *min_element(shapes.begin(), shapes.end(), 
+        [&](shared_ptr<CShape> const& shape1, shared_ptr<CShape> const& shape2)
+        {
+            return shape1->GetPerimeter() < shape2->GetPerimeter();
+        });
 }
 
-void PrintShapes(vector<shared_ptr<IShape>> &shapes)
+void PrintShapes(vector<shared_ptr<CShape>> &shapes)
 {
     for (auto shape : shapes)
     {
@@ -153,7 +155,7 @@ int main(int argc, char * argv[])
         return 1;
     }
 
-    map<string, function<bool(istream & args, vector<shared_ptr<IShape>> &shapes)>> actions
+    map<string, function<bool(istream & args, vector<shared_ptr<CShape>> &shapes)>> actions
     {
         {"Line", bind(&AddLine, _1, _2)},
         {"Triangle", bind(&AddTriangle, _1, _2)},
@@ -162,7 +164,7 @@ int main(int argc, char * argv[])
     };
 
     size_t currentLine = 0;
-    vector<shared_ptr<IShape>> shapes;
+    vector<shared_ptr<CShape>> shapes;
     stringstream ss;
     string line;
     while (getline(inputFile, line))

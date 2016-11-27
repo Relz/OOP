@@ -2,10 +2,9 @@
 #include "Circle.h"
 
 CCircle::CCircle(CPoint const& center, double radius, std::string const& outlineColor, std::string const& fillColor)
-    : CSolidShape(fillColor)
+    : CSolidShape(outlineColor, fillColor)
     , m_center(center)
     , m_radius(radius)
-    , m_outlineColor(outlineColor)
 {
 }
 
@@ -17,11 +16,6 @@ double CCircle::GetArea() const
 double CCircle::GetPerimeter() const
 {
     return 2 * M_PI * m_radius;
-}
-
-std::string CCircle::GetOutlineColor() const
-{
-    return m_outlineColor;
 }
 
 CPoint const& CCircle::GetCenter() const

@@ -1,10 +1,10 @@
 #pragma once
-#include "IShape.h"
+#include "Shape.h"
 
-class ISolidShape : public IShape
+class ISolidShape : public CShape
 {
 public:
-    ISolidShape() = default;
+    ISolidShape(std::string outlineColor);
     ~ISolidShape() = default;
     virtual std::string GetFillColor() const = 0;
 };

@@ -15,8 +15,7 @@ bool AreValidTriangleVertices(CPoint const& vertex1, CPoint const& vertex2, CPoi
 
 CTriangle::CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3,
                      std::string const& outlineColor, std::string const& fillColor)
-    : CSolidShape(fillColor)
-    , m_outlineColor(outlineColor)
+    : CSolidShape(outlineColor, fillColor)
 {
     if (!AreValidTriangleVertices(vertex1, vertex2, vertex3))
     {
@@ -49,11 +48,6 @@ double CTriangle::GetPerimeter() const
         GetSideLength(m_vertices[2], m_vertices[0]);
 }
 
-std::string CTriangle::GetOutlineColor() const
-{
-    return m_outlineColor;
-}
-
 CPoint const& CTriangle::GetVertex1() const
 {
     return m_vertices[0];
@@ -74,8 +68,8 @@ std::string CTriangle::ToString() const
     return (std::string("Type: Triangle") + "\n"
         + "Area: " + std::to_string(GetArea()) + "\n"
         + "Perimeter: " + std::to_string(GetPerimeter()) + "\n"
-        + "Outline color: " + GetOutlineColor() + "\n"
-        + "Fill color: " + GetFillColor() + "\n"
+        //+ "Outline color: " + GetOutlineColor() + "\n"
+        //+ "Fill color: " + GetFillColor() + "\n"
         + "Vertex 1: " + GetVertex1().ToString() + "\n"
         + "Vertex 2: " + GetVertex2().ToString() + "\n"
         + "Vertex 3: " + GetVertex3().ToString() + "\n"

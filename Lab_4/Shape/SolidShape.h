@@ -4,7 +4,7 @@
 class CSolidShape: public ISolidShape
 {
 public:
-    CSolidShape(std::string fillColor);
+    CSolidShape(std::string outlineColor, std::string fillColor);
     ~CSolidShape() = default;
     std::string GetFillColor() const override final;
 private:

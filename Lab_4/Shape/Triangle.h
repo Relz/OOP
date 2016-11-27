@@ -12,14 +12,11 @@ public:
     double GetArea() const override;
     double GetPerimeter() const override;
     std::string ToString() const override;
-    std::string GetOutlineColor() const override;
 
     CPoint const& GetVertex1() const;
     CPoint const& GetVertex2() const;
     CPoint const& GetVertex3() const;
 private:
     CPoint m_vertices[3] = {};
-    std::string m_outlineColor;
-    std::string m_fillColor;
 };
 

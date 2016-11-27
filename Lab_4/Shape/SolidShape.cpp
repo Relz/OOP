@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "SolidShape.h"
 
-CSolidShape::CSolidShape(std::string fillColor)
-    : m_fillColor(fillColor)
+CSolidShape::CSolidShape(std::string outlineColor, std::string fillColor)
+    : ISolidShape(outlineColor)
+    , m_fillColor(fillColor)
 {
 
 }

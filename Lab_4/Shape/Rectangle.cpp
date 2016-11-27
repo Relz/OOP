@@ -4,11 +4,10 @@
 CRectangle::CRectangle(CPoint const& leftTop,
     double width, double height,
     std::string const& outlineColor, std::string const& fillColor)
-    : CSolidShape(fillColor)
+    : CSolidShape(outlineColor, fillColor)
     , m_leftTop(leftTop)
     , m_width(width)
     , m_height(height)
-    , m_outlineColor(outlineColor)
 {
 }
 
@@ -20,11 +19,6 @@ double CRectangle::GetArea() const
 double CRectangle::GetPerimeter() const
 {
     return (m_width + m_height) * 2;
-}
-
-std::string CRectangle::GetOutlineColor() const
-{
-    return m_outlineColor;
 }
 
 CPoint const& CRectangle::GetLeftTop() const
