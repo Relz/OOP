@@ -2,13 +2,12 @@
 #include "Point.h"
 #include "SolidShape.h"
 
-class CTriangle :
-    public ISolidShape
+class CTriangle : public ISolidShape
 {
 public:
     CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3, 
               std::string const& outlineColor, std::string const& fillColor);
-    virtual ~CTriangle() = default;
+    ~CTriangle() = default;
     double CTriangle::GetSideLength(CPoint const& vertex1, CPoint const& vertex2) const;
     double GetArea() const override;
     double GetPerimeter() const override;

@@ -7,7 +7,7 @@ class CCircle :
 {
 public:
     CCircle(CPoint const& center, double radius, std::string const& outlineColor, std::string const& fillColor);
-    virtual ~CCircle() = default;
+    ~CCircle() = default;
     double GetArea() const;
     double GetPerimeter() const;
     std::string ToString() const;

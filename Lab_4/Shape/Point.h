@@ -1,5 +1,5 @@
 #pragma once
-class CPoint
+class CPoint final
 {
 public:
     CPoint() = default;
