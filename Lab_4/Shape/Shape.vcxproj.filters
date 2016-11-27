@@ -36,10 +36,10 @@
     <ClCompile Include="Circle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shape.cpp">
+    <ClCompile Include="IShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SolidShape.cpp">
+    <ClCompile Include="ISolidShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,10 +62,10 @@
     <ClInclude Include="Circle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shape.h">
+    <ClInclude Include="ISolidShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SolidShape.h">
+    <ClInclude Include="IShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

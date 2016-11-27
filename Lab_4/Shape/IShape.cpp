@@ -1,2 +1,2 @@
 #include "stdafx.h"
-#include "Shape.h"
+#include "IShape.h"
