@@ -9,5 +9,6 @@
 #include <functional>
 #include <boost/shared_ptr.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #define _USE_MATH_DEFINES
 #include <math.h>

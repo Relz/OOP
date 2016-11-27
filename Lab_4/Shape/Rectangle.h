@@ -13,12 +13,11 @@ public:
     std::string GetOutlineColor() const override;
     std::string GetFillColor() const override;
     CPoint const& GetLeftTop() const;
-    CPoint const& GetRightBottom() const;
+    CPoint const GetRightBottom() const;
     double GetWidth() const;
     double GetHeight() const;
 private:
     CPoint m_leftTop;
-    CPoint m_rightBottom;
     double m_width;
     double m_height;
     std::string m_outlineColor;

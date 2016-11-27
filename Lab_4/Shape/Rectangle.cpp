@@ -10,7 +10,6 @@ CRectangle::CRectangle(CPoint const& leftTop,
     , m_outlineColor(outlineColor)
     , m_fillColor(fillColor)
 {
-    m_rightBottom = CPoint(leftTop.x + width, leftTop.y + height);
 }
 
 double CRectangle::GetArea() const
@@ -38,9 +37,9 @@ CPoint const& CRectangle::GetLeftTop() const
     return m_leftTop;
 }
 
-CPoint const& CRectangle::GetRightBottom() const
+CPoint const CRectangle::GetRightBottom() const
 {
-    return m_rightBottom;
+    return CPoint(m_leftTop.x + m_width, m_leftTop.y + m_height);
 }
 
 double CRectangle::GetWidth() const
