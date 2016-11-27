@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "fileValidation.h"
 #include "Point.h"
 #include "IShape.h"
 #include "Shape.h"
@@ -18,34 +19,6 @@ const unsigned ARG_COUNT = 2;
 bool IsValidArgumentsCount(int argc)
 {
     return (argc == ARG_COUNT);
-}
-
-//Проверка существования файла
-bool IsFileExists(ifstream &file)
-{
-    return file.good();
-}
-
-//Проверка файла на пустоту
-bool IsFileEmpty(ifstream &file)
-{
-    return file.peek() == ifstream::traits_type::eof();
-}
-
-//Проверка файла ввода на существование и наличие в нём символов;
-bool IsValidInputFile(char* inputFileName, ifstream &inputFile)
-{
-    if (!IsFileExists(inputFile))
-    {
-        cout << "File \"" << inputFileName << "\" not exists" << "\n";
-        return false;
-    }
-    if (IsFileEmpty(inputFile))
-    {
-        cout << "File \"" << inputFileName << "\" is empty" << "\n";
-        return false;
-    }
-    return true;
 }
 
 bool AddLine(istream & args, vector<shared_ptr<CShape>> &shapes)
@@ -149,9 +122,11 @@ int main(int argc, char * argv[])
         return 1;
     }
 
+    string errorMessage;
     ifstream inputFile(argv[1]);
-    if (!IsValidInputFile(argv[1], inputFile))
+    if (!IsValidInputFile(argv[1], inputFile, errorMessage))
     {
+        cerr << errorMessage;
         return 1;
     }
 
