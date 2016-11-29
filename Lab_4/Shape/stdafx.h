@@ -12,7 +12,5 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <boost/algorithm/string.hpp>
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
 #define _USE_MATH_DEFINES
 #include <math.h>
