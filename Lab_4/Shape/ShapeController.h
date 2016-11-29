@@ -8,6 +8,7 @@
 #include "Triangle.h"
 #include "Rectangle.h"
 #include "Circle.h"
+#include "Canvas.h"
 
 class CShapeController
 {
@@ -18,6 +19,7 @@ public:
     bool GetCommand(std::stringstream &command) const;
     bool HandleCommand(std::stringstream &command);
     void PrintShapes() const;
+    void DrawShapes();
 private:
     size_t GetArgCount(std::stringstream const& arguments) const;
     bool CreateLine(std::istream & args, std::shared_ptr<CShape> &shape) const;
@@ -26,6 +28,7 @@ private:
     bool CreateRectangle(std::istream & args, std::shared_ptr<CShape> &shape) const;
     std::shared_ptr<CShape> GetMaxAreaShape(std::vector<std::shared_ptr<CShape>> const& shapes) const;
     std::shared_ptr<CShape> GetMinPerimeterShape(std::vector<std::shared_ptr<CShape>> const& shapes) const;
+    void handleEvents(CCanvas &canvas);
 
     std::istream &m_in;
     std::ostream &m_out;

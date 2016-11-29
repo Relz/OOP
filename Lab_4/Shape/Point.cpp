@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Point.h"
 
-CPoint::CPoint(double x, double y)
+CPoint::CPoint(float x, float y)
     : x(x)
     , y(y)
 {

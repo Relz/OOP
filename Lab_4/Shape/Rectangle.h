@@ -5,22 +5,22 @@
 class CRectangle : public CSolidShape
 {
 public:
-    CRectangle(CPoint const& leftTop, double width, double height, std::string const& outlineColor, std::string const& fillColor);
+    CRectangle(CPoint const& leftTop, float width, float height, std::string const& outlineColor, std::string const& fillColor);
     ~CRectangle() = default;
-    double GetArea() const override;
-    double GetPerimeter() const override;
+    float GetArea() const override;
+    float GetPerimeter() const override;
     CPoint const& GetLeftTop() const;
     CPoint const GetRightBottom() const;
-    double GetWidth() const;
-    double GetHeight() const;
+    float GetWidth() const;
+    float GetHeight() const;
 
     void Draw(ICanvas & canvas) const override;
 protected:
     void AppendProperties(std::ostream & strm) const override;
 private:
     CPoint m_leftTop;
-    double m_width;
-    double m_height;
+    float m_width;
+    float m_height;
 };
 
 bool operator >> (std::istream & in, std::shared_ptr<CRectangle> & rectangle);

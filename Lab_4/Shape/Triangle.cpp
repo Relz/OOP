@@ -27,14 +27,14 @@ CTriangle::CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const&
     m_vertices[2] = vertex3;
 }
 
-double CTriangle::GetSideLength(CPoint const& vertex1, CPoint const& vertex2) const
+float CTriangle::GetSideLength(CPoint const& vertex1, CPoint const& vertex2) const
 {
     return std::hypot(vertex2.x - vertex1.x, vertex2.y - vertex1.y);
 }
 
-double CTriangle::GetArea() const
+float CTriangle::GetArea() const
 {
-    double semiperimeter = GetPerimeter() / 2;
+    float semiperimeter = GetPerimeter() / 2;
     return std::sqrt(semiperimeter *
         (semiperimeter - GetSideLength(m_vertices[0], m_vertices[1])) *
         (semiperimeter - GetSideLength(m_vertices[1], m_vertices[2])) *
@@ -42,7 +42,7 @@ double CTriangle::GetArea() const
     );
 }
 
-double CTriangle::GetPerimeter() const
+float CTriangle::GetPerimeter() const
 {
     return GetSideLength(m_vertices[0], m_vertices[1]) +
         GetSideLength(m_vertices[1], m_vertices[2]) +

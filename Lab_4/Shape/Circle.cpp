@@ -2,21 +2,21 @@
 #include "color.h"
 #include "Circle.h"
 
-CCircle::CCircle(CPoint const& center, double radius, std::string const& outlineColor, std::string const& fillColor)
+CCircle::CCircle(CPoint const& center, float radius, std::string const& outlineColor, std::string const& fillColor)
     : CSolidShape("Circle", outlineColor, fillColor)
     , m_center(center)
     , m_radius(radius)
 {
 }
 
-double CCircle::GetArea() const
+float CCircle::GetArea() const
 {
-    return M_PI * std::pow(m_radius, 2);
+    return static_cast<float>(M_PI) * std::pow(m_radius, 2);
 }
 
-double CCircle::GetPerimeter() const
+float CCircle::GetPerimeter() const
 {
-    return 2 * M_PI * m_radius;
+    return 2 * static_cast<float>(M_PI) * m_radius;
 }
 
 CPoint const& CCircle::GetCenter() const
@@ -24,7 +24,7 @@ CPoint const& CCircle::GetCenter() const
     return m_center;
 }
 
-double CCircle::GetRadius() const
+float CCircle::GetRadius() const
 {
     return m_radius;
 }
@@ -45,7 +45,7 @@ void CCircle::Draw(ICanvas & canvas) const
 bool operator >> (std::istream & in, std::shared_ptr<CCircle> & circle)
 {
     CPoint center;
-    double radius;
+    float radius;
     std::string outlineColor;
     std::string fillColor;
     if (in >> center && in >> radius && in >> outlineColor && in >> fillColor)

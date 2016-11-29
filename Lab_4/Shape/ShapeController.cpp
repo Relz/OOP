@@ -154,3 +154,26 @@ void CShapeController::PrintShapes() const
     m_out << "Фигура с минимальным периметром: \n"
         << GetMinPerimeterShape(m_shapes)->ToString() << "\n";
 }
+
+void CShapeController::handleEvents(CCanvas &canvas)
+{
+    sf::Event event;
+    while (canvas.PollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+            canvas.Close();
+    }
+}
+
+void CShapeController::DrawShapes()
+{
+    CCanvas canvas(sf::VideoMode(800, 600), "Shapes");
+    canvas.AddShapes(m_shapes);
+    while (canvas.IsOpen())
+    {
+        canvas.Clear(sf::Color::White);
+        handleEvents(canvas);
+        canvas.DrawShapes();
+        canvas.Display();
+    }
+}

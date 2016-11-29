@@ -8,9 +8,9 @@ public:
     CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3, 
               std::string const& outlineColor, std::string const& fillColor);
     ~CTriangle() = default;
-    double CTriangle::GetSideLength(CPoint const& vertex1, CPoint const& vertex2) const;
-    double GetArea() const override;
-    double GetPerimeter() const override;
+    float GetSideLength(CPoint const& vertex1, CPoint const& vertex2) const;
+    float GetArea() const override;
+    float GetPerimeter() const override;
 
     CPoint const& GetVertex1() const;
     CPoint const& GetVertex2() const;

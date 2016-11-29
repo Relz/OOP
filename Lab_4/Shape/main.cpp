@@ -30,5 +30,7 @@ int main(int argc, char * argv[])
         shapeController.HandleCommand(command);
     }
     shapeController.PrintShapes();
+    shapeController.DrawShapes();
+
     return 0;
 }

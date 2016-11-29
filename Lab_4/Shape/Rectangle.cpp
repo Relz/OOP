@@ -3,7 +3,7 @@
 #include "Rectangle.h"
 
 CRectangle::CRectangle(CPoint const& leftTop,
-    double width, double height,
+    float width, float height,
     std::string const& outlineColor, std::string const& fillColor)
     : CSolidShape("Rectangle", outlineColor, fillColor)
     , m_leftTop(leftTop)
@@ -12,12 +12,12 @@ CRectangle::CRectangle(CPoint const& leftTop,
 {
 }
 
-double CRectangle::GetArea() const
+float CRectangle::GetArea() const
 {
     return m_width * m_height;
 }
 
-double CRectangle::GetPerimeter() const
+float CRectangle::GetPerimeter() const
 {
     return (m_width + m_height) * 2;
 }
@@ -32,12 +32,12 @@ CPoint const CRectangle::GetRightBottom() const
     return CPoint(m_leftTop.x + m_width, m_leftTop.y + m_height);
 }
 
-double CRectangle::GetWidth() const
+float CRectangle::GetWidth() const
 {
     return m_width;
 }
 
-double CRectangle::GetHeight() const
+float CRectangle::GetHeight() const
 {
     return m_height;
 }
@@ -70,8 +70,8 @@ void CRectangle::Draw(ICanvas & canvas) const
 bool operator >> (std::istream & in, std::shared_ptr<CRectangle> & rectangle)
 {
     CPoint leftTop;
-    double width;
-    double height;
+    float width;
+    float height;
     std::string outlineColor;
     std::string fillColor;
     if (in >> leftTop && in >> width && in >> height && in >> outlineColor && in >> fillColor)

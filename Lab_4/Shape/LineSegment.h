@@ -7,8 +7,8 @@ class CLineSegment : public CShape
 public:
     CLineSegment(CPoint const& startPoint, CPoint const& endPoint, std::string const& outlineColor);
     ~CLineSegment() = default;
-    double GetArea() const override;
-    double GetPerimeter() const override;
+    float GetArea() const override;
+    float GetPerimeter() const override;
     CPoint const& GetStartPoint() const;
     CPoint const& GetEndPoint() const;
 
