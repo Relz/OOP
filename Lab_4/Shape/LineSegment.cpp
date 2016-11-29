@@ -1,8 +1,9 @@
 #include "stdafx.h"
+#include "color.h"
 #include "LineSegment.h"
 
 CLineSegment::CLineSegment(CPoint const& startPoint, CPoint const& endPoint, std::string const& outlineColor)
-    : CShape(outlineColor)
+    : CShape("Line", outlineColor)
     , m_startPoint(startPoint)
     , m_endPoint(endPoint)
 {
@@ -28,29 +29,16 @@ CPoint const& CLineSegment::GetEndPoint() const
     return m_endPoint;
 }
 
-void CLineSegment::SetStartPoint(CPoint const& startPoint)
+void CLineSegment::AppendProperties(std::ostream & strm) const
 {
-    m_startPoint = startPoint;
+    strm << "  Perimeter = " << GetPerimeter() << "\n"
+        << "  Start point = " << GetStartPoint().ToString() << "\n"
+        << "  End point = " << GetEndPoint().ToString() << "\n";
 }
 
-void CLineSegment::SetEndPoint(CPoint const& endPoint)
+void CLineSegment::Draw(ICanvas & canvas) const
 {
-    m_endPoint = endPoint;
-}
-
-void CLineSegment::SetOutlineColor(std::string const& outlineColor)
-{
-    m_outlineColor = outlineColor;
-}
-
-std::string CLineSegment::ToString() const
-{
-    return (std::string("Type: Line") + "\n"
-        + "Area: " + std::to_string(GetArea()) + "\n"
-        + "Perimeter: " + std::to_string(GetPerimeter()) + "\n"
-        + "Outline color: " + GetOutlineColor() + "\n"
-        + "Start point: " + GetStartPoint().ToString() + "\n"
-        + "End point: " + GetEndPoint().ToString() + "\n");
+    canvas.DrawLine(m_startPoint, m_endPoint, HexToRGB(GetOutlineColor()));
 }
 
 bool operator >> (std::istream & in, std::shared_ptr<CLineSegment> & line)

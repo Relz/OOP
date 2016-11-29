@@ -9,16 +9,13 @@ public:
     ~CLineSegment() = default;
     double GetArea() const override;
     double GetPerimeter() const override;
-    std::string ToString() const override;
-
     CPoint const& GetStartPoint() const;
     CPoint const& GetEndPoint() const;
 
-    void SetStartPoint(CPoint const& startPoint);
-    void SetEndPoint(CPoint const& endPoint);
-    void SetOutlineColor(std::string const& outlineColor);
+    void Draw(ICanvas & canvas) const override;
+protected:
+    void AppendProperties(std::ostream & strm) const override;
 private:
-    std::string m_outlineColor;
     CPoint m_startPoint;
     CPoint m_endPoint;
 };

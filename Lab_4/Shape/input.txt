@@ -1,6 +1,6 @@
-Line 1 2 6 4 #000001
-Triangle 1 1 1 4 6 8 #000000 #0000FF
-Rectangle 1 1 50 100 #000000 #0000FF
-Circle 1 1 5 #000000 #0000FF
+Line 1 2 6 4 000001
+Triangle 1 1 1 4 6 8 000000 0000FF
+Rectangle 1 1 50 100 000000 0000FF
+Circle 1 1 5 000000 0000FF
 Cube
 Line 1

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "color.h"
 #include "Triangle.h"
 
 bool AreVerticesEquals(CPoint const& vertex1, CPoint const& vertex2)
@@ -15,7 +16,7 @@ bool AreValidTriangleVertices(CPoint const& vertex1, CPoint const& vertex2, CPoi
 
 CTriangle::CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3,
                      std::string const& outlineColor, std::string const& fillColor)
-    : CSolidShape(outlineColor, fillColor)
+    : CSolidShape("Triangle", outlineColor, fillColor)
 {
     if (!AreValidTriangleVertices(vertex1, vertex2, vertex3))
     {
@@ -63,19 +64,23 @@ CPoint const& CTriangle::GetVertex3() const
     return m_vertices[2];
 }
 
-std::string CTriangle::ToString() const
+void CTriangle::AppendProperties(std::ostream & strm) const
 {
-    return (std::string("Type: Triangle") + "\n"
-        + "Area: " + std::to_string(GetArea()) + "\n"
-        + "Perimeter: " + std::to_string(GetPerimeter()) + "\n"
-        //+ "Outline color: " + GetOutlineColor() + "\n"
-        //+ "Fill color: " + GetFillColor() + "\n"
-        + "Vertex 1: " + GetVertex1().ToString() + "\n"
-        + "Vertex 2: " + GetVertex2().ToString() + "\n"
-        + "Vertex 3: " + GetVertex3().ToString() + "\n"
-        + "Side length 1: " + std::to_string(GetSideLength(GetVertex1(), GetVertex2())) + "\n"
-        + "Side length 2: " + std::to_string(GetSideLength(GetVertex2(), GetVertex3())) + "\n"
-        + "Side length 3: " + std::to_string(GetSideLength(GetVertex3(), GetVertex1())) + "\n");
+    strm << "  Perimeter = " << GetPerimeter() << "\n"
+        << "  Vertex 1 = " << GetVertex1().ToString() << "\n"
+        << "  Vertex 2 = " << GetVertex1().ToString() << "\n"
+        << "  Vertex 3 = " << GetVertex1().ToString() << "\n"
+        << "  Side length 1 = " << GetSideLength(GetVertex1(), GetVertex2()) << "\n"
+        << "  Side length 2 = " << GetSideLength(GetVertex2(), GetVertex3()) << "\n"
+        << "  Side length 3 = " << GetSideLength(GetVertex3(), GetVertex1()) << "\n";
+}
+
+void CTriangle::Draw(ICanvas & canvas) const
+{
+    canvas.DrawLine(m_vertices[0], m_vertices[1], HexToRGB(GetOutlineColor()));
+    canvas.DrawLine(m_vertices[1], m_vertices[2], HexToRGB(GetOutlineColor()));
+    canvas.DrawLine(m_vertices[2], m_vertices[0], HexToRGB(GetOutlineColor()));
+    canvas.FillPolygon(m_vertices, HexToRGB(GetFillColor()));
 }
 
 bool operator >> (std::istream & in, std::shared_ptr<CTriangle> & triangle)

@@ -4,7 +4,7 @@
 class ISolidShape : public CShape
 {
 public:
-    ISolidShape(std::string outlineColor);
+    ISolidShape(std::string shapeType, std::string outlineColor);
     ~ISolidShape() = default;
     virtual std::string GetFillColor() const = 0;
 };

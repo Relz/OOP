@@ -9,9 +9,12 @@ public:
     ~CCircle() = default;
     double GetArea() const;
     double GetPerimeter() const;
-    std::string ToString() const;
     CPoint const& GetCenter() const;
     double GetRadius() const;
+
+    void Draw(ICanvas & canvas) const override;
+protected:
+    void AppendProperties(std::ostream & strm) const override;
 private:
     CPoint m_center;
     double m_radius = 0;

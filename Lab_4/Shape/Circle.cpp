@@ -1,8 +1,9 @@
 #include "stdafx.h"
+#include "color.h"
 #include "Circle.h"
 
 CCircle::CCircle(CPoint const& center, double radius, std::string const& outlineColor, std::string const& fillColor)
-    : CSolidShape(outlineColor, fillColor)
+    : CSolidShape("Circle", outlineColor, fillColor)
     , m_center(center)
     , m_radius(radius)
 {
@@ -28,15 +29,17 @@ double CCircle::GetRadius() const
     return m_radius;
 }
 
-std::string CCircle::ToString() const
+void CCircle::AppendProperties(std::ostream & strm) const
 {
-    return (std::string("Type: Circle") + "\n"
-        + "Area: " + std::to_string(GetArea()) + "\n"
-        + "Circumference: " + std::to_string(GetPerimeter()) + "\n"
-        + "Outline color: " + GetOutlineColor() + "\n"
-        + "Fill color: " + GetFillColor() + "\n"
-        + "Center point: " + GetCenter().ToString() + "\n"
-        + "Radius: " + std::to_string(GetRadius()) + "\n");
+    strm << "  Circumference = " << GetPerimeter() << "\n"
+        << "  Center point = " << GetCenter().ToString() << "\n"
+        << "  Radius = " << GetRadius() << "\n";
+}
+
+void CCircle::Draw(ICanvas & canvas) const
+{
+    canvas.FillCircle(m_center, m_radius, HexToRGB(GetFillColor()));
+    canvas.DrawCircle(m_center, m_radius, HexToRGB(GetOutlineColor()));
 }
 
 bool operator >> (std::istream & in, std::shared_ptr<CCircle> & circle)

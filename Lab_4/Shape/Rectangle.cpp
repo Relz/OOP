@@ -1,10 +1,11 @@
 #include "stdafx.h"
+#include "color.h"
 #include "Rectangle.h"
 
 CRectangle::CRectangle(CPoint const& leftTop,
     double width, double height,
     std::string const& outlineColor, std::string const& fillColor)
-    : CSolidShape(outlineColor, fillColor)
+    : CSolidShape("Rectangle", outlineColor, fillColor)
     , m_leftTop(leftTop)
     , m_width(width)
     , m_height(height)
@@ -41,17 +42,29 @@ double CRectangle::GetHeight() const
     return m_height;
 }
 
-std::string CRectangle::ToString() const
+void CRectangle::AppendProperties(std::ostream & strm) const
 {
-    return (std::string("Type: Rectangle") + "\n"
-        + "Area: " + std::to_string(GetArea()) + "\n"
-        + "Perimeter: " + std::to_string(GetPerimeter()) + "\n"
-        + "Outline color: " + GetOutlineColor() + "\n"
-        + "Fill color: " + GetFillColor() + "\n"
-        + "Left-Top point: " + GetLeftTop().ToString() + "\n"
-        + "Right-Bottom point: " + GetRightBottom().ToString() + "\n"
-        + "Width: " + std::to_string(GetWidth()) + "\n"
-        + "Height: " + std::to_string(GetHeight()) + "\n");
+    strm << "  Perimeter = " << GetPerimeter() << "\n"
+        << "  Left-Top point = " << GetLeftTop().ToString() << "\n"
+        << "  Right-Bottom point = " << GetRightBottom().ToString() << "\n"
+        << "  Width = " << GetWidth() << "\n"
+        << "  Height = " << GetHeight() << "\n";
+}
+
+void CRectangle::Draw(ICanvas & canvas) const
+{
+    CPoint vertices[4] = 
+    {
+        m_leftTop,
+        {m_leftTop.x + m_width, m_leftTop.y },
+        { m_leftTop.x + m_width, m_leftTop.y + m_height },
+        { m_leftTop.x, m_leftTop.y + m_height }
+    };
+    canvas.DrawLine(vertices[0], vertices[1], HexToRGB(GetOutlineColor()));
+    canvas.DrawLine(vertices[1], vertices[2], HexToRGB(GetOutlineColor()));
+    canvas.DrawLine(vertices[2], vertices[3], HexToRGB(GetOutlineColor()));
+    canvas.DrawLine(vertices[3], vertices[0], HexToRGB(GetOutlineColor()));
+    canvas.FillPolygon(vertices, HexToRGB(GetFillColor()));
 }
 
 bool operator >> (std::istream & in, std::shared_ptr<CRectangle> & rectangle)
