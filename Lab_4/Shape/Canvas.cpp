@@ -31,14 +31,13 @@ void CCanvas::DrawLine(CPoint const& startPoint, CPoint const& endPoint, Color c
     m_lines.push_back(line);
 }
 
-void CCanvas::FillPolygon(CPoint const vertices[4], Color const& fillColor)
+void CCanvas::FillPolygon(CPoint const vertices[3], Color const& fillColor)
 {
-    std::cout << "[" << vertices[3].x << " " << vertices[3].y << "]";
     sf::VertexArray triangle(sf::Quads, 4);
     triangle[0].position = sf::Vector2f(vertices[0].x, vertices[0].y);
     triangle[1].position = sf::Vector2f(vertices[1].x, vertices[1].y);
     triangle[2].position = sf::Vector2f(vertices[2].x, vertices[2].y);
-    triangle[3].position = sf::Vector2f(vertices[3].x, vertices[3].y);
+    triangle[3].position = sf::Vector2f(vertices[0].x, vertices[2].y);
 
     sf::Color color(fillColor.r, fillColor.g, fillColor.b);
     triangle[0].color = color;

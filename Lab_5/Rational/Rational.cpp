@@ -232,11 +232,16 @@ bool operator>>(std::istream & in, CRational & r)
         }
         catch (...)
         {
+            in.setstate(std::ios_base::failbit);
             throw;
         }
         r.SetNumerator(numerator);
         r.SetDenominator(denominator);
         return true;
+    }
+    else
+    {
+        in.setstate(std::ios_base::failbit);
     }
     return false;
 }

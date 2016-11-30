@@ -252,23 +252,29 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
     {
         CRational r;
         std::stringstream input("3s/4");
+        BOOST_CHECK_EQUAL(input.fail(), false);
         BOOST_CHECK_THROW(input >> r, std::invalid_argument);
+        BOOST_CHECK_EQUAL(input.fail(), true);
 
         input.clear();
         input.str("34");
         BOOST_CHECK_THROW(input >> r, std::invalid_argument);
+        BOOST_CHECK_EQUAL(input.fail(), true);
 
         input.clear();
         input.str("3/4s");
         BOOST_CHECK_THROW(input >> r, std::invalid_argument);
+        BOOST_CHECK_EQUAL(input.fail(), true);
 
         input.clear();
         input.str(std::to_string(INT_MAX) + "9/4");
         BOOST_CHECK_THROW(input >> r, std::out_of_range);
+        BOOST_CHECK_EQUAL(input.fail(), true);
 
         input.clear();
         input.str("3/9" + std::to_string(INT_MAX));
         BOOST_CHECK_THROW(input >> r, std::out_of_range);
+        BOOST_CHECK_EQUAL(input.fail(), true);
     }
 
 
