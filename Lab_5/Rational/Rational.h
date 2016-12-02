@@ -33,18 +33,18 @@ public:
 
     // Выполняет увеличение рационального числа на величину второго рационального,
     //	либо целого числа:
-    CRational const& operator+=(CRational const& r);
+    CRational & operator+=(CRational const& r);
 
     // Выполняет уменьшение рационального числа на величину второго рационального либо целого числа :
-    CRational const& operator-=(CRational const& r);
+    CRational & operator-=(CRational const& r);
 
     // Умножает значение первого рационального числа на другое рациональное, 
     //	либо целое:
-    CRational const& operator*=(CRational const& r);
+    CRational & operator*=(CRational const& r);
 
     // Делит первое рациональное число на другое рациональное, 
     //	либо целое:
-    CRational const& operator/=(CRational const& r);
+    CRational & operator/=(CRational const& r);
 
 private:
     int m_numerator;
@@ -56,10 +56,10 @@ private:
 };
 
 // Вычисляет наибольший общий делитель (greatest common denominator) чисел a и b
-size_t GCD(size_t a, size_t b);
+unsigned GCD(unsigned a, unsigned b);
 
 // Вычисляет наименьшее общее кратное (least common multiple) чисел a и b
-size_t LCM(size_t a, size_t b);
+unsigned LCM(unsigned a, unsigned b);
 
 // Возвращает результат сложения двух рациональных чисел, 
 //	рационального числа с целым, целого числа с рациональным.

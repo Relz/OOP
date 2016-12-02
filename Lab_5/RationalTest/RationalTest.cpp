@@ -111,14 +111,30 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
         CRational r(3, 23);
         VerifyRational(r += r, 6, 23);
         VerifyRational(r += r, 12, 23);
+        VerifyRational(r += CRational(0, 2), 12, 23);
 
         VerifyRational(CRational(1, 2) += CRational(1, 4), 3, 4);
         VerifyRational(CRational(1, 2) += 1, 3, 2);
+        VerifyRational(CRational(0, 2) += 1, 1, 1);
+    }
+    BOOST_AUTO_TEST_CASE(must_have_a_valid_addition_assignment)
+    {
+        int x = 3, y = 5, z = 6;
+        (x += y) += z;
+
+        CRational rx(3);
+        CRational ry(5);
+        CRational rz(6);
+        (rx += ry) += rz;
+        BOOST_CHECK(rx == x);
     }
     BOOST_AUTO_TEST_CASE(has_subtracting_assignment_operator)
     {
         CRational r(3, 23);
         VerifyRational(r -= r, 0, 1);
+
+        CRational r2(3, 23);
+        VerifyRational(r2 -= CRational(0, 1), 3, 23);
 
         VerifyRational(CRational(1, 2) -= CRational(1, 4), 1, 4);
         VerifyRational(CRational(1, 2) -= 1, -1, 2);
@@ -251,7 +267,13 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
     BOOST_AUTO_TEST_CASE(cant_be_initialized_from_wrong_istream)
     {
         CRational r;
-        std::stringstream input("3s/4");
+        std::stringstream input("");
+        BOOST_CHECK_EQUAL(input.fail(), false);
+        input >> r;
+        BOOST_CHECK_EQUAL(input.fail(), true);
+
+        input.clear();
+        input.str("3s/4");
         BOOST_CHECK_EQUAL(input.fail(), false);
         BOOST_CHECK_THROW(input >> r, std::invalid_argument);
         BOOST_CHECK_EQUAL(input.fail(), true);

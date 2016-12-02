@@ -39,7 +39,7 @@ void CRational::Normalize()
     m_denominator /= gcd;
 }
 
-size_t GCD(size_t a, size_t b)
+unsigned GCD(unsigned a, unsigned b)
 {
     while (b != 0)
     {
@@ -49,7 +49,7 @@ size_t GCD(size_t a, size_t b)
     return (a != 0) ? a : 1;
 }
 
-size_t LCM(size_t a, size_t b)
+unsigned LCM(unsigned a, unsigned b)
 {
     return a / GCD(a, b) * b;
 }
@@ -83,7 +83,7 @@ const CRational operator-(CRational const& r1, CRational const& r2)
     return CRational(numerator, denominator);
 }
 
-CRational const& CRational::operator+=(CRational const& r)
+CRational & CRational::operator+=(CRational const& r)
 {
     if (r.GetNumerator() == 0)
     {
@@ -94,7 +94,7 @@ CRational const& CRational::operator+=(CRational const& r)
     return *this;
 }
 
-CRational const& CRational::operator-=(CRational const& r)
+CRational & CRational::operator-=(CRational const& r)
 {
     if (r.GetNumerator() == 0)
     {
@@ -115,13 +115,13 @@ const CRational operator/(CRational const& r1, CRational const& r2)
     return CRational(r1.GetNumerator() * r2.GetDenominator(), r1.GetDenominator() * r2.GetNumerator());
 }
 
-CRational const& CRational::operator*=(CRational const& r)
+CRational & CRational::operator*=(CRational const& r)
 {
     Assign(m_numerator * r.GetNumerator(), m_denominator * r.GetDenominator());
     return *this;
 }
 
-CRational const& CRational::operator/=(CRational const& r)
+CRational & CRational::operator/=(CRational const& r)
 {
     Assign(m_numerator * r.GetDenominator(), m_denominator * r.GetNumerator());
     return *this;
@@ -190,7 +190,7 @@ int GetNumeratorFromString(std::string const& rationalStr, size_t &startPos)
     {
         return stoi(resultStr);
     }
-    catch (std::out_of_range)
+    catch (std::out_of_range &)
     {
         throw std::out_of_range("Numerator is too big");
     }
@@ -211,7 +211,7 @@ int GetDenominatorFromString(std::string const& rationalStr, size_t startPos)
     {
         return stoi(resultStr);
     }
-    catch (std::out_of_range)
+    catch (std::out_of_range &)
     {
         throw std::out_of_range("Denominator is too big");
     }
