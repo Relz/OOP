@@ -42,7 +42,7 @@ float CRectangle::GetHeight() const
     return m_height;
 }
 
-void CRectangle::AppendProperties(std::ostream & strm) const
+void CRectangle::AppendPropertiesSolid(std::ostream & strm) const
 {
     strm << "  Perimeter = " << GetPerimeter() << "\n"
         << "  Left-Top point = " << GetLeftTop().ToString() << "\n"
@@ -53,18 +53,18 @@ void CRectangle::AppendProperties(std::ostream & strm) const
 
 void CRectangle::Draw(ICanvas & canvas) const
 {
-    CPoint vertices[4] = 
+    std::vector<CPoint >vertices = 
     {
         m_leftTop,
         {m_leftTop.x + m_width, m_leftTop.y },
-        { m_leftTop.x + m_width, m_leftTop.y + m_height },
+        { m_leftTop.x + m_width, m_leftTop. y + m_height },
         { m_leftTop.x, m_leftTop.y + m_height }
     };
     canvas.DrawLine(vertices[0], vertices[1], HexToRGB(GetOutlineColor()));
     canvas.DrawLine(vertices[1], vertices[2], HexToRGB(GetOutlineColor()));
     canvas.DrawLine(vertices[2], vertices[3], HexToRGB(GetOutlineColor()));
     canvas.DrawLine(vertices[3], vertices[0], HexToRGB(GetOutlineColor()));
-    canvas.FillPolygon(vertices, HexToRGB(GetFillColor()));
+    //canvas.FillPolygon(vertices, HexToRGB(GetFillColor()));
 }
 
 bool operator >> (std::istream & in, std::shared_ptr<CRectangle> & rectangle)

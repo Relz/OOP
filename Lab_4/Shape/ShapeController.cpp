@@ -169,11 +169,11 @@ void CShapeController::DrawShapes()
 {
     CCanvas canvas(sf::VideoMode(800, 600), "Shapes");
     canvas.AddShapes(m_shapes);
+    canvas.Clear(sf::Color::White);
+    canvas.DrawShapes();
+    canvas.Display();
     while (canvas.IsOpen())
     {
-        canvas.Clear(sf::Color::White);
         handleEvents(canvas);
-        canvas.DrawShapes();
-        canvas.Display();
     }
 }

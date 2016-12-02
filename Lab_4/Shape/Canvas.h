@@ -4,7 +4,7 @@
 #include "Shape.h"
 #include "color.h"
 
-class CCanvas : public ICanvas, public sf::Drawable, public sf::Window
+class CCanvas : public ICanvas, public sf::Drawable
 {
 public:
     CCanvas(sf::VideoMode videoMode, sf::String windowTitle);
@@ -12,10 +12,10 @@ public:
 
     void AddShapes(std::vector<std::shared_ptr<CShape>> const& shapes);
     void DrawShapes();
-    void DrawLine(CPoint const& startPoint, CPoint const& endPoint, Color const& outlineColor) override;
-    void FillPolygon(CPoint const vertices[4], Color const& fillColor) override;
-    void DrawCircle(CPoint const& center, float radius, Color const& outlineColor) override;
-    void FillCircle(CPoint const& center, float radius, Color const& fillColor) override;
+    void DrawLine(CPoint const& startPoint, CPoint const& endPoint, sf::Color const& outlineColor) override;
+    void FillPolygon(std::vector<CPoint> const vertices, sf::Color const& fillColor) override;
+    void DrawCircle(CPoint const& center, float radius, sf::Color const& outlineColor) override;
+    void FillCircle(CPoint const& center, float radius, sf::Color const& fillColor) override;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     bool IsOpen() const;
     void Clear(sf::Color);
@@ -25,5 +25,6 @@ public:
 private:
     sf::RenderWindow m_window;
     std::vector<std::pair<sf::Vertex, sf::Vertex>> m_lines;
-    std::vector<sf::VertexArray> m_fills;
+    std::vector<sf::VertexArray> m_polygons;
+    std::vector<sf::CircleShape> m_circles;
 };

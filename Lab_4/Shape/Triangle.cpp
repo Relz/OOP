@@ -22,9 +22,9 @@ CTriangle::CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const&
     {
         throw std::invalid_argument("Vertices can't be in one point");
     }
-    m_vertices[0] = vertex1;
-    m_vertices[1] = vertex2;
-    m_vertices[2] = vertex3;
+    m_vertices.push_back(vertex1);
+    m_vertices.push_back(vertex2);
+    m_vertices.push_back(vertex3);
 }
 
 float CTriangle::GetSideLength(CPoint const& vertex1, CPoint const& vertex2) const
@@ -64,7 +64,7 @@ CPoint const& CTriangle::GetVertex3() const
     return m_vertices[2];
 }
 
-void CTriangle::AppendProperties(std::ostream & strm) const
+void CTriangle::AppendPropertiesSolid(std::ostream & strm) const
 {
     strm << "  Perimeter = " << GetPerimeter() << "\n"
         << "  Vertex 1 = " << GetVertex1().ToString() << "\n"

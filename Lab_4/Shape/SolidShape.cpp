@@ -15,5 +15,6 @@ std::string CSolidShape::GetFillColor() const
 
 void CSolidShape::AppendProperties(std::ostream & strm) const
 {
-    strm << "  Fill color = " << GetFillColor();
+    strm << "  Fill color = " << GetFillColor() << "\n";
+    AppendPropertiesSolid(strm);
 }

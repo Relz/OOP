@@ -20,40 +20,55 @@ void CCanvas::DrawShapes()
     draw(m_window, states);
 }
 
-void CCanvas::DrawLine(CPoint const& startPoint, CPoint const& endPoint, Color const& outlineColor)
+void CCanvas::DrawLine(CPoint const& startPoint, CPoint const& endPoint, sf::Color const& outlineColor)
 {
-    sf::Color color(outlineColor.r, outlineColor.g, outlineColor.b);
     std::pair<sf::Vertex, sf::Vertex> line = 
     {
-        sf::Vertex(sf::Vector2f(startPoint.x, startPoint.y), color),
-        sf::Vertex(sf::Vector2f(endPoint.x, endPoint.y), color)
+        sf::Vertex(sf::Vector2f(startPoint.x, startPoint.y), outlineColor),
+        sf::Vertex(sf::Vector2f(endPoint.x, endPoint.y), outlineColor)
     };
     m_lines.push_back(line);
 }
 
-void CCanvas::FillPolygon(CPoint const vertices[3], Color const& fillColor)
+void CCanvas::FillPolygon(std::vector<CPoint> const vertices, sf::Color const& fillColor)
 {
-    sf::VertexArray triangle(sf::Quads, 4);
-    triangle[0].position = sf::Vector2f(vertices[0].x, vertices[0].y);
-    triangle[1].position = sf::Vector2f(vertices[1].x, vertices[1].y);
-    triangle[2].position = sf::Vector2f(vertices[2].x, vertices[2].y);
-    triangle[3].position = sf::Vector2f(vertices[0].x, vertices[2].y);
+    sf::VertexArray polygon;
+    polygon.resize(vertices.size());
+    if (vertices.size() == 3)
+    {
+        polygon.setPrimitiveType(sf::Triangles);
+    }
+    else if (vertices.size() == 4)
+    {
+        polygon.setPrimitiveType(sf::Quads);
+    }
+    polygon[0].position = sf::Vector2f(vertices[0].x, vertices[0].y);
+    polygon[1].position = sf::Vector2f(vertices[1].x, vertices[1].y);
+    polygon[2].position = sf::Vector2f(vertices[2].x, vertices[2].y);
 
-    sf::Color color(fillColor.r, fillColor.g, fillColor.b);
-    triangle[0].color = color;
-    triangle[1].color = color;
-    triangle[2].color = color;
-    triangle[3].color = color;
-    m_fills.push_back(triangle);
+    polygon[0].color = fillColor;
+    polygon[1].color = fillColor;
+    polygon[2].color = fillColor;
+    if (vertices.size() == 4)
+    {
+        polygon[3].position = sf::Vector2f(vertices[0].x, vertices[2].y);
+        polygon[3].color = fillColor;
+    }
+
+    m_polygons.push_back(polygon);
 }
 
-void CCanvas::DrawCircle(CPoint const& center, float radius, Color const& outlineColor)
+void CCanvas::DrawCircle(CPoint const& center, float radius, sf::Color const& outlineColor)
 {
-
+    sf::CircleShape circle(radius);
+    circle.setPosition(center.x, center.y);
+    circle.setOutlineColor(outlineColor);
+    circle.setOutlineThickness(3);
+    m_circles.push_back(circle);
 }
-void CCanvas::FillCircle(CPoint const& center, float radius, Color const& fillColor)
+void CCanvas::FillCircle(CPoint const& center, float radius, sf::Color const& fillColor)
 {
-
+    m_circles[m_circles.size() - 1].setFillColor(fillColor);
 }
 
 void CCanvas::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -67,9 +82,13 @@ void CCanvas::draw(sf::RenderTarget& target, sf::RenderStates states) const
         };
         target.draw(lineArr, 2, sf::Lines);
     }
-    for (auto triangle : m_fills)
+    for (auto polygon : m_polygons)
     {
-        target.draw(triangle);
+        target.draw(polygon);
+    }
+    for (auto circle : m_circles)
+    {
+        target.draw(circle);
     }
 }
 

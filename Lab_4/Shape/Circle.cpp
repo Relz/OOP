@@ -29,7 +29,7 @@ float CCircle::GetRadius() const
     return m_radius;
 }
 
-void CCircle::AppendProperties(std::ostream & strm) const
+void CCircle::AppendPropertiesSolid(std::ostream & strm) const
 {
     strm << "  Circumference = " << GetPerimeter() << "\n"
         << "  Center point = " << GetCenter().ToString() << "\n"
@@ -38,8 +38,8 @@ void CCircle::AppendProperties(std::ostream & strm) const
 
 void CCircle::Draw(ICanvas & canvas) const
 {
-    canvas.FillCircle(m_center, m_radius, HexToRGB(GetFillColor()));
     canvas.DrawCircle(m_center, m_radius, HexToRGB(GetOutlineColor()));
+    canvas.FillCircle(m_center, m_radius, HexToRGB(GetFillColor()));
 }
 
 bool operator >> (std::istream & in, std::shared_ptr<CCircle> & circle)

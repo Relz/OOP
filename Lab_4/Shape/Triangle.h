@@ -18,9 +18,9 @@ public:
 
     void Draw(ICanvas & canvas) const override;
 protected:
-    void AppendProperties(std::ostream & strm) const override;
+    void AppendPropertiesSolid(std::ostream & strm) const;
 private:
-    CPoint m_vertices[3] = {};
+    std::vector<CPoint> m_vertices;
 };
 
 bool operator >> (std::istream & in, std::shared_ptr<CTriangle> & triangle);

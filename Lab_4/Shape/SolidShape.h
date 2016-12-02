@@ -8,8 +8,10 @@ public:
     ~CSolidShape() = default;
     std::string GetFillColor() const final;
 protected:
-    void AppendProperties(std::ostream & strm) const override;
+    virtual void AppendPropertiesSolid(std::ostream & strm) const = 0;
 private:
+    void AppendProperties(std::ostream & strm) const;
     std::string m_fillColor;
+
 };
 
