@@ -7,5 +7,7 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <sstream>
-#define _USE_MATH_DEFINES
 #include <math.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <boost/math/constants/constants.hpp>

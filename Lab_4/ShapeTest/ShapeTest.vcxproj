@@ -155,6 +155,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Shape\Circle.cpp" />
+    <ClCompile Include="..\Shape\color.cpp" />
+    <ClCompile Include="..\Shape\ICanvas.cpp" />
+    <ClCompile Include="..\Shape\ICanvasDrawable.cpp" />
+    <ClCompile Include="..\Shape\IShape.cpp" />
+    <ClCompile Include="..\Shape\ISolidShape.cpp" />
     <ClCompile Include="..\Shape\LineSegment.cpp" />
     <ClCompile Include="..\Shape\Point.cpp" />
     <ClCompile Include="..\Shape\Rectangle.cpp" />
