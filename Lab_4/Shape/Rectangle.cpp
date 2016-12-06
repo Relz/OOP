@@ -64,7 +64,7 @@ void CRectangle::Draw(ICanvas & canvas) const
     canvas.DrawLine(vertices[1], vertices[2], HexToRGB(GetOutlineColor()));
     canvas.DrawLine(vertices[2], vertices[3], HexToRGB(GetOutlineColor()));
     canvas.DrawLine(vertices[3], vertices[0], HexToRGB(GetOutlineColor()));
-    //canvas.FillPolygon(vertices, HexToRGB(GetFillColor()));
+    canvas.FillPolygon(vertices, HexToRGB(GetFillColor()));
 }
 
 bool operator >> (std::istream & in, std::shared_ptr<CRectangle> & rectangle)

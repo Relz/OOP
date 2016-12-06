@@ -11,12 +11,12 @@ CCircle::CCircle(CPoint const& center, float radius, std::string const& outlineC
 
 float CCircle::GetArea() const
 {
-    return static_cast<float>(M_PI) * std::pow(m_radius, 2);
+    return boost::math::constants::pi<float>() * std::pow(m_radius, 2);
 }
 
 float CCircle::GetPerimeter() const
 {
-    return 2 * static_cast<float>(M_PI) * m_radius;
+    return 2 * boost::math::constants::pi<float>() * m_radius;
 }
 
 CPoint const& CCircle::GetCenter() const

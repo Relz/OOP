@@ -22,12 +22,10 @@ void CCanvas::DrawShapes()
 
 void CCanvas::DrawLine(CPoint const& startPoint, CPoint const& endPoint, sf::Color const& outlineColor)
 {
-    std::pair<sf::Vertex, sf::Vertex> line = 
-    {
-        sf::Vertex(sf::Vector2f(startPoint.x, startPoint.y), outlineColor),
-        sf::Vertex(sf::Vector2f(endPoint.x, endPoint.y), outlineColor)
-    };
-    m_lines.push_back(line);
+    sf::VertexArray line(sf::Lines);
+    line.append(sf::Vertex(sf::Vector2f(startPoint.x, startPoint.y), outlineColor));
+    line.append(sf::Vertex(sf::Vector2f(endPoint.x, endPoint.y), outlineColor));
+    m_shapes.push_back(line);
 }
 
 void CCanvas::FillPolygon(std::vector<CPoint> const vertices, sf::Color const& fillColor)
@@ -42,53 +40,40 @@ void CCanvas::FillPolygon(std::vector<CPoint> const vertices, sf::Color const& f
     {
         polygon.setPrimitiveType(sf::Quads);
     }
-    polygon[0].position = sf::Vector2f(vertices[0].x, vertices[0].y);
-    polygon[1].position = sf::Vector2f(vertices[1].x, vertices[1].y);
-    polygon[2].position = sf::Vector2f(vertices[2].x, vertices[2].y);
-
-    polygon[0].color = fillColor;
-    polygon[1].color = fillColor;
-    polygon[2].color = fillColor;
-    if (vertices.size() == 4)
+    for (size_t i = 0; i < polygon.getVertexCount(); ++i)
     {
-        polygon[3].position = sf::Vector2f(vertices[0].x, vertices[2].y);
-        polygon[3].color = fillColor;
+        polygon[i].position = sf::Vector2f(vertices[i].x, vertices[i].y);
+        polygon[i].color = fillColor;
     }
-
-    m_polygons.push_back(polygon);
+    m_shapes.push_back(polygon);
 }
 
 void CCanvas::DrawCircle(CPoint const& center, float radius, sf::Color const& outlineColor)
 {
-    sf::CircleShape circle(radius);
-    circle.setPosition(center.x, center.y);
-    circle.setOutlineColor(outlineColor);
-    circle.setOutlineThickness(3);
-    m_circles.push_back(circle);
+    float angle = 0;
+    sf::VertexArray circle;
+    circle.setPrimitiveType(sf::TrianglesFan);
+    for (size_t i = 0; i < 7 * radius; ++i)
+    {
+        circle.append(sf::Vertex(sf::Vector2f(radius * cos(angle) + center.x, radius * sin(angle) + center.y), outlineColor));
+        angle = angle + ((2 * boost::math::constants::pi<float>()) / (7 * radius));
+    }
+    m_shapes.push_back(circle);
 }
+
 void CCanvas::FillCircle(CPoint const& center, float radius, sf::Color const& fillColor)
 {
-    m_circles[m_circles.size() - 1].setFillColor(fillColor);
+    for (size_t i = 0; i < m_shapes[m_shapes.size() - 1].getVertexCount(); ++i)
+    {
+        m_shapes[m_shapes.size() - 1][i].color = fillColor;
+    }
 }
 
 void CCanvas::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    for (auto line : m_lines)
+    for (auto shape : m_shapes)
     {
-        sf::Vertex lineArr[] =
-        {
-            line.first,
-            line.second
-        };
-        target.draw(lineArr, 2, sf::Lines);
-    }
-    for (auto polygon : m_polygons)
-    {
-        target.draw(polygon);
-    }
-    for (auto circle : m_circles)
-    {
-        target.draw(circle);
+        target.draw(shape);
     }
 }
 

@@ -24,7 +24,5 @@ public:
     void Close();
 private:
     sf::RenderWindow m_window;
-    std::vector<std::pair<sf::Vertex, sf::Vertex>> m_lines;
-    std::vector<sf::VertexArray> m_polygons;
-    std::vector<sf::CircleShape> m_circles;
+    std::vector<sf::VertexArray> m_shapes;
 };
