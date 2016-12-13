@@ -16,7 +16,7 @@ CHttpUrl::CHttpUrl(
 {
     if (domain.empty())
     {
-        throw CUrlParsingError("Invalid domain");
+        throw std::invalid_argument("Invalid domain");
     }
     m_document = (document.empty() || document[0] != '/') ? "/" + document : document;
 }
@@ -30,7 +30,7 @@ CHttpUrl::CHttpUrl(
 {
     if (domain.empty())
     {
-        throw CUrlParsingError("Invalid domain");
+        throw std::invalid_argument("Invalid domain");
     }
     m_document = (document.empty() || document[0] != '/') ? "/" + document : document;
     m_port = GetDefaultPort(m_protocol);
@@ -44,7 +44,7 @@ CHttpUrl::CHttpUrl(
 {
     if (domain.empty())
     {
-        throw CUrlParsingError("Invalid domain");
+        throw std::invalid_argument("Invalid domain");
     }
     m_document = (document.empty() || document[0] != '/') ? "/" + document : document;
     m_port = GetDefaultPort(m_protocol);
@@ -196,7 +196,7 @@ std::string CHttpUrl::ProtocolToString(Protocol const& protocol) const
     }
     else
     {
-        throw CUrlParsingError("Invalid protocol");
+        throw std::invalid_argument("Invalid protocol");
     }
 }
 

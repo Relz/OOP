@@ -124,14 +124,14 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_class)
 
     BOOST_AUTO_TEST_CASE(cant_be_initialized_directly_if_has_empty_domain)
     {
-        BOOST_CHECK_THROW(CHttpUrl httpUrl("", "index.php", HTTP, 80), CUrlParsingError);
-        BOOST_CHECK_THROW(CHttpUrl httpUrl("", "index.php", HTTP), CUrlParsingError);
-        BOOST_CHECK_THROW(CHttpUrl httpUrl("", "index.php"), CUrlParsingError);
+        BOOST_CHECK_THROW(CHttpUrl httpUrl("", "index.php", HTTP, 80), std::invalid_argument);
+        BOOST_CHECK_THROW(CHttpUrl httpUrl("", "index.php", HTTP), std::invalid_argument);
+        BOOST_CHECK_THROW(CHttpUrl httpUrl("", "index.php"), std::invalid_argument);
     }
     BOOST_AUTO_TEST_CASE(cant_get_url_with_wrong_protocol)
     {
         CHttpUrl httpUrl("google.com", "index.php", static_cast<Protocol>(30), 80);
-        BOOST_CHECK_THROW(httpUrl.GetURL(), CUrlParsingError);
+        BOOST_CHECK_THROW(httpUrl.GetURL(), std::invalid_argument);
     }
 
 BOOST_AUTO_TEST_SUITE_END()
