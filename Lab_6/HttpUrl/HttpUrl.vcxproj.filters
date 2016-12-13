@@ -18,9 +18,21 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UrlParsingError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpUrl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UrlParsingError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpUrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
