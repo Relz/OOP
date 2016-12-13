@@ -13,6 +13,13 @@ public:
         std::string const& document,
         Protocol protocol,
         unsigned short port);
+    CHttpUrl(
+        std::string const& domain,
+        std::string const& document,
+        Protocol protocol);
+    CHttpUrl(
+        std::string const& domain,
+        std::string const& document);
 
     std::string GetURL() const;
     std::string GetDomain() const;
@@ -27,6 +34,7 @@ private:
     void ParseDocument(std::string const& url, size_t & pos);
     unsigned short GetDefaultPort(Protocol const& protocol) const;
     std::string ProtocolToString(Protocol const& protocol) const;
+    Protocol StringToProtocol(std::string protocol) const;
     std::string m_domain;
     std::string m_document = "/";
     Protocol m_protocol = HTTP;
