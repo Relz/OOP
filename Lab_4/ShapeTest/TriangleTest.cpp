@@ -66,6 +66,10 @@ BOOST_FIXTURE_TEST_SUITE(Triangle_class, TriangleFixture)
     {
         BOOST_CHECK_EQUAL(triangle.GetFillColor(), "0000FF");
     }
+    BOOST_AUTO_TEST_CASE(to_string)
+    {
+        BOOST_CHECK_EQUAL(triangle.ToString(), "Triangle:\n  Area = 2.5\n  Outline color = 000000\n  Fill color = 0000FF\n  Perimeter = 10.3983\n  Vertex 1 = (5.000000, 10.000000)\n  Vertex 2 = (5.000000, 10.000000)\n  Vertex 3 = (5.000000, 10.000000)\n  Side length 1 = 5\n  Side length 2 = 3.16228\n  Side length 3 = 2.23607\n");
+    }
 
 BOOST_AUTO_TEST_SUITE_END()
 
@@ -77,6 +81,23 @@ BOOST_AUTO_TEST_SUITE(Triangle_class)
         BOOST_REQUIRE_THROW(CTriangle({ 0, 0 }, { 0, 0 }, { 0, 1 }, "000000", "000000"), std::invalid_argument);
         BOOST_REQUIRE_THROW(CTriangle({ 0, 0 }, { 0, 1 }, { 0, 0 }, "000000", "000000"), std::invalid_argument);
         BOOST_REQUIRE_THROW(CTriangle({ 0, 1 }, { 0, 0 }, { 0, 0 }, "000000", "000000"), std::invalid_argument);
+    }
+    BOOST_AUTO_TEST_CASE(can_be_initialized_from_ifstream)
+    {
+        std::shared_ptr<CTriangle> triangle;
+        std::stringstream input("0 0 0 4 5 0 010101 FAFAFA");
+        BOOST_CHECK(input >> triangle);
+        VerifyPoint(triangle->GetVertex1(), 0.f, 0.f);
+        VerifyPoint(triangle->GetVertex2(), 0.f, 4.f);
+        VerifyPoint(triangle->GetVertex3(), 5.f, 0.f);
+        BOOST_CHECK_EQUAL(triangle->GetOutlineColor(), "010101");
+        BOOST_CHECK_EQUAL(triangle->GetFillColor(), "FAFAFA");
+    }
+    BOOST_AUTO_TEST_CASE(cant_be_initialized_from_wrong_ifstream)
+    {
+        std::shared_ptr<CTriangle> triangle;
+        std::stringstream input("0 0 0 4 5 0");
+        BOOST_CHECK(!(input >> triangle));
     }
 
 BOOST_AUTO_TEST_SUITE_END()

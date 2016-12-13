@@ -36,5 +36,32 @@ BOOST_FIXTURE_TEST_SUITE(Circle_class, CircleFixture)
     {
         BOOST_CHECK_EQUAL(circle.GetRadius(), 5);
     }
+    BOOST_AUTO_TEST_CASE(to_string)
+    {
+        BOOST_CHECK_EQUAL(circle.ToString(), "Circle:\n  Area = 78.5398\n  Outline color = 000000\n  Fill color = 0000FF\n  Circumference = 31.4159\n  Center point = (5.000000, 10.000000)\n  Radius = 5\n");
+    }
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(Circle_class)
+
+    BOOST_AUTO_TEST_CASE(can_be_initialized_from_ifstream)
+    {
+        std::shared_ptr<CCircle> circle;
+        std::stringstream input("0 0 10 010101 FAFAFA");
+        BOOST_CHECK(input >> circle);
+        VerifyPoint(circle->GetCenter(), 0.f, 0.f);
+        BOOST_CHECK_EQUAL(circle->GetRadius(), 10);
+        BOOST_CHECK_EQUAL(circle->GetArea(), boost::math::constants::pi<float>() * 10 * 10);
+        BOOST_CHECK_EQUAL(circle->GetPerimeter(), boost::math::constants::two_pi<float>() * 10);
+        BOOST_CHECK_EQUAL(circle->GetOutlineColor(), "010101");
+        BOOST_CHECK_EQUAL(circle->GetFillColor(), "FAFAFA");
+    }
+    BOOST_AUTO_TEST_CASE(cant_be_initialized_from_wrong_ifstream)
+    {
+        std::shared_ptr<CCircle> circle;
+        std::stringstream input("0 0 0 4 5 0");
+        BOOST_CHECK(!(input >> circle));
+    }
 
 BOOST_AUTO_TEST_SUITE_END()

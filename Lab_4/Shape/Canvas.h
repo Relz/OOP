@@ -23,6 +23,8 @@ public:
     bool PollEvent(sf::Event &event);
     void Close();
 private:
+    void DrawInnerCircle(CPoint const& center, float radius);
+
     sf::RenderWindow m_window;
     std::vector<sf::VertexArray> m_shapes;
 };

@@ -77,10 +77,10 @@ void CTriangle::AppendPropertiesSolid(std::ostream & strm) const
 
 void CTriangle::Draw(ICanvas & canvas) const
 {
+    canvas.FillPolygon(m_vertices, HexToRGB(GetFillColor()));
     canvas.DrawLine(m_vertices[0], m_vertices[1], HexToRGB(GetOutlineColor()));
     canvas.DrawLine(m_vertices[1], m_vertices[2], HexToRGB(GetOutlineColor()));
     canvas.DrawLine(m_vertices[2], m_vertices[0], HexToRGB(GetOutlineColor()));
-    canvas.FillPolygon(m_vertices, HexToRGB(GetFillColor()));
 }
 
 bool operator >> (std::istream & in, std::shared_ptr<CTriangle> & triangle)
@@ -90,7 +90,8 @@ bool operator >> (std::istream & in, std::shared_ptr<CTriangle> & triangle)
     CPoint vertex3;
     std::string outlineColor;
     std::string fillColor;
-    if (in >> vertex1 && in >> vertex2 && in >> vertex3 && in >> outlineColor && in >> fillColor)
+    if (in >> vertex1 && in >> vertex2 && in >> vertex3 && in >> outlineColor && in >> fillColor
+        && outlineColor.length() == 6 && fillColor.length() == 6)
     {
         triangle = std::make_shared<CTriangle>(vertex1, vertex2, vertex3, outlineColor, fillColor);
         return true;

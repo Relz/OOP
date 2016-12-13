@@ -48,7 +48,7 @@ bool operator >> (std::istream & in, std::shared_ptr<CCircle> & circle)
     float radius;
     std::string outlineColor;
     std::string fillColor;
-    if (in >> center && in >> radius && in >> outlineColor && in >> fillColor)
+    if (in >> center && in >> radius && in >> outlineColor && in >> fillColor && outlineColor.length() == 6 && fillColor.length() == 6)
     {
         circle = std::make_shared<CCircle>(center, radius, outlineColor, fillColor);
         return true;

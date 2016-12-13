@@ -46,7 +46,7 @@ bool operator >> (std::istream & in, std::shared_ptr<CLineSegment> & line)
     CPoint startPoint;
     CPoint endPoint;
     std::string outlineColor;
-    if (in >> startPoint && in >> endPoint && in >> outlineColor)
+    if (in >> startPoint && in >> endPoint && in >> outlineColor && outlineColor.length() == 6)
     {
         line = std::make_shared<CLineSegment>(startPoint, endPoint, outlineColor);
         return true;

@@ -16,7 +16,7 @@ std::string CShape::GetOutlineColor() const
 std::string CShape::ToString() const
 {
     std::ostringstream strm;
-    strm << m_shapeType + ": " << "\n"
+    strm << m_shapeType + ":\n"
         << "  Area = " << GetArea() << "\n"
         << "  Outline color = " << GetOutlineColor() << "\n";
     AppendProperties(strm);

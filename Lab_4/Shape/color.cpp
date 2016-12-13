@@ -4,7 +4,6 @@
 sf::Color HexToRGB(std::string const& hexColor)
 {
     sf::Color result;
-    bool isConverted = true;
     try
     {
         result.r = static_cast<sf::Uint8>(std::stoi(hexColor.substr(0, 2), 0, 16));
@@ -14,6 +13,7 @@ sf::Color HexToRGB(std::string const& hexColor)
     catch (std::exception const& e)
     {
         std::cout << e.what() << std::endl;
+        throw;
     }
     return result;
 }

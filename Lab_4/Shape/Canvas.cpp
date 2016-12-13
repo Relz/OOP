@@ -52,7 +52,7 @@ void CCanvas::DrawCircle(CPoint const& center, float radius, sf::Color const& ou
 {
     float angle = 0;
     sf::VertexArray circle;
-    circle.setPrimitiveType(sf::TrianglesFan);
+    circle.setPrimitiveType(sf::TriangleFan);
     for (size_t i = 0; i < 7 * radius; ++i)
     {
         circle.append(sf::Vertex(sf::Vector2f(radius * cos(angle) + center.x, radius * sin(angle) + center.y), outlineColor));
@@ -61,8 +61,22 @@ void CCanvas::DrawCircle(CPoint const& center, float radius, sf::Color const& ou
     m_shapes.push_back(circle);
 }
 
+void CCanvas::DrawInnerCircle(CPoint const& center, float radius)
+{
+    float angle = 0;
+    sf::VertexArray circle;
+    circle.setPrimitiveType(sf::TriangleFan);
+    for (size_t i = 0; i < 7 * radius; ++i)
+    {
+        circle.append(sf::Vertex(sf::Vector2f((radius - 1) * cos(angle) + center.x, (radius - 1) * sin(angle) + center.y)));
+        angle = angle + ((2 * boost::math::constants::pi<float>()) / (7 * radius));
+    }
+    m_shapes.push_back(circle);
+}
+
 void CCanvas::FillCircle(CPoint const& center, float radius, sf::Color const& fillColor)
 {
+    DrawInnerCircle(center, radius);
     for (size_t i = 0; i < m_shapes[m_shapes.size() - 1].getVertexCount(); ++i)
     {
         m_shapes[m_shapes.size() - 1][i].color = fillColor;

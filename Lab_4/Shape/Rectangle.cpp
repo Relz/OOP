@@ -60,11 +60,11 @@ void CRectangle::Draw(ICanvas & canvas) const
         { m_leftTop.x + m_width, m_leftTop. y + m_height },
         { m_leftTop.x, m_leftTop.y + m_height }
     };
+    canvas.FillPolygon(vertices, HexToRGB(GetFillColor()));
     canvas.DrawLine(vertices[0], vertices[1], HexToRGB(GetOutlineColor()));
     canvas.DrawLine(vertices[1], vertices[2], HexToRGB(GetOutlineColor()));
     canvas.DrawLine(vertices[2], vertices[3], HexToRGB(GetOutlineColor()));
     canvas.DrawLine(vertices[3], vertices[0], HexToRGB(GetOutlineColor()));
-    canvas.FillPolygon(vertices, HexToRGB(GetFillColor()));
 }
 
 bool operator >> (std::istream & in, std::shared_ptr<CRectangle> & rectangle)
@@ -74,7 +74,8 @@ bool operator >> (std::istream & in, std::shared_ptr<CRectangle> & rectangle)
     float height;
     std::string outlineColor;
     std::string fillColor;
-    if (in >> leftTop && in >> width && in >> height && in >> outlineColor && in >> fillColor)
+    if (in >> leftTop && in >> width && in >> height && in >> outlineColor && in >> fillColor 
+        && outlineColor.length() == 6 && fillColor.length() == 6)
     {
         rectangle = std::make_shared<CRectangle>(leftTop, width, height, outlineColor, fillColor);
         return true;

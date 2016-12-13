@@ -21,13 +21,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PointTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Shape\Point.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LineSegmentTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Shape\LineSegment.cpp">
@@ -36,19 +30,10 @@
     <ClCompile Include="VerifyPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TriangleTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Shape\Triangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RectangleTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Shape\Rectangle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CircleTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Shape\Circle.cpp">
@@ -73,6 +58,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Shape\color.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="colorTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LineSegmentTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PointTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
