@@ -16,8 +16,8 @@ public:
     CHttpUrl(
         std::string const& domain,
         std::string const& document,
-        Protocol = HTTP,
-        unsigned short port = 80);
+        Protocol,
+        unsigned short port);
 
     std::string GetURL() const;
     std::string GetDomain() const;

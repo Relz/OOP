@@ -15,25 +15,25 @@ CHttpUrl::CHttpUrl(
 
 std::string CHttpUrl::GetURL() const
 {
-
+    return "";
 }
 
 std::string CHttpUrl::GetDomain() const
 {
-
+    return "";
 }
 
 std::string CHttpUrl::GetDocument() const
 {
-
+    return "";
 }
 
 Protocol CHttpUrl::GetProtocol() const
 {
-
+    return HTTP;
 }
 
 unsigned short CHttpUrl::GetPort() const
 {
-
+    return 0;
 }
