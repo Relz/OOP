@@ -10,7 +10,7 @@ enum Protocol
 class CUrlParsingError : public std::invalid_argument
 {
 public:
-    CUrlParsingError();
+    CUrlParsingError(std::string message);
     ~CUrlParsingError() = default;
 };
 
