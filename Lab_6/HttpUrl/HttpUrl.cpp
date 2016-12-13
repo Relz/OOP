@@ -2,38 +2,177 @@
 
 CHttpUrl::CHttpUrl(std::string const& url)
 {
+    ParseUrl(url);
 }
 
 CHttpUrl::CHttpUrl(
     std::string const& domain,
     std::string const& document,
-    Protocol = HTTP,
+    Protocol protocol= HTTP,
     unsigned short port = 80)
+    : m_domain(domain)
+    , m_document(document)
+    , m_protocol(protocol)
+    , m_port(port)
 {
 
 }
 
 std::string CHttpUrl::GetURL() const
 {
-    return "";
+    return ProtocolToString(m_protocol) + m_domain + m_document;
 }
 
 std::string CHttpUrl::GetDomain() const
 {
-    return "";
+    return m_domain;
 }
 
 std::string CHttpUrl::GetDocument() const
 {
-    return "";
+    return m_document;
 }
 
 Protocol CHttpUrl::GetProtocol() const
 {
-    return HTTP;
+    return m_protocol;
 }
 
 unsigned short CHttpUrl::GetPort() const
 {
-    return 0;
+    return m_port;
+}
+
+void CHttpUrl::ParseUrl(std::string const& url)
+{
+    size_t startPos = 0;
+    ParseProtocol(url, startPos);
+    ParseDomain(url, startPos);
+    ParsePort(url, startPos);
+    ParseDocument(url, startPos);
+}
+
+void CHttpUrl::ParseProtocol(std::string const& url, size_t & pos)
+{
+    std::string protocol;
+    for (pos; pos < url.length(); ++pos)
+    {
+        if (url[pos] == ':')
+        {
+            break;
+        }
+        protocol += url[pos];
+    }
+
+    if (protocol == "http")
+    {
+        m_protocol = HTTP;
+    }
+    else if (protocol == "https")
+    {
+        m_protocol = HTTPS;
+    }
+    else
+    {
+        throw CUrlParsingError("Invalid protocol");
+    }
+    if (url.length() <= pos + 2 || url[pos] != ':' || url[pos + 1] != '/' || url[pos + 2] != '/')
+    {
+        throw CUrlParsingError("Invalid protocol");
+    }
+    pos += 3;
+}
+
+void CHttpUrl::ParseDomain(std::string const& url, size_t & pos)
+{
+    for (pos; pos < url.length(); ++pos)
+    {
+        if (url[pos] == '/' || url[pos] == ':')
+        {
+            break;
+        }
+        m_domain += url[pos];
+    }
+    if (m_domain.empty())
+    {
+        throw CUrlParsingError("No domain specified");
+    }
+}
+
+void CHttpUrl::ParsePort(std::string const& url, size_t & pos)
+{
+    if (url[pos] != ':')
+    {
+        m_port = GetDefaultPort(m_protocol);
+        return;
+    }
+    std::string port;
+    for (pos; pos < url.length(); ++pos)
+    {
+        if (url[pos] == '/')
+        {
+            break;
+        }
+        port += url[pos];
+    }
+    if (port.empty())
+    {
+        throw CUrlParsingError("Invalid port");
+    }
+    try
+    {
+        m_port = atoi(port.c_str());
+    }
+    catch (...)
+    {
+        throw CUrlParsingError("Invalid port");
+    }
+}
+
+void CHttpUrl::ParseDocument(std::string const& url, size_t & pos)
+{
+    if (url[pos] == '/' && url.length() > pos + 1)
+    {
+        pos++;
+    }
+    for (pos; pos < url.length(); ++pos)
+    {
+        if (url[pos] == '/')
+        {
+            break;
+        }
+        m_document += url[pos];
+    }
+}
+
+unsigned short CHttpUrl::GetDefaultPort(Protocol const& protocol) const
+{
+    if (protocol == HTTP)
+    {
+        return 80;
+    }
+    else if (protocol == HTTPS)
+    {
+        return 443;
+    }
+    else
+    {
+        throw("Invalid protocol");
+    }
+}
+
+std::string CHttpUrl::ProtocolToString(Protocol const& protocol) const
+{
+    if (protocol == HTTP)
+    {
+        return "http://";
+    }
+    else if (protocol == HTTPS)
+    {
+        return "https://";
+    }
+    else
+    {
+        throw("Invalid protocol");
+    }
 }
