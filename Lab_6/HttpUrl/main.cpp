@@ -3,7 +3,7 @@
 
 using namespace std;
 
-string ProtocolToString(Protocol protocol)
+std::string ProtocolToString(Protocol const& protocol)
 {
     if (protocol == Protocol::HTTP)
     {
@@ -15,7 +15,7 @@ string ProtocolToString(Protocol protocol)
     }
     else
     {
-        return "";
+        throw std::invalid_argument("Invalid protocol");
     }
 }
 

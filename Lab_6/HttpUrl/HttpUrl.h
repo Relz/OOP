@@ -32,11 +32,12 @@ private:
     void ParseDomain(std::string const& url, size_t & pos);
     void ParsePort(std::string const& url, size_t & pos);
     void ParseDocument(std::string const& url, size_t & pos);
-    unsigned short GetDefaultPort(Protocol const& protocol) const;
-    std::string ProtocolToString(Protocol const& protocol) const;
-    Protocol StringToProtocol(std::string protocol) const;
     std::string m_domain;
     std::string m_document = "/";
     Protocol m_protocol = HTTP;
     unsigned short m_port = 80;
 };
+
+static unsigned short GetDefaultPort(Protocol const& protocol);
+static std::string ProtocolToString(Protocol const& protocol);
+static Protocol StringToProtocol(std::string protocol);

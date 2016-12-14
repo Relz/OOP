@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_class_can_be_initialized)
         }
         {
             CHttpUrl httpUrl("https://google.com:465/");
-            VerifyUrl(httpUrl, "https://google.com/", HTTPS, "google.com", "/", 465);
+            VerifyUrl(httpUrl, "https://google.com:465/", HTTPS, "google.com:465", "/", 465);
         }
     }
 
@@ -100,6 +100,14 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(CHttpUrl_class_cant_be_initialized_with_single_string_if)
 
+    BOOST_AUTO_TEST_CASE(input_is_empty)
+    {
+        BOOST_CHECK_THROW(CHttpUrl httpUrl(""), std::invalid_argument);
+    }
+    BOOST_AUTO_TEST_CASE(port_is_overflow)
+    {
+        BOOST_CHECK_THROW(CHttpUrl httpUrl("http://google.com:65536"), CUrlParsingError);
+    }
     BOOST_AUTO_TEST_CASE(has_wrong_protocol)
     {
         BOOST_CHECK_THROW(CHttpUrl httpUrl("google.com"), CUrlParsingError);
