@@ -2,13 +2,17 @@
 
 CHttpUrl::CHttpUrl(std::string const& url)
 {
+    if (url.empty())
+    {
+        throw std::invalid_argument("Input is empty");
+    }
     ParseUrl(url);
 }
 
 CHttpUrl::CHttpUrl(
     std::string const& domain,
     std::string const& document,
-    Protocol protocol = HTTP,
+    Protocol protocol = Protocol::HTTP,
     unsigned short port = 80)
     : m_protocol(protocol)
     , m_domain(domain)
@@ -174,7 +178,7 @@ void CHttpUrl::ParseDocument(std::string const& url, size_t & pos)
 
 unsigned short CHttpUrl::GetDefaultPort(Protocol const& protocol) const
 {
-    if (protocol == HTTPS)
+    if (protocol == Protocol::HTTPS)
     {
         return 443;
     }
@@ -186,11 +190,11 @@ unsigned short CHttpUrl::GetDefaultPort(Protocol const& protocol) const
 
 std::string CHttpUrl::ProtocolToString(Protocol const& protocol) const
 {
-    if (protocol == HTTP)
+    if (protocol == Protocol::HTTP)
     {
         return "http://";
     }
-    else if (protocol == HTTPS)
+    else if (protocol == Protocol::HTTPS)
     {
         return "https://";
     }
@@ -204,11 +208,11 @@ Protocol CHttpUrl::StringToProtocol(std::string protocol) const
 {
     if (protocol == "http")
     {
-        return HTTP;
+        return Protocol::HTTP;
     }
     else if (protocol == "https")
     {
-        return HTTPS;
+        return Protocol::HTTPS;
     }
     else
     {
