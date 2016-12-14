@@ -154,7 +154,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\StringList\MyStringList.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyStringListTest.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
