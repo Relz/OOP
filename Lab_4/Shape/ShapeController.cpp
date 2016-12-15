@@ -138,11 +138,11 @@ std::shared_ptr<CShape> CShapeController::GetMinPerimeterShape(std::vector<std::
         });
 }
 
-void CShapeController::PrintShapes() const
+bool CShapeController::PrintShapes() const
 {
     if (m_shapes.empty())
     {
-        return;
+        return false;
     }
 
     for (auto shape : m_shapes)
@@ -153,6 +153,7 @@ void CShapeController::PrintShapes() const
         << GetMaxAreaShape(m_shapes)->ToString() << "\n";
     m_out << "Фигура с минимальным периметром: \n"
         << GetMinPerimeterShape(m_shapes)->ToString() << "\n";
+    return true;
 }
 
 void CShapeController::handleEvents(CCanvas &canvas)

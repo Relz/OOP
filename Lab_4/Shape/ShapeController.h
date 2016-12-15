@@ -9,8 +9,9 @@
 #include "Rectangle.h"
 #include "Circle.h"
 #include "Canvas.h"
+#include <boost/noncopyable.hpp>
 
-class CShapeController
+class CShapeController : boost::noncopyable
 {
 public:
     CShapeController() = default;
@@ -18,7 +19,7 @@ public:
     ~CShapeController() = default;
     bool GetCommand(std::stringstream &command) const;
     bool HandleCommand(std::stringstream &command);
-    void PrintShapes() const;
+    bool PrintShapes() const;
     void DrawShapes();
 private:
     size_t GetArgCount(std::stringstream const& arguments) const;

@@ -1,28 +1,7 @@
 #include "stdafx.h"
 #include "VerifyPoint.h"
 #include "..\Shape\Triangle.h"
-
-float GetSideLength(CPoint const& vertex1, CPoint const& vertex2)
-{
-    return std::hypot(vertex2.x - vertex1.x, vertex2.y - vertex1.y);
-}
-
-float GetPerimeter(CTriangle &triangle)
-{
-    return GetSideLength(triangle.GetVertex1(), triangle.GetVertex2()) +
-        GetSideLength(triangle.GetVertex2(), triangle.GetVertex3()) +
-        GetSideLength(triangle.GetVertex3(), triangle.GetVertex1());
-}
-
-float GetArea(CTriangle &triangle)
-{
-    float semiperimeter = GetPerimeter(triangle) / 2;
-    return std::sqrt(semiperimeter *
-        (semiperimeter - GetSideLength(triangle.GetVertex1(), triangle.GetVertex2())) *
-        (semiperimeter - GetSideLength(triangle.GetVertex2(), triangle.GetVertex3())) *
-        (semiperimeter - GetSideLength(triangle.GetVertex3(), triangle.GetVertex1()))
-    );
-}
+#include "TriangleFunctions.h"
 
 struct TriangleFixture
 {
@@ -68,7 +47,19 @@ BOOST_FIXTURE_TEST_SUITE(Triangle_class, TriangleFixture)
     }
     BOOST_AUTO_TEST_CASE(to_string)
     {
-        BOOST_CHECK_EQUAL(triangle.ToString(), "Triangle:\n  Area = 2.5\n  Outline color = 000000\n  Fill color = 0000FF\n  Perimeter = 10.3983\n  Vertex 1 = (5.000000, 10.000000)\n  Vertex 2 = (5.000000, 10.000000)\n  Vertex 3 = (5.000000, 10.000000)\n  Side length 1 = 5\n  Side length 2 = 3.16228\n  Side length 3 = 2.23607\n");
+        std::stringstream expectedStr;
+        expectedStr << "Triangle:" << "\n"
+            << "  Area = " << GetArea(triangle) << "\n"
+            << "  Outline color = 000000" << "\n"
+            << "  Fill color = 0000FF" << "\n"
+            << "  Perimeter = " << GetPerimeter(triangle) << "\n"
+            << "  Vertex 1 = (5.000000, 10.000000)" << "\n"
+            << "  Vertex 2 = (9.000000, 7.000000)" << "\n"
+            << "  Vertex 3 = (6.000000, 8.000000)" << "\n"
+            << "  Side length 1 = " << GetSideLength(triangle.GetVertex1(), triangle.GetVertex2()) << "\n"
+            << "  Side length 2 = " << GetSideLength(triangle.GetVertex2(), triangle.GetVertex3()) << "\n"
+            << "  Side length 3 = " << GetSideLength(triangle.GetVertex1(), triangle.GetVertex3()) << "\n";
+        BOOST_CHECK_EQUAL(triangle.ToString(), expectedStr.str());
     }
 
 BOOST_AUTO_TEST_SUITE_END()

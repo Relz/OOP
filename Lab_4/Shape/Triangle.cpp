@@ -68,8 +68,8 @@ void CTriangle::AppendPropertiesSolid(std::ostream & strm) const
 {
     strm << "  Perimeter = " << GetPerimeter() << "\n"
         << "  Vertex 1 = " << GetVertex1().ToString() << "\n"
-        << "  Vertex 2 = " << GetVertex1().ToString() << "\n"
-        << "  Vertex 3 = " << GetVertex1().ToString() << "\n"
+        << "  Vertex 2 = " << GetVertex2().ToString() << "\n"
+        << "  Vertex 3 = " << GetVertex3().ToString() << "\n"
         << "  Side length 1 = " << GetSideLength(GetVertex1(), GetVertex2()) << "\n"
         << "  Side length 2 = " << GetSideLength(GetVertex2(), GetVertex3()) << "\n"
         << "  Side length 3 = " << GetSideLength(GetVertex3(), GetVertex1()) << "\n";

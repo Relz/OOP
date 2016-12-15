@@ -34,7 +34,14 @@ BOOST_FIXTURE_TEST_SUITE(LineSegment_class, LineSegmentFixture)
     }
     BOOST_AUTO_TEST_CASE(to_string)
     {
-        BOOST_CHECK_EQUAL(line.ToString(), "Line:\n  Area = 0\n  Outline color = 000000\n  Perimeter = 5\n  Start point = (5.000000, 10.000000)\n  End point = (9.000000, 7.000000)\n");
+        std::stringstream expectedStr;
+        expectedStr << "Line:" << "\n"
+            << "  Area = 0" << "\n"
+            << "  Outline color = 000000" << "\n"
+            << "  Perimeter = 5" << "\n"
+            << "  Start point = (5.000000, 10.000000)" << "\n"
+            << "  End point = (9.000000, 7.000000)" << "\n";
+        BOOST_CHECK_EQUAL(line.ToString(), expectedStr.str());
     }
 
 BOOST_AUTO_TEST_SUITE_END()

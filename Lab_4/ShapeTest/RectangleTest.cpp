@@ -46,7 +46,17 @@ BOOST_FIXTURE_TEST_SUITE(Rectangle_class, RectangleFixture)
     }
     BOOST_AUTO_TEST_CASE(to_string)
     {
-        BOOST_CHECK_EQUAL(rectangle.ToString(), "Rectangle:\n  Area = 5000\n  Outline color = 000000\n  Fill color = 0000FF\n  Perimeter = 300\n  Left-Top point = (1.000000, 1.000000)\n  Right-Bottom point = (51.000000, 101.000000)\n  Width = 50\n  Height = 100\n");
+        std::stringstream expectedStr;
+        expectedStr << "Rectangle:" << "\n"
+            << "  Area = " << (50 * 100) << "\n"
+            << "  Outline color = 000000" << "\n"
+            << "  Fill color = 0000FF" << "\n"
+            << "  Perimeter = " << ((50 + 100) * 2) << "\n"
+            << "  Left-Top point = (1.000000, 1.000000)" << "\n"
+            << "  Right-Bottom point = (51.000000, 101.000000)" << "\n"
+            << "  Width = 50" << "\n"
+            << "  Height = 100" << "\n";
+        BOOST_CHECK_EQUAL(rectangle.ToString(), expectedStr.str());
     }
 
 BOOST_AUTO_TEST_SUITE_END()

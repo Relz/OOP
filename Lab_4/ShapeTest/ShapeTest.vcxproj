@@ -96,6 +96,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS
+ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -162,6 +164,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Shape\Canvas.cpp" />
     <ClCompile Include="..\Shape\Circle.cpp" />
     <ClCompile Include="..\Shape\color.cpp" />
     <ClCompile Include="..\Shape\ICanvas.cpp" />
@@ -172,6 +175,7 @@
     <ClCompile Include="..\Shape\Point.cpp" />
     <ClCompile Include="..\Shape\Rectangle.cpp" />
     <ClCompile Include="..\Shape\Shape.cpp" />
+    <ClCompile Include="..\Shape\ShapeController.cpp" />
     <ClCompile Include="..\Shape\SolidShape.cpp" />
     <ClCompile Include="..\Shape\Triangle.cpp" />
     <ClCompile Include="CircleTest.cpp" />
@@ -180,12 +184,15 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PointTest.cpp" />
     <ClCompile Include="RectangleTest.cpp" />
+    <ClCompile Include="ShapeControllerTest.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TriangleFunctions.cpp" />
     <ClCompile Include="TriangleTest.cpp" />
     <ClCompile Include="VerifyPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TriangleFunctions.h" />
     <ClInclude Include="VerifyPoint.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -38,7 +38,15 @@ BOOST_FIXTURE_TEST_SUITE(Circle_class, CircleFixture)
     }
     BOOST_AUTO_TEST_CASE(to_string)
     {
-        BOOST_CHECK_EQUAL(circle.ToString(), "Circle:\n  Area = 78.5398\n  Outline color = 000000\n  Fill color = 0000FF\n  Circumference = 31.4159\n  Center point = (5.000000, 10.000000)\n  Radius = 5\n");
+        std::stringstream expectedStr;
+        expectedStr << "Circle:" << "\n"
+            << "  Area = " << (boost::math::constants::pi<float>() * 5.f * 5.f) << "\n"
+            << "  Outline color = 000000" << "\n"
+            << "  Fill color = 0000FF" << "\n"
+            << "  Circumference = " << (boost::math::constants::two_pi<float>() * 5.f) << "\n"
+            << "  Center point = (5.000000, 10.000000)" << "\n"
+            << "  Radius = 5" << "\n";
+        BOOST_CHECK_EQUAL(circle.ToString(), expectedStr.str());
     }
 
 BOOST_AUTO_TEST_SUITE_END()
