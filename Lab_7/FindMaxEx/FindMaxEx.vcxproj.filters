@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="FindMax.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
