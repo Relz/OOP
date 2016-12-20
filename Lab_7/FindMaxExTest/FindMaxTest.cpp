@@ -3,7 +3,7 @@
 
 #include "../FindMaxEx/FindMax.h"
 
-BOOST_AUTO_TEST_SUITE(FindMax_)
+BOOST_AUTO_TEST_SUITE(FindMax_function)
 
     BOOST_AUTO_TEST_CASE(cannot_find_in_empty_vector)
     {
