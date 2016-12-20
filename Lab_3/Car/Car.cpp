@@ -31,6 +31,7 @@ Direction CCar::GetDirection() const
     {
          return Direction::FORWARD;
     }
+    return Direction::NONE;
 }
 
 bool CCar::IsValidDirectionForGear(Gear gear)
