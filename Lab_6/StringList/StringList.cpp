@@ -26,8 +26,23 @@ bool CStringList::IsEmpty() const
 
 void CStringList::InsertFront(std::string const& data)
 {
+    std::unique_ptr<Node> newNode = std::make_unique<Node>(data, nullptr, nullptr);
+    if (m_end)
+    {
+        //m_begin->prev = move(newNode).get();
+        //newNode->next = move(m_begin);
+    }
+    else
+    {
+        m_end = move(newNode).get();
+    }
+    //m_begin = move(newNode);
+    ++m_size;
+}
+
+void CStringList::InsertBack(std::string const& data)
+{
     std::unique_ptr<Node> newNode = std::make_unique<Node>(data, m_end, nullptr);
-    Node *newLastNode = newNode.get();
     if (m_end)
     {
         m_end->next = move(newNode);
@@ -36,13 +51,8 @@ void CStringList::InsertFront(std::string const& data)
     {
         m_begin = move(newNode);
     }
-    m_end = newLastNode;
+    m_end = newNode.get();
     ++m_size;
-}
-
-void CStringList::InsertBack(std::string const& str)
-{
-
 }
 
 void CStringList::Insert(CIterator *pos, std::string const& str)
