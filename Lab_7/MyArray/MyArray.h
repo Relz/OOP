@@ -38,7 +38,7 @@ public:
         }
     }
 
-    void MoveArray(const CMyArray& arr)
+    void MoveArray(CMyArray& arr)
     {
         const auto size = arr.GetSize();
         if (size != 0)
@@ -46,8 +46,7 @@ public:
             m_begin = RawAlloc(size);
             try
             {
-                m_begin = std::move(arr.m_begin);
-                m_end = std::move(arr.m_end);
+                *this = std::move(arr);
                 m_endOfCapacity = m_end;
             }
             catch (...)
