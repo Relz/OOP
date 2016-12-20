@@ -21,10 +21,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\StringList\MyStringList.cpp">
+    <ClCompile Include="..\StringList\StringList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyStringListTest.cpp">
+    <ClCompile Include="StringListTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

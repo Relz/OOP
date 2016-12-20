@@ -143,10 +143,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MyStringList.cpp" />
+    <ClCompile Include="StringList.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyStringList.h" />
+    <ClInclude Include="StringList.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
