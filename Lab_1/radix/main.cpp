@@ -52,12 +52,12 @@ int StrToInt(const string &str, bool &wasError)
     {
         return stoi(str);
     }
-    catch (invalid_argument &e)
+    catch (invalid_argument &)
     {
         cout << "Error: unconvertable value: " << str << "\n";
         wasError = true;
     }
-    catch (out_of_range &e)
+    catch (out_of_range &)
     {
         cout << "Error: overflow, source notation range: " << -INT_MAX << ".." << INT_MAX << "\n";
         wasError = true;
