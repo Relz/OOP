@@ -85,5 +85,29 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
             BOOST_CHECK_EQUAL(arr[0].value, ArrayItem().value);
             BOOST_CHECK_EQUAL(arr[1].value, ArrayItem().value);
         }
-BOOST_AUTO_TEST_SUITE_END()
+    BOOST_AUTO_TEST_SUITE_END()
+    BOOST_AUTO_TEST_SUITE(after_clearing)
+        BOOST_AUTO_TEST_CASE(has_no_size)
+        {
+            arr.Clear();
+            BOOST_CHECK_EQUAL(arr.GetSize(), 0);
+        }
+        BOOST_AUTO_TEST_CASE(cannot_get_element_by_index)
+        {
+            arr.Clear();
+            BOOST_CHECK_THROW(arr[0], std::out_of_range);
+        }
+    BOOST_AUTO_TEST_SUITE_END()
+    BOOST_AUTO_TEST_CASE(can_be_assigned)
+    {
+        CMyArray<ArrayItem> newArr;
+        newArr.Append(ArrayItem(1));
+        newArr.Append(ArrayItem(2));
+        newArr.Append(ArrayItem(3));
+        arr = newArr;
+        BOOST_CHECK_EQUAL(arr.GetSize(), 3);
+        BOOST_CHECK_EQUAL(arr[0].value, 1);
+        BOOST_CHECK_EQUAL(arr[1].value, 2);
+        BOOST_CHECK_EQUAL(arr[2].value, 3);
+    }
 BOOST_AUTO_TEST_SUITE_END()

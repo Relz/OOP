@@ -14,6 +14,11 @@ public:
         CopyArray(arr);
     }
 
+    CMyArray(CMyArray& arr)
+    {
+        MoveArray(arr);
+    }
+
     void CopyArray(const CMyArray& arr)
     {
         const auto size = arr.GetSize();
@@ -23,6 +28,26 @@ public:
             try
             {
                 CopyItems(arr.m_begin, arr.m_end, m_begin, m_end);
+                m_endOfCapacity = m_end;
+            }
+            catch (...)
+            {
+                DeleteItems(m_begin, m_end);
+                throw;
+            }
+        }
+    }
+
+    void MoveArray(const CMyArray& arr)
+    {
+        const auto size = arr.GetSize();
+        if (size != 0)
+        {
+            m_begin = RawAlloc(size);
+            try
+            {
+                m_begin = std::move(arr.m_begin);
+                m_end = std::move(arr.m_end);
                 m_endOfCapacity = m_end;
             }
             catch (...)
@@ -109,6 +134,22 @@ public:
         return *current;
     }
 
+    T &operator[](size_t index) const
+    {
+        if (index >= GetSize())
+        {
+            throw std::out_of_range("MyArray: Out of range");
+        }
+        size_t currentIndex = 0;
+        T *current = m_begin;
+        while (currentIndex != index)
+        {
+            current++;
+            currentIndex++;
+        }
+        return *current;
+    }
+
     void Resize(size_t newSize)
     {
         size_t currentSize = GetSize();
@@ -127,6 +168,18 @@ public:
     void Clear()
     {
         DeleteItems(m_begin, m_end);
+    }
+
+    CMyArray & operator=(CMyArray const& r)
+    {
+        CopyArray(r);
+        return *this;
+    }
+
+    CMyArray & operator=(CMyArray & r)
+    {
+        MoveArray(r);
+        return *this;
     }
 
 private:
