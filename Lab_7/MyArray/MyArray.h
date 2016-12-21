@@ -14,47 +14,9 @@ public:
         CopyArray(arr);
     }
 
-    CMyArray(CMyArray& arr)
+    CMyArray(CMyArray && arr)
     {
         MoveArray(arr);
-    }
-
-    void CopyArray(const CMyArray& arr)
-    {
-        const auto size = arr.GetSize();
-        if (size != 0)
-        {
-            m_begin = RawAlloc(size);
-            try
-            {
-                CopyItems(arr.m_begin, arr.m_end, m_begin, m_end);
-                m_endOfCapacity = m_end;
-            }
-            catch (...)
-            {
-                DeleteItems(m_begin, m_end);
-                throw;
-            }
-        }
-    }
-
-    void MoveArray(CMyArray& arr)
-    {
-        const auto size = arr.GetSize();
-        if (size != 0)
-        {
-            m_begin = RawAlloc(size);
-            try
-            {
-                *this = std::move(arr);
-                m_endOfCapacity = m_end;
-            }
-            catch (...)
-            {
-                DeleteItems(m_begin, m_end);
-                throw;
-            }
-        }
     }
 
     void Append(const T & value)
@@ -154,8 +116,9 @@ public:
         size_t currentSize = GetSize();
         while (newSize < currentSize)
         {
+            m_end->~T();
             m_end--;
-            delete (m_end + 1);
+            currentSize--;
         }
         while (newSize > currentSize)
         {
@@ -175,7 +138,7 @@ public:
         return *this;
     }
 
-    CMyArray & operator=(CMyArray & r)
+    CMyArray & operator=(CMyArray && r)
     {
         MoveArray(r);
         return *this;
@@ -229,6 +192,44 @@ private:
     }
 
 private:
+    void CopyArray(const CMyArray& arr)
+    {
+        const auto size = arr.GetSize();
+        if (size != 0)
+        {
+            m_begin = RawAlloc(size);
+            try
+            {
+                CopyItems(arr.m_begin, arr.m_end, m_begin, m_end);
+                m_endOfCapacity = m_end;
+            }
+            catch (...)
+            {
+                DeleteItems(m_begin, m_end);
+                throw;
+            }
+        }
+    }
+
+    void MoveArray(CMyArray& arr)
+    {
+        const auto size = arr.GetSize();
+        if (size != 0)
+        {
+            m_begin = RawAlloc(size);
+            try
+            {
+                *this = std::move(arr);
+                m_endOfCapacity = m_end;
+            }
+            catch (...)
+            {
+                DeleteItems(m_begin, m_end);
+                throw;
+            }
+        }
+    }
+
     T *m_begin = nullptr;
     T *m_end = nullptr;
     T *m_endOfCapacity = nullptr;

@@ -59,19 +59,19 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
             BOOST_CHECK_EQUAL(arr.GetBack().value, 4);
         }
     BOOST_AUTO_TEST_SUITE_END()
-        BOOST_AUTO_TEST_SUITE(after_copy_construction)
+    BOOST_AUTO_TEST_SUITE(after_copy_construction)
         BOOST_AUTO_TEST_CASE(has_size_capacity_equal_to_size_of_original_array)
-    {
-        for (auto i = 0; i < 6; ++i)
         {
-            arr.Append(i);
-        }
-        BOOST_CHECK_NE(arr.GetSize(), arr.GetCapacity());
+            for (auto i = 0; i < 6; ++i)
+            {
+                arr.Append(i);
+            }
+            BOOST_CHECK_NE(arr.GetSize(), arr.GetCapacity());
 
-        auto copy(arr);
-        BOOST_CHECK_EQUAL(copy.GetSize(), arr.GetSize());
-        BOOST_CHECK_EQUAL(copy.GetCapacity(), arr.GetSize());
-    }
+            auto copy(arr);
+            BOOST_CHECK_EQUAL(copy.GetSize(), arr.GetSize());
+            BOOST_CHECK_EQUAL(copy.GetCapacity(), arr.GetSize());
+        }
     BOOST_AUTO_TEST_SUITE_END()
     BOOST_AUTO_TEST_SUITE(after_resizing)
         BOOST_AUTO_TEST_CASE(has_changed_size)
@@ -84,6 +84,23 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
             arr.Resize(2);
             BOOST_CHECK_EQUAL(arr[0].value, ArrayItem().value);
             BOOST_CHECK_EQUAL(arr[1].value, ArrayItem().value);
+        }
+        BOOST_AUTO_TEST_CASE(there_is_remainder_if_new_size_is_less_and_not_zero)
+        {
+            arr.Append(2);
+            arr.Append(4);
+            arr.Append(8);
+            arr.Resize(1);
+            BOOST_CHECK_EQUAL(arr[0].value, ArrayItem(2).value);
+        }
+        BOOST_AUTO_TEST_CASE(has_zero_size_if_new_size_is_zero)
+        {
+            arr.Append(2);
+            arr.Append(4);
+            arr.Append(8);
+            arr.Resize(0);
+            BOOST_CHECK_EQUAL(arr.GetSize(), 0);
+            BOOST_CHECK_THROW(arr[0], std::out_of_range);
         }
     BOOST_AUTO_TEST_SUITE_END()
     BOOST_AUTO_TEST_SUITE(after_clearing)
@@ -109,5 +126,22 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
         BOOST_CHECK_EQUAL(arr[0].value, 1);
         BOOST_CHECK_EQUAL(arr[1].value, 2);
         BOOST_CHECK_EQUAL(arr[2].value, 3);
+    }
+    BOOST_AUTO_TEST_CASE(can_be_moved)
+    {
+        for (auto i = 0; i < 6; ++i)
+        {
+            arr.Append(i);
+        }
+
+        CMyArray<ArrayItem> move(std::cref(arr));
+        BOOST_CHECK_EQUAL(move.GetSize(), 6);
+        BOOST_CHECK_EQUAL(move[0].value, 0);
+        BOOST_CHECK_EQUAL(move[1].value, 1);
+        BOOST_CHECK_EQUAL(move[2].value, 2);
+        BOOST_CHECK_EQUAL(move[3].value, 3);
+        BOOST_CHECK_EQUAL(move[4].value, 4);
+        BOOST_CHECK_EQUAL(move[5].value, 5);
+        BOOST_CHECK_THROW(move[6], std::out_of_range);
     }
 BOOST_AUTO_TEST_SUITE_END()
