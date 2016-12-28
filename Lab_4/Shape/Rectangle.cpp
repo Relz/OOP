@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "color.h"
+#include "Color.h"
 #include "Rectangle.h"
 
 CRectangle::CRectangle(CPoint const& leftTop,

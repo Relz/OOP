@@ -1,12 +1,11 @@
 #pragma once
-#include "ISolidShape.h"
+#include "Shape.h"
 
-class CSolidShape: public ISolidShape, public CShape
+class CSolidShape: public CShape
 {
 public:
     CSolidShape(std::string const& shapeType, std::string const& outlineColor, std::string const& fillColor);
-    ~CSolidShape() = default;
-    std::string GetFillColor() const override final;
+    std::string GetFillColor() const;
 protected:
     virtual void AppendPropertiesSolid(std::ostream & strm) const = 0;
 private:

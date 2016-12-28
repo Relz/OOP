@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "color.h"
+#include "Color.h"
 
 sf::Color HexToRGB(std::string const& hexColor)
 {

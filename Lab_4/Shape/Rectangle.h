@@ -6,7 +6,6 @@ class CRectangle : public CSolidShape
 {
 public:
     CRectangle(CPoint const& leftTop, float width, float height, std::string const& outlineColor, std::string const& fillColor);
-    ~CRectangle() = default;
     float GetArea() const override;
     float GetPerimeter() const override;
     CPoint const& GetLeftTop() const;

@@ -2,13 +2,12 @@
 #include "ICanvas.h"
 #include "Point.h"
 #include "Shape.h"
-#include "color.h"
+#include "Color.h"
 
 class CCanvas : public ICanvas, public sf::Drawable
 {
 public:
     CCanvas(sf::VideoMode videoMode, sf::String windowTitle);
-    ~CCanvas() = default;
 
     void AddShapes(std::vector<std::shared_ptr<CShape>> const& shapes);
     void DrawShapes();

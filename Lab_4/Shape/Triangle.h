@@ -7,7 +7,6 @@ class CTriangle : public CSolidShape
 public:
     CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3, 
               std::string const& outlineColor, std::string const& fillColor);
-    ~CTriangle() = default;
     float GetSideLength(CPoint const& vertex1, CPoint const& vertex2) const;
     float GetArea() const override;
     float GetPerimeter() const override;

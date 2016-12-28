@@ -3,7 +3,6 @@
 #include "IShape.h"
 #include "Shape.h"
 #include "LineSegment.h"
-#include "ISolidShape.h"
 #include "SolidShape.h"
 #include "Triangle.h"
 #include "Rectangle.h"

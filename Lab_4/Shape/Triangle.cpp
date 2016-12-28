@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "color.h"
+#include "Color.h"
 #include "Triangle.h"
 
 bool AreVerticesEquals(CPoint const& vertex1, CPoint const& vertex2)

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "color.h"
+#include "Color.h"
 #include "Circle.h"
 
 CCircle::CCircle(CPoint const& center, float radius, std::string const& outlineColor, std::string const& fillColor)
