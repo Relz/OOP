@@ -114,11 +114,10 @@ public:
     void Resize(size_t newSize)
     {
         size_t currentSize = GetSize();
-        while (newSize < currentSize)
+        if (newSize < currentSize)
         {
-            m_end->~T();
-            m_end--;
-            currentSize--;
+            DestroyItems(m_begin + newSize, m_end);
+            m_end = m_begin + newSize;
         }
         while (newSize > currentSize)
         {
@@ -130,6 +129,8 @@ public:
     void Clear()
     {
         DeleteItems(m_begin, m_end);
+        //m_end = m_begin;
+        //m_endOfCapacity = m_begin;
     }
 
     CMyArray & operator=(CMyArray const& r)
@@ -211,7 +212,7 @@ private:
         }
     }
 
-    void MoveArray(CMyArray& arr)
+    void MoveArray(CMyArray && arr)
     {
         const auto size = arr.GetSize();
         if (size != 0)

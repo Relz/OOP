@@ -15,6 +15,14 @@ struct EmptyStringArray
     CMyArray<ArrayItem> arr;
 };
 
+void InitMyArray(CMyArray<ArrayItem> & arr)
+{
+    for (auto i = 0; i < 6; ++i)
+    {
+        arr.Append(i);
+    }
+}
+
 BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
     BOOST_AUTO_TEST_SUITE(by_default)
         BOOST_AUTO_TEST_CASE(is_empty)
@@ -62,10 +70,7 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
     BOOST_AUTO_TEST_SUITE(after_copy_construction)
         BOOST_AUTO_TEST_CASE(has_size_capacity_equal_to_size_of_original_array)
         {
-            for (auto i = 0; i < 6; ++i)
-            {
-                arr.Append(i);
-            }
+            InitMyArray(arr);
             BOOST_CHECK_NE(arr.GetSize(), arr.GetCapacity());
 
             auto copy(arr);
@@ -106,42 +111,57 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
     BOOST_AUTO_TEST_SUITE(after_clearing)
         BOOST_AUTO_TEST_CASE(has_no_size)
         {
+            arr.Append(5);
+            arr.Append(2);
             arr.Clear();
             BOOST_CHECK_EQUAL(arr.GetSize(), 0);
         }
         BOOST_AUTO_TEST_CASE(cannot_get_element_by_index)
         {
+            arr.Append(5);
+            arr.Append(2);
             arr.Clear();
             BOOST_CHECK_THROW(arr[0], std::out_of_range);
         }
     BOOST_AUTO_TEST_SUITE_END()
-    BOOST_AUTO_TEST_CASE(can_be_assigned)
+    BOOST_AUTO_TEST_CASE(can_be_copied_via_assigment)
     {
         CMyArray<ArrayItem> newArr;
         newArr.Append(ArrayItem(1));
         newArr.Append(ArrayItem(2));
         newArr.Append(ArrayItem(3));
-        arr = newArr;
+        arr = std::cref(newArr);
         BOOST_CHECK_EQUAL(arr.GetSize(), 3);
         BOOST_CHECK_EQUAL(arr[0].value, 1);
         BOOST_CHECK_EQUAL(arr[1].value, 2);
         BOOST_CHECK_EQUAL(arr[2].value, 3);
     }
-    BOOST_AUTO_TEST_CASE(can_be_moved)
+    BOOST_AUTO_TEST_CASE(can_be_copied_via_constructor)
     {
-        for (auto i = 0; i < 6; ++i)
-        {
-            arr.Append(i);
-        }
+        InitMyArray(arr);
 
-        CMyArray<ArrayItem> move(std::cref(arr));
-        BOOST_CHECK_EQUAL(move.GetSize(), 6);
-        BOOST_CHECK_EQUAL(move[0].value, 0);
-        BOOST_CHECK_EQUAL(move[1].value, 1);
-        BOOST_CHECK_EQUAL(move[2].value, 2);
-        BOOST_CHECK_EQUAL(move[3].value, 3);
-        BOOST_CHECK_EQUAL(move[4].value, 4);
-        BOOST_CHECK_EQUAL(move[5].value, 5);
-        BOOST_CHECK_THROW(move[6], std::out_of_range);
+        CMyArray<ArrayItem> movedArr(std::cref(arr));
+        BOOST_CHECK_EQUAL(movedArr.GetSize(), 6);
+        BOOST_CHECK_EQUAL(movedArr[0].value, 0);
+        BOOST_CHECK_EQUAL(movedArr[1].value, 1);
+        BOOST_CHECK_EQUAL(movedArr[2].value, 2);
+        BOOST_CHECK_EQUAL(movedArr[3].value, 3);
+        BOOST_CHECK_EQUAL(movedArr[4].value, 4);
+        BOOST_CHECK_EQUAL(movedArr[5].value, 5);
+        BOOST_CHECK_THROW(movedArr[6], std::out_of_range);
+    }
+    BOOST_AUTO_TEST_CASE(can_be_moved_via_assigment)
+    {
+        InitMyArray(arr);
+
+        CMyArray<ArrayItem> movedArr = arr;
+        BOOST_CHECK_EQUAL(movedArr.GetSize(), 6);
+        BOOST_CHECK_EQUAL(movedArr[0].value, 0);
+        BOOST_CHECK_EQUAL(movedArr[1].value, 1);
+        BOOST_CHECK_EQUAL(movedArr[2].value, 2);
+        BOOST_CHECK_EQUAL(movedArr[3].value, 3);
+        BOOST_CHECK_EQUAL(movedArr[4].value, 4);
+        BOOST_CHECK_EQUAL(movedArr[5].value, 5);
+        BOOST_CHECK_THROW(movedArr[6], std::out_of_range);
     }
 BOOST_AUTO_TEST_SUITE_END()
