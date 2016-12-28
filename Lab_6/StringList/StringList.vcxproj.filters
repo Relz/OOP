@@ -29,5 +29,11 @@
     <ClInclude Include="StringList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ListIterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

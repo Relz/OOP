@@ -1,50 +1,50 @@
 #pragma once
 #include "stdafx.h"
+#include "ListNode.h"
+#include "ListIterator.h"
 
 class CStringList
 {
-    struct Node
-    {
-        Node(std::string const& data, Node * prev, std::unique_ptr<Node> && next)
-            : data(data)
-            , prev(prev)
-            , next(std::move(next))
-        {
-        }
-        std::string data;
-        std::unique_ptr<Node> next = nullptr;
-        Node *prev = nullptr;
-    };
+    friend class ListNode;
+    friend class CListIterator<std::string>;
 public:
-    class CIterator
-    {
-        friend CStringList;
-        CIterator(Node *node);
-    public:
-        CIterator() = default;
-        std::string & operator*()const;
-        CIterator & operator++();
-    private:
-        Node *m_node = nullptr;
-    };
+    CStringList() = default;
+    CStringList(CStringList & list);
+    ~CStringList();
 
-    CStringList();
-    ~CStringList() = default;
-
-    CIterator begin() const;
-    CIterator end() const;
     size_t GetSize() const;
     bool IsEmpty() const;
-    std::string & CStringList::GetBackElement();
-    std::string const& CStringList::GetBackElement() const;
 
-    void InsertFront(std::string const& data);
-    void InsertBack(std::string const& data);
-    void Insert(CIterator *pos, std::string const& data);
-    void Erase(CIterator *pos);
+    void PushBack(const std::string & data);
+    void PushFront(const std::string & data);
+    void Clear();
+
+    void CStringList::Insert(const CListIterator<std::string> & it, std::string data);
+    void CStringList::Erase(const CListIterator<std::string> & it);
+
+    std::string & GetLastElement();
+    const std::string & GetLastElement() const;
+
+    std::string & GetFirstElement();
+    const std::string & GetFirstElement() const;
+
+
+    CListIterator<std::string> begin();
+    CListIterator<std::string> end();
+
+    const CListIterator<std::string> cbegin() const;
+    const CListIterator<std::string> cend() const;
+
+    CListIterator<std::string> rbegin();
+    CListIterator<std::string> rend();
+
+    const CListIterator<std::string> crbegin() const;
+    const CListIterator<std::string> crend() const;
+
 private:
+    std::unique_ptr<ListNode> CStringList::InsertOnTheEdge(const std::string & data, ListNode * prev, std::unique_ptr<ListNode> && next);
     size_t m_size = 0;
-    std::unique_ptr<Node> m_begin;
-    Node *m_end = nullptr;
-};
+    std::unique_ptr<ListNode> m_firstNode = nullptr;
+    ListNode * m_lastNode = nullptr;
 
+};
