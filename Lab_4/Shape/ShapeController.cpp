@@ -156,7 +156,7 @@ bool CShapeController::PrintShapes() const
     return true;
 }
 
-void CShapeController::handleEvents(CCanvas &canvas)
+void CShapeController::HandleEvents(CCanvas &canvas)
 {
     sf::Event event;
     while (canvas.PollEvent(event))
@@ -175,6 +175,6 @@ void CShapeController::DrawShapes()
     canvas.Display();
     while (canvas.IsOpen())
     {
-        handleEvents(canvas);
+        HandleEvents(canvas);
     }
 }

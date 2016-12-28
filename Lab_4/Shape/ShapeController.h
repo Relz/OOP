@@ -14,9 +14,7 @@
 class CShapeController : boost::noncopyable
 {
 public:
-    CShapeController() = default;
     CShapeController(std::istream &in, std::ostream &out);
-    ~CShapeController() = default;
     bool GetCommand(std::stringstream &command) const;
     bool HandleCommand(std::stringstream &command);
     bool PrintShapes() const;
@@ -29,7 +27,7 @@ private:
     bool CreateRectangle(std::istream & args, std::shared_ptr<CShape> &shape) const;
     std::shared_ptr<CShape> GetMaxAreaShape(std::vector<std::shared_ptr<CShape>> const& shapes) const;
     std::shared_ptr<CShape> GetMinPerimeterShape(std::vector<std::shared_ptr<CShape>> const& shapes) const;
-    void handleEvents(CCanvas &canvas);
+    void HandleEvents(CCanvas &canvas);
 
     std::istream &m_in;
     std::ostream &m_out;

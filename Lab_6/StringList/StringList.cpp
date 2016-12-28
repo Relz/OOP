@@ -37,7 +37,6 @@ void CStringList::PushBack(const std::string & data)
 {
     try
     {
-
         std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, m_lastNode, nullptr);
         ListNode *newLastNode = newNode.get();
         if (m_lastNode)

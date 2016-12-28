@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Shape.h"
 
-CShape::CShape(std::string shapeType, std::string outlineColor)
+CShape::CShape(std::string const& shapeType, std::string const& outlineColor)
     : m_shapeType(shapeType)
     , m_outlineColor(outlineColor)
 {

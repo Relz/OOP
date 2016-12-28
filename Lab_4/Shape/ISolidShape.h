@@ -1,7 +1,7 @@
 #pragma once
 #include "Shape.h"
 
-class ISolidShape : public CShape
+class ISolidShape : public IShape
 {
 public:
     ISolidShape(std::string shapeType, std::string outlineColor);
