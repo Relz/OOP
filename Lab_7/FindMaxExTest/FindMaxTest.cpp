@@ -29,6 +29,12 @@ BOOST_AUTO_TEST_SUITE(FindMax_function)
         AreEquals(lessWeightAthlete, Ivanov);
     }
 
+    BOOST_AUTO_TEST_CASE(cann_be_used_without_less_parameter)
+    {
+        float max = NAN;
+        BOOST_CHECK(FindMax({ -83, -19, -112, -1, -2 }, max));
+    }
+
     BOOST_AUTO_TEST_CASE(return_max_element_of_nonempty_vector)
     {
         float max = NAN;

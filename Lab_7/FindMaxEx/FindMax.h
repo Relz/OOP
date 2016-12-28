@@ -1,7 +1,11 @@
 #pragma once
 
 template <class T, class Less>
-bool FindMax(std::vector<T> const& arr, T & maxValue, Less const& less)
+bool FindMax(std::vector<T> const& arr, 
+            T & maxValue, 
+            Less const& less = [](const auto lhs, const auto rhs) {
+                return (lhs < rhs);
+            })
 {
     if (arr.empty())
     {

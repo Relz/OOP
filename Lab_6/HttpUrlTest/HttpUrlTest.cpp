@@ -57,6 +57,17 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_class_can_be_initialized)
         CHttpUrl httpUrl("google.com", "index.php", HTTP, 80);
         VerifyUrl(httpUrl, "http://google.com/index.php", HTTP, "google.com", "/index.php", 80);
     }
+    BOOST_AUTO_TEST_CASE(directly_with_non_default_port)
+    {
+        {
+            CHttpUrl httpUrl("google.com", "index.php", HTTP, 443);
+            VerifyUrl(httpUrl, "http://google.com:443/index.php", HTTP, "google.com:443", "/index.php", 443);
+        }
+        {
+            CHttpUrl httpUrl("google.com", "index.php", HTTPS, 80);
+            VerifyUrl(httpUrl, "https://google.com:80/index.php", HTTPS, "google.com:80", "/index.php", 80);
+        }
+    }
 
     BOOST_AUTO_TEST_CASE(without_port)
     {
