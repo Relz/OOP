@@ -14,13 +14,7 @@ CStringList::CStringList(CStringList & list)
 
 CStringList::~CStringList()
 {
-    while (m_lastNode)
-    {
-        m_lastNode->next = nullptr;
-        m_lastNode = m_lastNode->prev;
-    }
-    m_firstNode = nullptr;
-    m_size = 0;
+    Clear();
 }
 
 size_t CStringList::GetSize() const
@@ -100,8 +94,6 @@ std::unique_ptr<ListNode> CStringList::InsertOnTheEdge(const std::string & data,
     }
 }
 
-
-
 void CStringList::Clear()
 {
     while (m_lastNode)
@@ -112,7 +104,6 @@ void CStringList::Clear()
     m_firstNode = nullptr;
     m_size = 0;
 }
-
 
 void CStringList::Insert(const CListIterator<std::string> & it, std::string data)
 {
@@ -180,7 +171,7 @@ void CStringList::Erase(const CListIterator<std::string> & it)
     }
 }
 
-std::string &CStringList::GetFirstElement()
+std::string & CStringList::GetFirstElement() const
 {
     if (m_firstNode != nullptr)
     {
@@ -192,31 +183,7 @@ std::string &CStringList::GetFirstElement()
     }
 }
 
-const std::string & CStringList::GetFirstElement() const
-{
-    if (m_firstNode != nullptr)
-    {
-        return m_firstNode->data;
-    }
-    else
-    {
-        throw std::runtime_error("List hasn`t first element");
-    }
-}
-
-std::string &CStringList::GetLastElement()
-{
-    if (m_lastNode != nullptr)
-    {
-        return m_lastNode->data;
-    }
-    else
-    {
-        throw std::runtime_error("List hasn`t last element");
-    }
-}
-
-const std::string & CStringList::GetLastElement() const
+std::string & CStringList::GetLastElement() const
 {
     if (m_lastNode != nullptr)
     {

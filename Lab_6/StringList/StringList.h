@@ -22,12 +22,8 @@ public:
     void CStringList::Insert(const CListIterator<std::string> & it, std::string data);
     void CStringList::Erase(const CListIterator<std::string> & it);
 
-    std::string & GetLastElement();
-    const std::string & GetLastElement() const;
-
-    std::string & GetFirstElement();
-    const std::string & GetFirstElement() const;
-
+    std::string & GetLastElement() const;
+    std::string & GetFirstElement() const;
 
     CListIterator<std::string> begin();
     CListIterator<std::string> end();

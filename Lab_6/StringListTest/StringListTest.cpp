@@ -63,6 +63,14 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
         {
             BOOST_CHECK(stringList.crend() == CListIterator<std::string>(nullptr, true));
         }
+        BOOST_AUTO_TEST_CASE(cant_get_first_element_if_string_list_is_empty)
+        {
+            BOOST_CHECK_THROW(stringList.GetFirstElement(), std::runtime_error);
+        }
+        BOOST_AUTO_TEST_CASE(cant_get_last_element_if_string_list_is_empty)
+        {
+            BOOST_CHECK_THROW(stringList.GetLastElement(), std::runtime_error);
+        }
 
     BOOST_AUTO_TEST_SUITE_END()
 
@@ -75,11 +83,41 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
         BOOST_CHECK_EQUAL(stringList.GetSize(), 2);
     }
 
+    BOOST_AUTO_TEST_CASE(can_get_first_element)
+    {
+        for (size_t i = 0; i < stringVector.size(); ++i)
+        {
+            stringList.PushBack(stringVector[i]);
+        }
+
+        std::string firstElement = stringList.GetFirstElement();
+        BOOST_CHECK_EQUAL(firstElement, stringVector.front());
+    }
+
+    BOOST_AUTO_TEST_CASE(can_get_last_element)
+    {
+        for (size_t i = 0; i < stringVector.size(); ++i)
+        {
+            stringList.PushBack(stringVector[i]);
+        }
+
+        std::string lastElement = stringList.GetLastElement();
+        BOOST_CHECK_EQUAL(lastElement, stringVector.back());
+    }
+
     BOOST_AUTO_TEST_CASE(can_be_cleared)
     {
         stringList.PushBack("0");
         stringList.PushBack("1");
         stringList.Clear();
+        BOOST_CHECK_EQUAL(stringList.GetSize(), 0);
+    }
+
+    BOOST_AUTO_TEST_CASE(will_be_empty_after_destructor)
+    {
+        stringList.PushBack("0");
+        stringList.PushBack("1");
+        stringList.~CStringList();
         BOOST_CHECK_EQUAL(stringList.GetSize(), 0);
     }
 
