@@ -1,9 +1,9 @@
 #pragma once
 
-template <class T, class Less>
+template <class T, class Less = std::less<T>>
 bool FindMax(std::vector<T> const& arr,
     T & maxValue,
-    Less const& less)
+    Less const& less = Less())
 {
     if (arr.empty())
     {
@@ -18,13 +18,4 @@ bool FindMax(std::vector<T> const& arr,
         }
     }
     return true;
-}
-
-template <class T>
-bool FindMax(std::vector<T> const& arr,
-    T & maxValue)
-{
-    return FindMax(arr, maxValue, [](const auto lhs, const auto rhs) {
-        return (lhs < rhs);
-    });
 }
