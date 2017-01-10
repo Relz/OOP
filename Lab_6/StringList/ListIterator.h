@@ -27,7 +27,7 @@ public:
     {
         if (m_node != nullptr)
         {
-            m_node = (m_isReverse) ? m_node->prev : m_node = m_node->next.get();
+            m_node = (m_isReverse) ? m_node->prev : m_node->next.get();
         }
         return *this;
     }
@@ -35,7 +35,7 @@ public:
     {
         if (m_node != nullptr)
         {
-            m_node = (m_isReverse) ? m_node->next.get() : m_node = m_node->prev;
+            m_node = (m_isReverse) ? m_node->next.get() : m_node->prev;
         }
         return *this;
     }
