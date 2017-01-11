@@ -168,6 +168,21 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
         }
     }
 
+    BOOST_AUTO_TEST_CASE(have_iterators)
+    {
+        for (size_t i = 0; i < stringVector.size(); ++i)
+        {
+            stringList.PushBack(stringVector[i]);
+        }
+
+        size_t stringVectorPos = 0;
+        for (auto it = stringList.begin(); it != stringList.end(); ++it)
+        {
+            BOOST_CHECK_EQUAL(*it, stringVector[stringVectorPos]);
+            stringVectorPos++;
+        }
+    }
+
     BOOST_AUTO_TEST_CASE(have_reverse_iterators)
     {
         for (size_t i = 0; i < stringVector.size(); ++i)
