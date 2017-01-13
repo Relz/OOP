@@ -37,14 +37,14 @@ public:
     CListIterator<const std::string> cbegin() const;
     CListIterator<const std::string> cend() const;
 
-    CListIterator<std::string> rbegin();
-    CListIterator<std::string> rend();
+    CListIteratorReverse<std::string> rbegin();
+    CListIteratorReverse<std::string> rend();
 
-    CListIterator<const std::string> rbegin() const;
-    CListIterator<const std::string> rend() const;
+    CListIteratorReverse<const std::string> rbegin() const;
+    CListIteratorReverse<const std::string> rend() const;
 
-    CListIterator<const std::string> crbegin() const;
-    CListIterator<const std::string> crend() const;
+    CListIteratorReverse<const std::string> crbegin() const;
+    CListIteratorReverse<const std::string> crend() const;
 
     CStringList& operator=(CStringList const& rhs);
     CStringList& operator=(CStringList && rhs);
