@@ -1,6 +1,14 @@
 #include "stdafx.h"
 #include "..\StringList\StringList.h"
 
+void InitStringList(CStringList & list, std::vector<std::string> const& strVector)
+{
+    for (auto str : strVector)
+    {
+        list.PushBack(str);
+    }
+}
+
 void VerifyStringList(const CStringList & list, const std::vector<std::string> & expectedStrings)
 {
     BOOST_CHECK_EQUAL(list.GetSize(), expectedStrings.size());
@@ -31,37 +39,21 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
         {
             BOOST_CHECK(stringList.IsEmpty());
         }
-        BOOST_AUTO_TEST_CASE(begin_is_nullptr_iterator)
+        BOOST_AUTO_TEST_CASE(begin_is_end_iterator)
         {
-            BOOST_CHECK(stringList.begin() == CListIterator<std::string>(nullptr, false));
+            BOOST_CHECK(stringList.begin() == stringList.end());
         }
-        BOOST_AUTO_TEST_CASE(end_is_nullptr_iterator)
+        BOOST_AUTO_TEST_CASE(reversed_begin_is_reversed_end_iterator)
         {
-            BOOST_CHECK(stringList.end() == CListIterator<std::string>(nullptr, false));
+            BOOST_CHECK(stringList.rbegin() == stringList.rend());
         }
-        BOOST_AUTO_TEST_CASE(reversed_begin_is_nullptr_iterator)
+        BOOST_AUTO_TEST_CASE(cbegin_is_cend_iterator)
         {
-            BOOST_CHECK(stringList.rbegin() == CListIterator<std::string>(nullptr, true));
+            BOOST_CHECK(stringList.cbegin() == stringList.cend());
         }
-        BOOST_AUTO_TEST_CASE(reversed_end_is_nullptr_iterator)
+        BOOST_AUTO_TEST_CASE(crbegin_is_crend_iterator)
         {
-            BOOST_CHECK(stringList.rend() == CListIterator<std::string>(nullptr, true));
-        }
-        BOOST_AUTO_TEST_CASE(cbegin_is_nullptr_iterator)
-        {
-            BOOST_CHECK(stringList.cbegin() == CListIterator<std::string>(nullptr, false));
-        }
-        BOOST_AUTO_TEST_CASE(cend_is_nullptr_iterator)
-        {
-            BOOST_CHECK(stringList.cend() == CListIterator<std::string>(nullptr, false));
-        }
-        BOOST_AUTO_TEST_CASE(crbegin_is_nullptr_iterator)
-        {
-            BOOST_CHECK(stringList.crbegin() == CListIterator<std::string>(nullptr, true));
-        }
-        BOOST_AUTO_TEST_CASE(crend_is_nullptr_iterator)
-        {
-            BOOST_CHECK(stringList.crend() == CListIterator<std::string>(nullptr, true));
+            BOOST_CHECK(stringList.crbegin() == stringList.crend());
         }
         BOOST_AUTO_TEST_CASE(cant_get_first_element_if_string_list_is_empty)
         {
@@ -85,10 +77,7 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
 
     BOOST_AUTO_TEST_CASE(can_get_first_element)
     {
-        for (size_t i = 0; i < stringVector.size(); ++i)
-        {
-            stringList.PushBack(stringVector[i]);
-        }
+        InitStringList(stringList, stringVector);
 
         std::string firstElement = stringList.GetFirstElement();
         BOOST_CHECK_EQUAL(firstElement, stringVector.front());
@@ -96,10 +85,7 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
 
     BOOST_AUTO_TEST_CASE(can_get_last_element)
     {
-        for (size_t i = 0; i < stringVector.size(); ++i)
-        {
-            stringList.PushBack(stringVector[i]);
-        }
+        InitStringList(stringList, stringVector);
 
         std::string lastElement = stringList.GetLastElement();
         BOOST_CHECK_EQUAL(lastElement, stringVector.back());
@@ -113,14 +99,6 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
         BOOST_CHECK_EQUAL(stringList.GetSize(), 0);
     }
 
-    BOOST_AUTO_TEST_CASE(will_be_empty_after_destructor)
-    {
-        stringList.PushBack("0");
-        stringList.PushBack("1");
-        stringList.~CStringList();
-        BOOST_CHECK_EQUAL(stringList.GetSize(), 0);
-    }
-
     BOOST_AUTO_TEST_CASE(can_insert_element_into_iterator_position)
     {
         stringList.Insert(stringList.begin(), "0");
@@ -130,7 +108,8 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
         BOOST_CHECK_EQUAL(*stringList.begin(), "1");
 
         stringList.Insert(stringList.end(), "2");
-        VerifyStringList(stringList, { "1" , "0" , "2" });
+        stringList.Insert(++stringList.begin(), "3");
+        VerifyStringList(stringList, { "1", "3" , "0" , "2" });
     }
 
     BOOST_AUTO_TEST_CASE(can_erase_element_at_iterator_position)
@@ -155,10 +134,7 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
 
     BOOST_AUTO_TEST_CASE(can_get_elements_from_range_based_for)
     {
-        for (size_t i = 0; i < stringVector.size(); ++i)
-        {
-            stringList.PushBack(stringVector[i]);
-        }
+        InitStringList(stringList, stringVector);
 
         size_t stringVectorPos = 0;
         for (auto string : stringList)
@@ -170,10 +146,7 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
 
     BOOST_AUTO_TEST_CASE(have_iterators)
     {
-        for (size_t i = 0; i < stringVector.size(); ++i)
-        {
-            stringList.PushBack(stringVector[i]);
-        }
+        InitStringList(stringList, stringVector);
 
         size_t stringVectorPos = 0;
         for (auto it = stringList.begin(); it != stringList.end(); ++it)
@@ -185,10 +158,7 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
 
     BOOST_AUTO_TEST_CASE(have_reverse_iterators)
     {
-        for (size_t i = 0; i < stringVector.size(); ++i)
-        {
-            stringList.PushBack(stringVector[i]);
-        }
+        InitStringList(stringList, stringVector);
 
         size_t stringVectorPos = stringVector.size() - 1;
         for (auto it = stringList.rbegin(); it != stringList.rend(); ++it)
@@ -200,10 +170,7 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
 
     BOOST_AUTO_TEST_CASE(have_const_reverse_iterators)
     {
-        for (size_t i = 0; i < stringVector.size(); ++i)
-        {
-            stringList.PushBack(stringVector[i]);
-        }
+        InitStringList(stringList, stringVector);
 
         size_t stringVectorPos = stringVector.size() - 1;
         for (auto it = stringList.crbegin(); it != stringList.crend(); ++it)
@@ -220,14 +187,38 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
 
     BOOST_AUTO_TEST_CASE(have_copy_constructor)
     {
-        for (size_t i = 0; i < stringVector.size(); ++i)
-        {
-            stringList.PushBack(stringVector[i]);
-        }
+        InitStringList(stringList, stringVector);
 
         CStringList copiedList(stringList);
         VerifyStringList(stringList, stringVector);
         VerifyStringList(copiedList, stringVector);
+    }
+
+    BOOST_AUTO_TEST_CASE(have_move_constructor)
+    {
+        InitStringList(stringList, stringVector);
+
+        CStringList movedList(std::move(stringList));
+        BOOST_CHECK_EQUAL(stringList.GetSize(), 0);
+        VerifyStringList(movedList, stringVector);
+    }
+
+    BOOST_AUTO_TEST_CASE(have_copy_assignment)
+    {
+        InitStringList(stringList, stringVector);
+
+        CStringList copiedList = stringList;
+        VerifyStringList(stringList, stringVector);
+        VerifyStringList(copiedList, stringVector);
+    }
+
+    BOOST_AUTO_TEST_CASE(have_move_assignment)
+    {
+        InitStringList(stringList, stringVector);
+
+        CStringList movedList = std::move(stringList);
+        BOOST_CHECK_EQUAL(stringList.GetSize(), 0);
+        VerifyStringList(movedList, stringVector);
     }
 
 BOOST_AUTO_TEST_SUITE_END()
