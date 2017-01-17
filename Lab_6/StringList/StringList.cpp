@@ -17,7 +17,7 @@ CStringList::CStringList(const CStringList & list)
 CStringList::CStringList(CStringList && list)
 {
     m_firstNode = std::move(list.m_firstNode);
-    m_lastNode = list.m_lastNode;
+    m_lastNode = std::move(list.m_lastNode);
     list.m_lastNode = nullptr;
     m_size = list.m_size;
     list.m_size = 0;
@@ -32,8 +32,8 @@ CStringList::~CStringList()
 void CStringList::Init()
 {
     m_firstNode = std::make_unique<ListNode>("", nullptr, nullptr);
-    m_lastNode = new ListNode("", nullptr, nullptr);
-    m_firstNode->next = std::unique_ptr<ListNode>(m_lastNode);
+    m_lastNode = std::make_unique<ListNode>("", nullptr, nullptr);
+    m_firstNode->next = nullptr;
     m_lastNode->prev = m_firstNode.get();
     m_size = 0;
 }
@@ -60,7 +60,14 @@ void CStringList::PushBack(const std::string & data)
 void CStringList::PushFront(const std::string & data)
 {
     std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, m_firstNode.get(), std::move(m_firstNode->next));
-    newNode->next->prev = newNode.get();
+    if (newNode->next != nullptr)
+    {
+        newNode->next->prev = newNode.get();
+    }
+    else
+    {
+        m_lastNode->prev = newNode.get();
+    }
     m_firstNode->next = std::move(newNode);
     ++m_size;
 }
@@ -138,7 +145,7 @@ void CStringList::Erase(const CListIterator<std::string> & it)
 
 const std::string & CStringList::GetFirstElement() const
 {
-    if (m_firstNode->next.get() == m_lastNode)
+    if (m_firstNode->next == nullptr)
     {
         throw std::runtime_error("List hasn`t first element");
     }
@@ -162,62 +169,76 @@ const std::string & CStringList::GetLastElement() const
 
 CListIterator<std::string> CStringList::begin()
 {
-    return CListIterator<std::string>(m_firstNode->next.get());
+    if (m_firstNode->next)
+    {
+        return CListIterator<std::string>(m_firstNode->next.get(), m_lastNode.get());
+    }
+    else
+    {
+        return CListIterator<std::string>(m_lastNode.get(), m_lastNode.get());
+    }
 }
 
 CListIterator<std::string> CStringList::end()
 {
-    return CListIterator<std::string>(m_lastNode);
+    return CListIterator<std::string>(m_lastNode.get(), m_lastNode.get());
 }
 
 CListIterator<const std::string> CStringList::begin() const
 {
-    return CListIterator<const std::string>(m_firstNode->next.get());
+    return CListIterator<const std::string>(m_firstNode->next.get(), m_lastNode.get());
 }
 
 CListIterator<const std::string> CStringList::end() const
 {
-    return CListIterator<const std::string>(m_lastNode);
+    return CListIterator<const std::string>(m_lastNode.get(), m_lastNode.get());
 }
 
 CListIteratorReverse<std::string> CStringList::rbegin()
 {
-    return CListIteratorReverse<std::string>(m_lastNode->prev);
+    return CListIteratorReverse<std::string>(m_lastNode->prev, m_lastNode.get());
 }
 
 CListIteratorReverse<std::string> CStringList::rend()
 {
-    return CListIteratorReverse<std::string>(m_firstNode.get());
+    return CListIteratorReverse<std::string>(m_firstNode.get(), m_lastNode.get());
 }
 
 CListIteratorReverse<const std::string> CStringList::rbegin() const
 {
-    return CListIteratorReverse<const std::string>(m_lastNode->prev);
+    return CListIteratorReverse<const std::string>(m_lastNode->prev, m_lastNode.get());
 }
 
 CListIteratorReverse<const std::string> CStringList::rend() const
 {
-    return CListIteratorReverse<const std::string>(m_firstNode.get());
+    return CListIteratorReverse<const std::string>(m_firstNode.get(), m_lastNode.get());
 }
 
 CListIterator<const std::string> CStringList::cbegin() const
 {
-    return CListIterator<const std::string>(m_firstNode->next.get());
+    if (m_firstNode->next)
+    {
+        return CListIterator<const std::string>(m_firstNode->next.get(), m_lastNode.get());
+    }
+    else
+    {
+        return CListIterator<const std::string>(m_lastNode.get(), m_lastNode.get());
+    }
 }
 
 CListIterator<const std::string> CStringList::cend() const
 {
-    return CListIterator<const std::string>(m_lastNode);
+    return CListIterator<const std::string>(m_lastNode.get(), m_lastNode.get());
 }
 
 CListIteratorReverse<const std::string> CStringList::crbegin() const
 {
-    return CListIteratorReverse<const std::string>(m_lastNode->prev);
+    return CListIteratorReverse<const std::string>(m_lastNode->prev, m_lastNode.get());
 }
 
 CListIteratorReverse<const std::string> CStringList::crend() const
 {
-    return CListIteratorReverse<const std::string>(m_firstNode.get());
+    return CListIteratorReverse<const std::string>(m_firstNode.get(), m_lastNode.get());
 }
 
 CStringList& CStringList::operator=(CStringList const& rhs)
@@ -233,7 +254,7 @@ CStringList& CStringList::operator=(CStringList const& rhs)
 CStringList& CStringList::operator=(CStringList && rhs)
 {
     m_firstNode = std::move(rhs.m_firstNode);
-    m_lastNode = rhs.m_lastNode;
+    m_lastNode = std::move(rhs.m_lastNode);
     rhs.m_lastNode = nullptr;
     m_size = rhs.m_size;
     rhs.m_size = 0;

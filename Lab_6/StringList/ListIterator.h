@@ -7,8 +7,9 @@ class CListIterator : public std::iterator<std::input_iterator_tag, T>
 {
     friend class CStringList;
 public:
-    CListIterator(ListNode* node)
+    CListIterator(ListNode* node, ListNode *lastNode)
         : m_node(node)
+        , m_lastNode(lastNode)
     {
     }
 
@@ -74,10 +75,6 @@ public:
         {
             throw std::runtime_error("Can't get null pointer iterator value");
         }
-        if (!m_node->next)
-        {
-            throw std::runtime_error("Can't get end iterator value");
-        }
         if (!m_node->prev)
         {
             throw std::runtime_error("Can't get previous for begin iterator value");
@@ -97,6 +94,10 @@ private:
         {
             m_node = m_node->next.get();
         }
+        else
+        {
+            m_node = m_lastNode;
+        }
     }
 
     void Decrement()
@@ -108,6 +109,7 @@ private:
     }
 
     ListNode* m_node = nullptr;
+    ListNode* m_lastNode = nullptr;
     bool m_isReverse = false;
 };
 
@@ -116,8 +118,9 @@ class CListIteratorReverse : public std::iterator<std::input_iterator_tag, T>
 {
     friend class CStringList;
 public:
-    CListIteratorReverse(ListNode* node)
+    CListIteratorReverse(ListNode* node, ListNode* lastNode)
         : m_node(node)
+        , m_lastNode(lastNode)
     {
     }
 
@@ -183,10 +186,6 @@ public:
         {
             throw std::runtime_error("Can't get null pointer iterator value");
         }
-        if (!m_node->next)
-        {
-            throw std::runtime_error("Can't get end iterator value");
-        }
         if (!m_node->prev)
         {
             throw std::runtime_error("Can't get previous for begin iterator value");
@@ -214,8 +213,13 @@ private:
         {
             m_node = m_node->next.get();
         }
+        else
+        {
+            m_node = m_lastNode;
+        }
     }
 
     ListNode* m_node = nullptr;
+    ListNode* m_lastNode = nullptr;
     bool m_isReverse = true;
 };
