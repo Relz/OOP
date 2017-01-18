@@ -7,7 +7,7 @@ class CListIterator : public std::iterator<std::input_iterator_tag, T>
 {
     friend class CStringList;
 public:
-    CListIterator(ListNode* node)
+    CListIterator(ListNode * node)
         : m_node(node)
     {
     }
@@ -112,8 +112,7 @@ private:
         return m_node;
     }
 
-    ListNode* m_node = nullptr;
-    bool m_isReverse = false;
+    ListNode * m_node = nullptr;
 };
 
 template<typename T>
@@ -121,7 +120,7 @@ class CListIteratorReverse : public std::iterator<std::input_iterator_tag, T>
 {
     friend class CStringList;
 public:
-    CListIteratorReverse(ListNode* node)
+    CListIteratorReverse(ListNode * node)
         : m_node(node)
     {
     }
@@ -226,6 +225,5 @@ private:
         return m_node;
     }
 
-    ListNode* m_node = nullptr;
-    bool m_isReverse = true;
+    ListNode * m_node = nullptr;
 };

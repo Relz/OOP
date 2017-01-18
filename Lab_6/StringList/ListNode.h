@@ -9,6 +9,7 @@ public:
         , prev(prev)
         , next(std::move(next))
     {
+
     }
 
     std::string data;

@@ -89,15 +89,12 @@ void CStringList::Insert(const CListIterator<std::string> & it, std::string data
 
 void CStringList::Clear()
 {
-    auto lastNode = std::move(m_lastNode->prev->next);
-    while (m_lastNode->prev)
+    while (m_lastNode)
     {
-        m_lastNode->prev->next = nullptr;
-        m_lastNode->prev = m_lastNode->prev->prev;
+        m_lastNode->next = nullptr;
+        m_lastNode = m_lastNode->prev;
     }
-    m_firstNode->next = std::move(lastNode);
-    m_lastNode->prev = m_firstNode.get();
-    m_size = 0;
+    Init();
 }
 
 void CStringList::Erase(const CListIterator<std::string> & it)
