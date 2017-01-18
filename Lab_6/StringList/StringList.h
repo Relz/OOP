@@ -5,12 +5,18 @@
 
 class CStringList
 {
-    friend class CListIterator<std::string>;
 public:
     CStringList();
+    ~CStringList();
+
     CStringList(const CStringList & list);
     CStringList(CStringList && list);
-    ~CStringList();
+
+    CStringList& operator=(CStringList const& rhs);
+    CStringList& operator=(CStringList && rhs);
+
+    void Copy(CStringList const& rhs);
+    void Move(CStringList && rhs);
     
     size_t GetSize() const;
     bool IsEmpty() const;
@@ -45,9 +51,6 @@ public:
 
     CListIteratorReverse<const std::string> crbegin() const;
     CListIteratorReverse<const std::string> crend() const;
-
-    CStringList& operator=(CStringList const& rhs);
-    CStringList& operator=(CStringList && rhs);
 
 private:
     void Init();

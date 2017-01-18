@@ -2,26 +2,11 @@
 
 CStringList::CStringList()
 {
-    Init();
-}
-
-CStringList::CStringList(const CStringList & list)
-{
-    Init();
-    for (const std::string & elem : list)
-    {
-        PushBack(elem);
-    }
-}
-
-CStringList::CStringList(CStringList && list)
-{
-    m_firstNode = std::move(list.m_firstNode);
-    m_lastNode = list.m_lastNode;
-    list.m_lastNode = nullptr;
-    m_size = list.m_size;
-    list.m_size = 0;
-    list.Init();
+    //Init();
+    m_firstNode = std::make_unique<ListNode>("", nullptr, nullptr);
+    m_firstNode->next = std::make_unique<ListNode>("", m_firstNode.get(), nullptr);
+    m_lastNode = m_firstNode->next.get();
+    m_size = 0;
 }
 
 CStringList::~CStringList()
@@ -29,12 +14,52 @@ CStringList::~CStringList()
     Clear();
 }
 
+CStringList::CStringList(const CStringList & rhs)
+{
+    Copy(rhs);
+}
+
+CStringList::CStringList(CStringList && rhs)
+{
+    Move(std::move(rhs));
+}
+
+CStringList& CStringList::operator=(CStringList const& rhs)
+{
+    Copy(rhs);
+    return *this;
+}
+
+CStringList& CStringList::operator=(CStringList && rhs)
+{
+    Move(std::move(rhs));
+    return *this;
+}
+
+void CStringList::Copy(CStringList const& rhs)
+{
+    Init();
+    for (const std::string & elem : rhs)
+    {
+        PushBack(elem);
+    }
+}
+
+void CStringList::Move(CStringList && rhs)
+{
+    m_firstNode = std::move(rhs.m_firstNode);
+    m_lastNode = rhs.m_lastNode;
+    rhs.m_lastNode = nullptr;
+    m_size = rhs.m_size;
+    rhs.m_size = 0;
+    rhs.Init();
+}
+
 void CStringList::Init()
 {
     m_firstNode = std::make_unique<ListNode>("", nullptr, nullptr);
-    m_lastNode = new ListNode("", nullptr, nullptr);
-    m_firstNode->next = std::unique_ptr<ListNode>(m_lastNode);
-    m_lastNode->prev = m_firstNode.get();
+    m_firstNode->next = std::make_unique<ListNode>("", m_firstNode.get(), nullptr);
+    m_lastNode = m_firstNode->next.get();
     m_size = 0;
 }
 
@@ -50,31 +75,33 @@ bool CStringList::IsEmpty() const
 
 void CStringList::PushBack(const std::string & data)
 {
-    std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, m_lastNode->prev, std::move(m_lastNode->prev->next));
+    /*std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, m_lastNode->prev, std::move(m_lastNode->prev->next));
     ListNode *newNodePtr = newNode.get();
     m_lastNode->prev->next = std::move(newNode);
     m_lastNode->prev = newNodePtr;
-    ++m_size;
+    ++m_size;*/
+    Insert(end(), data);
 }
 
 void CStringList::PushFront(const std::string & data)
 {
-    std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, m_firstNode.get(), std::move(m_firstNode->next));
+    /*std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, m_firstNode.get(), std::move(m_firstNode->next));
     newNode->next->prev = newNode.get();
     m_firstNode->next = std::move(newNode);
-    ++m_size;
+    ++m_size;*/
+    Insert(++begin(), data);
 }
 
 void CStringList::Insert(const CListIterator<std::string> & it, std::string data)
 {
     if (it == begin())
     {
-        PushFront(data);
+        Insert(++begin(), data);
     }
-    else if (it == end())
+    /*else if (it == end())
     {
         PushBack(data);
-    }
+    }*/
     else
     {
         std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, it->prev, std::move(it->prev->next));
@@ -86,10 +113,6 @@ void CStringList::Insert(const CListIterator<std::string> & it, std::string data
 
 void CStringList::Clear()
 {
-    if (!m_lastNode || !m_firstNode)
-    {
-        return;
-    }
     auto lastNode = std::move(m_lastNode->prev->next);
     while (m_lastNode->prev)
     {
@@ -111,11 +134,8 @@ void CStringList::Erase(const CListIterator<std::string> & it)
     {
         throw std::runtime_error("Unable to erase end iterator");
     }
-    else
-    {
-        it->next->prev = it->prev;
-        it->prev->next = std::move(it->next);
-    }
+    it->next->prev = it->prev;
+    it->prev->next = std::move(it->next);
     m_size--;
 }
 
@@ -125,10 +145,7 @@ const std::string & CStringList::GetFirstElement() const
     {
         throw std::runtime_error("List hasn`t first element");
     }
-    else
-    {
-        return m_firstNode->next->data;
-    }
+    return m_firstNode->next->data;
 }
 
 const std::string & CStringList::GetLastElement() const
@@ -137,10 +154,7 @@ const std::string & CStringList::GetLastElement() const
     {
         throw std::runtime_error("List hasn`t last element");
     }
-    else
-    {
-        return m_lastNode->prev->data;
-    }
+    return m_lastNode->prev->data;
 }
 
 std::string & CStringList::GetFirstElement()
@@ -149,10 +163,7 @@ std::string & CStringList::GetFirstElement()
     {
         throw std::runtime_error("List hasn`t first element");
     }
-    else
-    {
-        return m_firstNode->next->data;
-    }
+    return m_firstNode->next->data;
 }
 
 std::string & CStringList::GetLastElement()
@@ -161,10 +172,7 @@ std::string & CStringList::GetLastElement()
     {
         throw std::runtime_error("List hasn`t last element");
     }
-    else
-    {
-        return m_lastNode->prev->data;
-    }
+    return m_lastNode->prev->data;
 }
 
 CListIterator<std::string> CStringList::begin()
@@ -225,24 +233,4 @@ CListIteratorReverse<const std::string> CStringList::crbegin() const
 CListIteratorReverse<const std::string> CStringList::crend() const
 {
     return CListIteratorReverse<const std::string>(m_firstNode.get());
-}
-
-CStringList& CStringList::operator=(CStringList const& rhs)
-{
-    Init();
-    for (const std::string & elem : rhs)
-    {
-        PushBack(elem);
-    }
-    return *this;
-}
-
-CStringList& CStringList::operator=(CStringList && rhs)
-{
-    m_firstNode = std::move(rhs.m_firstNode);
-    m_lastNode = rhs.m_lastNode;
-    rhs.m_lastNode = nullptr;
-    m_size = rhs.m_size;
-    rhs.m_size = 0;
-    return *this;
 }

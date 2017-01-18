@@ -18,8 +18,8 @@ public:
     }
 
     CListIterator(CListIterator && list)
+        : m_node(std::move(list.m_node))
     {
-        m_node = std::move(list.m_node);
     }
 
     bool operator==(CListIterator const& rhs) const
@@ -70,6 +70,28 @@ public:
 
     T & operator*() const
     {
+        return GetValue();
+    }
+
+private:
+    void Increment()
+    {
+        if (m_node != nullptr && m_node->next)
+        {
+            m_node = m_node->next.get();
+        }
+    }
+
+    void Decrement()
+    {
+        if (m_node != nullptr && m_node->prev)
+        {
+            m_node = m_node->prev;
+        }
+    }
+
+    T & GetValue() const
+    {
         if (!m_node)
         {
             throw std::runtime_error("Can't get null pointer iterator value");
@@ -88,23 +110,6 @@ public:
     ListNode * operator->() const
     {
         return m_node;
-    }
-
-private:
-    void Increment()
-    {
-        if (m_node != nullptr && m_node->next)
-        {
-            m_node = m_node->next.get();
-        }
-    }
-
-    void Decrement()
-    {
-        if (m_node != nullptr && m_node->prev)
-        {
-            m_node = m_node->prev;
-        }
     }
 
     ListNode* m_node = nullptr;
@@ -127,8 +132,8 @@ public:
     }
 
     CListIteratorReverse(CListIteratorReverse && list)
+        : m_node(std::move(list.m_node))
     {
-        m_node = std::move(list.m_node);
     }
 
     bool operator==(CListIteratorReverse const& rhs) const
@@ -179,6 +184,28 @@ public:
 
     T & operator*() const
     {
+        return GetValue();
+    }
+
+private:
+    void Increment()
+    {
+        if (m_node != nullptr && m_node->prev)
+        {
+            m_node = m_node->prev;
+        }
+    }
+
+    void Decrement()
+    {
+        if (m_node != nullptr && m_node->next)
+        {
+            m_node = m_node->next.get();
+        }
+    }
+
+    T & GetValue() const
+    {
         if (!m_node)
         {
             throw std::runtime_error("Can't get null pointer iterator value");
@@ -197,23 +224,6 @@ public:
     ListNode * operator->() const
     {
         return m_node;
-    }
-
-private:
-    void Increment()
-    {
-        if (m_node != nullptr && m_node->prev)
-        {
-            m_node = m_node->prev;
-        }
-    }
-
-    void Decrement()
-    {
-        if (m_node != nullptr && m_node->next)
-        {
-            m_node = m_node->next.get();
-        }
     }
 
     ListNode* m_node = nullptr;
