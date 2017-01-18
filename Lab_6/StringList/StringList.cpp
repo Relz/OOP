@@ -2,11 +2,7 @@
 
 CStringList::CStringList()
 {
-    //Init();
-    m_firstNode = std::make_unique<ListNode>("", nullptr, nullptr);
-    m_firstNode->next = std::make_unique<ListNode>("", m_firstNode.get(), nullptr);
-    m_lastNode = m_firstNode->next.get();
-    m_size = 0;
+    Init();
 }
 
 CStringList::~CStringList()
@@ -75,40 +71,20 @@ bool CStringList::IsEmpty() const
 
 void CStringList::PushBack(const std::string & data)
 {
-    /*std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, m_lastNode->prev, std::move(m_lastNode->prev->next));
-    ListNode *newNodePtr = newNode.get();
-    m_lastNode->prev->next = std::move(newNode);
-    m_lastNode->prev = newNodePtr;
-    ++m_size;*/
     Insert(end(), data);
 }
 
 void CStringList::PushFront(const std::string & data)
 {
-    /*std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, m_firstNode.get(), std::move(m_firstNode->next));
-    newNode->next->prev = newNode.get();
-    m_firstNode->next = std::move(newNode);
-    ++m_size;*/
-    Insert(++begin(), data);
+    Insert(begin(), data);
 }
 
 void CStringList::Insert(const CListIterator<std::string> & it, std::string data)
 {
-    if (it == begin())
-    {
-        Insert(++begin(), data);
-    }
-    /*else if (it == end())
-    {
-        PushBack(data);
-    }*/
-    else
-    {
-        std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, it->prev, std::move(it->prev->next));
-        it->prev = newNode.get();
-        newNode->prev->next = std::move(newNode);
-        m_size++;
-    }
+    std::unique_ptr<ListNode> newNode = std::make_unique<ListNode>(data, it->prev, std::move(it->prev->next));
+    it->prev = newNode.get();
+    newNode->prev->next = std::move(newNode);
+    m_size++;
 }
 
 void CStringList::Clear()
