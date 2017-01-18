@@ -52,6 +52,6 @@ public:
 private:
     size_t m_size = 0;
     std::unique_ptr<ListNode> m_firstNode = nullptr;
-    std::unique_ptr<ListNode> m_lastNode = nullptr;
+    ListNode *m_lastNode = nullptr;
 
 };
