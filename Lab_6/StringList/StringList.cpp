@@ -160,6 +160,30 @@ const std::string & CStringList::GetLastElement() const
     }
 }
 
+std::string & CStringList::GetFirstElement()
+{
+    if (m_firstNode->next.get() == m_lastNode)
+    {
+        throw std::runtime_error("List hasn`t first element");
+    }
+    else
+    {
+        return m_firstNode->next->data;
+    }
+}
+
+std::string & CStringList::GetLastElement()
+{
+    if (m_lastNode->prev == m_firstNode.get())
+    {
+        throw std::runtime_error("List hasn`t last element");
+    }
+    else
+    {
+        return m_lastNode->prev->data;
+    }
+}
+
 CListIterator<std::string> CStringList::begin()
 {
     return CListIterator<std::string>(m_firstNode->next.get());

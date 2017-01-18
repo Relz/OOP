@@ -5,15 +5,12 @@
 
 class CStringList
 {
-    friend class ListNode;
     friend class CListIterator<std::string>;
 public:
     CStringList();
     CStringList(const CStringList & list);
     CStringList(CStringList && list);
     ~CStringList();
-    
-    void Init();
     
     size_t GetSize() const;
     bool IsEmpty() const;
@@ -27,6 +24,9 @@ public:
 
     const std::string & GetLastElement() const;
     const std::string & GetFirstElement() const;
+
+    std::string & GetLastElement();
+    std::string & GetFirstElement();
 
     CListIterator<std::string> begin();
     CListIterator<std::string> end();
@@ -50,6 +50,8 @@ public:
     CStringList& operator=(CStringList && rhs);
 
 private:
+    void Init();
+
     size_t m_size = 0;
     std::unique_ptr<ListNode> m_firstNode = nullptr;
     ListNode *m_lastNode = nullptr;

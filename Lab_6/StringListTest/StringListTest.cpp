@@ -221,4 +221,30 @@ BOOST_FIXTURE_TEST_SUITE(CStringList_class, StringListFixture)
         VerifyStringList(movedList, stringVector);
     }
 
+    BOOST_AUTO_TEST_CASE(source_stringlist_is_empty_but_usable_after_assignment_moving)
+    {
+        InitStringList(stringList, stringVector);
+
+        CStringList movedList = std::move(stringList);
+        BOOST_CHECK_EQUAL(stringList.GetSize(), 0);
+        VerifyStringList(stringList, {});
+
+        stringList.PushBack("1");
+        BOOST_CHECK_EQUAL(stringList.GetSize(), 1);
+        VerifyStringList(stringList, { "1" });
+    }
+
+    BOOST_AUTO_TEST_CASE(source_stringlist_is_empty_but_usable_after_constructor_moving)
+    {
+        InitStringList(stringList, stringVector);
+
+        CStringList movedList(std::move(stringList));
+        BOOST_CHECK_EQUAL(stringList.GetSize(), 0);
+        VerifyStringList(stringList, {});
+
+        stringList.PushBack("1");
+        BOOST_CHECK_EQUAL(stringList.GetSize(), 1);
+        VerifyStringList(stringList, { "1" });
+    }
+
 BOOST_AUTO_TEST_SUITE_END()
