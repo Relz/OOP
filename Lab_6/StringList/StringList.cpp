@@ -111,23 +111,6 @@ void CStringList::Erase(const CListIterator<std::string> & it)
     {
         throw std::runtime_error("Unable to erase end iterator");
     }
-    else if (m_size == 1)
-    {
-        Clear();
-        return;
-    }
-
-    if (it == begin())
-    {
-         m_firstNode->next = std::move(it->next);
-         m_firstNode->next->prev = m_firstNode.get();
-    }
-    else if (it == --end())
-    {
-        std::unique_ptr<ListNode> ptrToLast = std::move(it->next);
-        m_lastNode->prev = it->prev;
-        m_lastNode->prev->next = std::move(ptrToLast);
-    }
     else
     {
         it->next->prev = it->prev;
